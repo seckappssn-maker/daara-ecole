@@ -1,0 +1,1420 @@
+<title>Daara & École</title>
+<meta name="description" content="Gestion des daaras, écoles franco-arabes et écoles privées au Sénégal : élèves, talibés, mensualités, bulletins, présences.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Daara & École — gestion simple">
+<meta property="og:description" content="Daara, franco-arabe ou école privée : élèves, mensualités Wave / OM, présences, bulletins, messages aux parents.">
+<meta property="og:url" content="https://seckappssn-maker.github.io/daara-ecole/">
+<meta property="og:image" content="https://seckappssn-maker.github.io/daara-ecole/cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://seckappssn-maker.github.io/daara-ecole/cover.png">
+<meta name="theme-color" content="#2B3170">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Daara & École">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Amiri:wght@400;700&display=swap">
+<style>
+/* Layout: application mobile une colonne, onglets en bas; papier sable + encre indigo + bois de l'alluwa */
+:root{
+  --bg:#F3EEE3; --card:#FFFDF8; --ink:#1E2140; --muted:#6B6A78; --line:#E2DACA;
+  --accent:#2B3170; --accent-ink:#FFFFFF; --wood:#8A5A2B; --wood-soft:#F1E3CF;
+  --ok:#1F7A4D; --ok-soft:#DDF1E5; --warn:#A8620B; --warn-soft:#FBEBD2; --bad:#B3261E; --bad-soft:#F9DEDB;
+  --f-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-ar:"Amiri","Geeza Pro","Traditional Arabic",serif;
+  --r:14px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#14152A; --card:#1D1F38; --ink:#ECEAF4; --muted:#A3A2B8; --line:#2F3152;
+  --accent:#8F98F0; --accent-ink:#14152A; --wood:#D9A86E; --wood-soft:#3A2D1F;
+  --ok:#6BD39A; --ok-soft:#173826; --warn:#F2B866; --warn-soft:#3B2B12; --bad:#FF8A80; --bad-soft:#40201E; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#14152A; --card:#1D1F38; --ink:#ECEAF4; --muted:#A3A2B8; --line:#2F3152;
+  --accent:#8F98F0; --accent-ink:#14152A; --wood:#D9A86E; --wood-soft:#3A2D1F;
+  --ok:#6BD39A; --ok-soft:#173826; --warn:#F2B866; --warn-soft:#3B2B12; --bad:#FF8A80; --bad-soft:#40201E; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.45;-webkit-text-size-adjust:100%}
+body.big{font-size:20px}
+[dir="rtl"] body{font-family:var(--f-ar),var(--f-body);font-size:19px}
+main{max-width:680px;margin:0 auto;padding-inline:16px;padding-block:0 110px}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line);margin-inline:-16px;padding-inline:16px}
+.logo{width:42px;height:42px;border-radius:10px;background:var(--wood);color:#fff;display:grid;place-items:center;flex:none}
+.logo svg{width:26px;height:26px}
+.top h1{font-size:1em;margin:0;line-height:1.15;overflow-wrap:anywhere}
+.top small{color:var(--muted);font-size:.75em;display:block}
+.grow{flex:1;min-width:0}
+.langs{display:flex;border:1.5px solid var(--accent);border-radius:999px;overflow:hidden;flex:none}
+.langs button{background:transparent;color:var(--accent);border-radius:0;min-height:34px;padding:4px 9px;font-size:.75em}
+.langs button.on{background:var(--accent);color:var(--accent-ink)}
+.langs button[lang="ar"]{font-family:var(--f-ar);font-size:.95em}
+h2{font-size:1.25em;margin:20px 0 10px;text-wrap:balance}
+h3{margin:18px 0 8px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-size:.76em}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.stack{display:flex;flex-direction:column;gap:10px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.between{justify-content:space-between}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px;min-width:0}
+.stat b{display:block;font-size:1.45em;font-variant-numeric:tabular-nums;line-height:1.15;overflow-wrap:anywhere}
+.stat span{color:var(--muted);font-size:.82em}
+.stat.hero{grid-column:1/-1;background:var(--accent);color:var(--accent-ink);border:0}
+.stat.hero span{color:inherit;opacity:.85}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+[dir="rtl"] .num{direction:ltr;unicode-bidi:isolate}
+.muted{color:var(--muted)}.small{font-size:.85em}
+.pill{display:inline-block;border-radius:999px;padding:2px 10px;font-size:.76em;font-weight:700;white-space:nowrap}
+.p-ok{background:var(--ok-soft);color:var(--ok)}.p-warn{background:var(--warn-soft);color:var(--warn)}.p-bad{background:var(--bad-soft);color:var(--bad)}
+.p-int{background:var(--wood-soft);color:var(--wood)}.p-ext{background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent)}
+button,.btn{font:700 1em var(--f-body);border-radius:12px;padding:12px 16px;border:0;background:var(--accent);color:var(--accent-ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:46px}
+[dir="rtl"] button,[dir="rtl"] .btn{font-family:var(--f-ar),var(--f-body)}
+button.ghost,.btn.ghost{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
+button.soft{background:var(--wood-soft);color:var(--wood)}
+button.danger{background:var(--bad-soft);color:var(--bad)}
+.btn.wa,button.wa{background:#1FA855;color:#fff}
+button.sm,.btn.sm{padding:6px 12px;min-height:36px;font-size:.84em;border-radius:10px}
+button:focus-visible,.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--wood);outline-offset:2px}
+.full{width:100%}
+.list{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.item{display:flex;gap:12px;align-items:center;padding:12px 14px;border-top:1px solid var(--line);background:none;color:inherit;text-align:start;width:100%;border-radius:0;min-height:0;font-weight:400}
+.item:first-child{border-top:0}
+.item .main{flex:1;min-width:0}
+.item .name{font-weight:700;overflow-wrap:anywhere}
+.av{width:40px;height:40px;border-radius:50%;background:var(--wood-soft);color:var(--wood);display:grid;place-items:center;font-weight:700;flex:none;font-size:.9em}
+.av.f{background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent)}
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:var(--wood);border-radius:99px}
+.seg{display:flex;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px;gap:4px;overflow-x:auto}
+.seg button{flex:1;background:transparent;color:var(--muted);min-height:40px;padding:8px 10px;font-size:.88em;white-space:nowrap}
+.seg button.on{background:var(--accent);color:var(--accent-ink)}
+input,select,textarea{width:100%;font:1em var(--f-body);padding:12px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);min-height:48px}
+textarea{min-height:96px}
+input[type=checkbox]{width:26px;min-height:26px;flex:none}
+label{display:block;font-weight:700;font-size:.88em;margin-bottom:4px}
+label.chk{display:flex;gap:10px;align-items:center;font-size:.95em;margin:0}
+.field{display:flex;flex-direction:column;min-width:0}
+.pres{display:flex;gap:5px;flex:none}
+.pres button{min-height:42px;min-width:40px;padding:6px 8px;background:var(--bg);color:var(--muted);border:1.5px solid var(--line)}
+.pres button.on.P{background:var(--ok);color:#fff;border-color:var(--ok)}
+.pres button.on.A{background:var(--bad);color:#fff;border-color:var(--bad)}
+.pres button.on.R{background:var(--warn);color:#fff;border-color:var(--warn)}
+.pres button.on.E{background:var(--muted);color:var(--card);border-color:var(--muted)}
+.noteIn{width:92px;text-align:center;font-variant-numeric:tabular-nums;flex:none;min-height:44px;padding:8px}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--card);border-top:1px solid var(--line);display:grid;padding-bottom:env(safe-area-inset-bottom,0px)}
+nav.tabs button{background:none;color:var(--muted);flex-direction:column;gap:2px;font-size:.68em;padding:8px 1px;border-radius:0;min-height:62px;min-width:0}
+nav.tabs button span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+nav.tabs button svg{width:24px;height:24px}
+nav.tabs button.on{color:var(--accent)}
+.sheet-bg{position:fixed;inset:0;background:rgba(10,10,25,.5);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--card);width:100%;max-width:680px;max-height:92%;overflow:auto;border-radius:20px 20px 0 0;padding:18px 16px calc(20px + env(safe-area-inset-bottom,0px))}
+.sheet h2{margin-top:0}
+.demo{background:var(--warn-soft);color:var(--warn);border-radius:12px;padding:10px 12px;font-size:.9em;display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.recu{white-space:pre-wrap;font-family:ui-monospace,Menlo,monospace;font-size:.84em;background:var(--bg);border:1px dashed var(--line);border-radius:10px;padding:12px;overflow-wrap:anywhere}
+.toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;z-index:30;font-weight:700;font-size:.9em;max-width:90%;text-align:center}
+.empty{padding:20px;text-align:center;color:var(--muted)}
+.tycard{display:flex;flex-direction:column;gap:10px;text-align:start}
+.tycard .ic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--wood-soft);color:var(--wood)}
+.tycard .ic svg{width:30px;height:30px}
+.tycard h3{all:unset;font-weight:700;font-size:1.15em}
+.menu .item{padding:16px 14px}
+.menu .item svg{width:22px;height:22px;color:var(--accent);flex:none}
+.tbl{width:100%;border-collapse:collapse;font-size:.9em}
+.tbl th,.tbl td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:start}
+.tbl td.r,.tbl th.r{text-align:end}
+.tblwrap{overflow-x:auto}
+.ar{font-family:var(--f-ar)}
+.matrow{display:grid;grid-template-columns:1fr 70px 44px;gap:6px;align-items:center}
+.matrow.fa{grid-template-columns:1fr 64px 76px 44px}
+.matrow input,.matrow select{min-height:42px;padding:8px}
+/*PUBCSS-START*/
+.pub{background:var(--bg);color:var(--ink);min-height:100%;padding-bottom:90px;font-size:17px}
+.pub[dir="rtl"]{font-family:var(--f-ar),var(--f-body);font-size:19px}
+.pub-top{position:sticky;top:0;z-index:3;display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--bg);border-bottom:1px solid var(--line)}
+.pub-brand{display:flex;align-items:center;gap:8px;flex:1;min-width:0;color:var(--wood)}
+.pub-brand svg{width:26px;height:26px;flex:none}
+.pub-brand b{color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.95em}
+.pub-back{background:none;border:1.5px solid var(--line);color:var(--ink);border-radius:10px;min-height:38px;min-width:42px;padding:4px 10px;font-size:1.1em}
+.pub-langs{display:flex;border:1.5px solid var(--accent);border-radius:999px;overflow:hidden;flex:none}
+.pub-langs button{background:transparent;color:var(--accent);border:0;border-radius:0;min-height:34px;padding:4px 10px;font:700 .75em var(--f-body);cursor:pointer}
+.pub-langs button.on{background:var(--accent);color:var(--accent-ink)}
+.pub-langs button[lang="ar"]{font-family:var(--f-ar);font-size:.95em}
+.pub-hero{position:relative}
+.pub-hero-img{height:220px;background-size:cover;background-position:center;background-color:var(--wood)}
+.pub-hero-empty{display:grid;place-items:center;color:rgba(255,255,255,.85);background:linear-gradient(135deg,var(--wood),#6d4520)}
+.pub-hero-empty svg{width:84px;height:84px}
+.pub-hero-txt{margin:-46px 16px 0;position:relative;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:8px;box-shadow:0 8px 24px rgba(30,33,64,.12)}
+.pub-badge{align-self:flex-start;background:var(--wood-soft);color:var(--wood);border-radius:999px;padding:3px 12px;font-weight:700;font-size:.78em}
+.pub h1{margin:0;font-size:1.6em;line-height:1.15;text-wrap:balance;overflow-wrap:anywhere}
+.pub-slogan{margin:0;color:var(--muted);font-size:1.02em}
+.pub-meta{display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--muted);font-size:.88em}
+.pub-meta span{display:inline-flex;align-items:center;gap:4px}
+.pub-meta svg{width:16px;height:16px}
+.pub-open{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;background:var(--ok-soft);color:var(--ok);border-radius:999px;padding:6px 14px;font-weight:700;text-decoration:none;font-size:.9em}
+.pub-open svg{width:18px;height:18px}
+.pub-main{max-width:680px;margin:0 auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.pub-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.pub-card h3{margin:0 0 10px;font-size:.8em;text-transform:uppercase;letter-spacing:.07em;color:var(--wood)}
+.pub-pres{margin:0;line-height:1.55}
+.pub-small{margin:10px 0 0;font-size:.88em;color:var(--muted)}
+.pub-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.pub-list li{display:flex;gap:10px;align-items:flex-start}
+.pub-list svg{width:20px;height:20px;color:var(--ok);flex:none;margin-top:2px}
+.pub-row{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-top:1px solid var(--line)}
+.pub-row:first-of-type{border-top:0}
+.pub-row b{font-variant-numeric:tabular-nums;white-space:nowrap}
+.pub-tbl{overflow-x:auto}
+.pub-tbl table{width:100%;border-collapse:collapse;font-size:.92em}
+.pub-tbl th,.pub-tbl td{padding:9px 6px;border-bottom:1px solid var(--line);text-align:start}
+.pub-tbl th{color:var(--muted);font-size:.85em}
+.pub-tbl td:not(:first-child),.pub-tbl th:not(:first-child){text-align:end;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pub-chips{display:flex;flex-wrap:wrap;gap:6px}
+.pub-chips span{background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:.9em}
+.pub-gal{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pub-gal img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;display:block}
+.pub-info{display:flex;gap:10px;align-items:flex-start;padding:6px 0}
+.pub-info svg{width:20px;height:20px;color:var(--wood);flex:none;margin-top:3px}
+.pub-info a{color:var(--accent);font-weight:700}
+.pub-num{font-weight:700;font-size:1.1em;direction:ltr;unicode-bidi:isolate}
+.pub-form{display:flex;flex-direction:column;gap:10px}
+.pub-form label{display:flex;flex-direction:column;gap:4px;font-weight:700;font-size:.88em}
+.pub-form input,.pub-form select,.pub-form textarea{font:400 1.05em var(--f-body);padding:12px;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);min-height:48px;width:100%}
+.pub-wa{display:flex;align-items:center;justify-content:center;background:#1FA855;color:#fff;border:0;border-radius:12px;min-height:52px;padding:12px 16px;font:700 1.02em var(--f-body);text-decoration:none;cursor:pointer;text-align:center}
+.pub-note{margin:0 0 10px;line-height:1.5}
+.pub-closed{text-align:center;color:var(--muted);font-weight:700}
+.pub-share{background:transparent;color:var(--accent);border:1.5px solid var(--accent);border-radius:12px;min-height:48px;font:700 1em var(--f-body);cursor:pointer}
+.pub-foot{text-align:center;color:var(--muted);font-size:.78em;margin:4px 0 0}
+.pub-bar{position:fixed;left:0;right:0;bottom:0;z-index:4;display:flex;gap:10px;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:1px solid var(--line)}
+.pub-bar a{flex:1;display:flex;align-items:center;justify-content:center;min-height:50px;border-radius:12px;font-weight:700;text-decoration:none}
+.pub-b1{background:var(--accent);color:var(--accent-ink)}
+.pub-b2{background:#1FA855;color:#fff}
+.pub-toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;z-index:60;font-weight:700}
+.pub button:focus-visible,.pub a:focus-visible,.pub input:focus-visible,.pub select:focus-visible,.pub textarea:focus-visible{outline:3px solid var(--wood);outline-offset:2px}
+/*PUBCSS-END*/
+#pubPrev{position:fixed;inset:0;z-index:40;overflow:auto;background:var(--bg)}
+.phgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ph{position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.ph img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+.phb{position:absolute;inset:auto 4px 4px 4px;display:flex;justify-content:space-between;gap:4px}
+.phb .sm{min-height:30px;padding:2px 8px}
+.sync{font-size:.72em;font-weight:700;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 8px;white-space:nowrap;flex:none}
+.sync.err{color:var(--bad);border-color:var(--bad)}
+.sync.ok{color:var(--ok)}
+#print{display:none}
+@media (prefers-reduced-motion:no-preference){.sheet{animation:up .18s ease-out}@keyframes up{from{transform:translateY(30px);opacity:.6}to{transform:none;opacity:1}}}
+@media print{
+  @page{size:A4;margin:12mm}
+  body{background:#fff!important;color:#000!important;font-size:11pt}
+  body > *:not(#print){display:none!important}
+  #print{display:block!important;color:#000}
+  .pg{page-break-after:always;break-after:page}
+  .pg:last-child{page-break-after:auto;break-after:auto}
+  .ph{display:flex;justify-content:space-between;gap:12px;border-bottom:2px solid #000;padding-bottom:6px;margin-bottom:10px}
+  .ph b{font-size:14pt}
+  .ph div:last-child{text-align:end}
+  .pt{font-size:13pt;font-weight:700;text-align:center;margin:8px 0 10px;text-transform:uppercase;letter-spacing:.04em}
+  .ptbl{width:100%;border-collapse:collapse;margin:6px 0 10px}
+  .ptbl th,.ptbl td{border:1px solid #444;padding:4px 6px;text-align:left;font-size:10pt}
+  .ptbl th{background:#eee}
+  .ptbl td.r{text-align:right}
+  .prtl{direction:rtl;font-family:"Amiri","Geeza Pro",serif}
+  .prtl th,.prtl td{text-align:right}
+  .sig{display:flex;justify-content:space-between;gap:20px;margin-top:28px}
+  .sig div{flex:1;border-top:1px solid #000;padding-top:4px;text-align:center;min-height:60px}
+  .kv{display:grid;grid-template-columns:42% 58%;gap:2px 10px;margin:6px 0}
+  .kv span:nth-child(odd){color:#444}
+  .regl{white-space:pre-wrap;border:1px solid #444;padding:8px;font-size:10pt}
+  .recuP{max-width:90mm;border:1px dashed #000;padding:8px;white-space:pre-wrap;font-family:monospace;font-size:10pt}
+}
+</style>
+
+<main id="app"></main>
+<nav class="tabs" id="tabs"></nav>
+<div id="sheet"></div>
+<div id="print"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js" onerror="var s=document.createElement('script');s.src='https://unpkg.com/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js';document.head.appendChild(s)"></script>
+<script>
+(function(){
+"use strict";
+const KEY="daara_ecole_v2", OLD="daara_app_v1";
+const VENDEUR="+221 77 879 00 06";
+const SUPA_URL="https://ncsjgmkrsvtwklfrdbgy.supabase.co",SUPA_KEY="sb_publishable_oDE4BbU6J3RTnce1Oo91cQ_hokWgh0U";
+const MAIL_DOM="@daaraecole.app",T_DATA="daara_comptes",T_LIC="daara_abonnements",T_PAGE="daara_pages";
+const TRIAL_DAYS=7,GRACE_DAYS=3;
+let PRIX_MOIS="5 000 F",PAY_NUM="77 879 00 06",SUPPORT_WA="221778790006",SUPPORT_NAME="Seck Apps";
+function applyCfg(c){if(!c)return;if(c.whatsapp)SUPPORT_WA=String(c.whatsapp).replace(/\D/g,"");if(c.paiement)PAY_NUM=String(c.paiement);if(c.prix)PRIX_MOIS=String(c.prix);if(c.nom)SUPPORT_NAME=String(c.nom)}
+try{applyCfg(JSON.parse(localStorage.getItem("daaraEcole.cfg")||"null"))}catch(e){}
+try{if(/^https?:/.test(location.href))fetch("config.json?t="+Date.now(),{cache:"no-store"}).then(r=>r.ok?r.json():null).then(c=>{if(!c)return;applyCfg(c);try{localStorage.setItem("daaraEcole.cfg",JSON.stringify(c))}catch(e){}}).catch(()=>{})}catch(e){}
+let SB=null,USER=null,BOOTING=true,DEMO=false,AUTH_MODE="login",syncSt="",pushing=false,pushT=null,retryT=null,pageT=null,lastPage="";
+const A31="ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+function newId(){const a=new Uint32Array(6);try{crypto.getRandomValues(a)}catch(e){a.forEach((_,i)=>a[i]=Math.random()*1e9)}return Array.from(a,x=>A31[x%31]).join("")}
+const MODES=["Espèces","Wave","Orange Money","Free Money"];
+const LI={fr:0,wo:1,ar:2};
+
+/* ---------- Textes : [français, wolof, arabe] ---------- */
+const K={
+home:["Accueil","Kër","الرئيسية"],tal:["Talibés","Taalibe yi","الطلاب"],elv:["Élèves","Ndongo yi","التلاميذ"],
+pres:["Appel","Woote","الحضور"],notesT:["Notes","Not yi","الدرجات"],money:["Argent","Xaalis","المال"],more:["Plus","Yeneen","المزيد"],
+internes:["Internes","Ñi fi dëkk","الداخليون"],externes:["Externes","Ñiy dellu kër","الخارجيون"],
+interne:["Interne (dort sur place)","Dëkk fi","داخلي (يبيت هنا)"],externe:["Externe (rentre à la maison)","Dellu kër","خارجي (يرجع إلى البيت)"],
+int:["Interne","Fi dëkk","داخلي"],ext:["Externe","Dellu kër","خارجي"],
+present:["Présents aujourd'hui","Ñi teew tey","الحاضرون اليوم"],caisse:["Caisse du mois","Kees bu weer wi","صندوق الشهر"],
+encaisse:["Payé pour ce mois","Li ñu fey ci weer wi","المدفوع لهذا الشهر"],reste:["Reste à payer","Li des","الباقي"],
+retard:["Total en retard","Bor yépp","مجموع المتأخرات"],doivent:["Parents qui doivent","Waajur yi am bor","أولياء عليهم ديون"],
+add:["Ajouter","Yokk","إضافة"],save:["Enregistrer","Denc","حفظ"],cancel:["Annuler","Bayyi","إلغاء"],del:["Supprimer","Far","حذف"],close:["Fermer","Tëj","إغلاق"],
+nom:["Prénom et nom","Tur ak sant","الاسم واللقب"],sexe:["Sexe","Góor walla jigéen","الجنس"],garcon:["Garçon","Góor","ذكر"],fille:["Fille","Jigéen","أنثى"],
+naiss:["Date de naissance","Bisu juddu","تاريخ الميلاد"],regime:["Régime","Fan lay fanaan","نوع الإقامة"],
+parent:["Parent / tuteur","Waajur","ولي الأمر"],tel:["Téléphone du parent","Telefonu waajur","هاتف ولي الأمر"],tel2:["Autre téléphone","Beneen telefon","هاتف آخر"],
+adresse:["Quartier / adresse","Gox / adrees","الحي / العنوان"],arrivee:["Date d'arrivée","Bis bi mu ñëw","تاريخ الالتحاق"],
+maitre:["Serigne / oustaz","Serigne / oustaz","الشيخ / الأستاذ"],maitreCl:["Maître / maîtresse","Jàngalekat","المعلم"],maitreAr:["Maître arabe (oustaz)","Oustaz bu araab","أستاذ العربية"],
+mensu:["Mensualité (FCFA)","Fey bu weer (FCFA)","الرسوم الشهرية (فرنك)"],
+mensuSpec:["Mensualité spéciale (vide = celle de la classe)","Fey bu wuute (bul bind = bu kilaas bi)","رسوم خاصة (فارغ = رسوم القسم)"],
+reduc:["Réduction par mois (FCFA)","Wàññi ci weer wu nekk (FCFA)","تخفيض شهري (فرنك)"],
+cantine:["Cantine","Kantin","المطعم"],transport:["Transport","Transport","النقل"],inscription:["Inscription","Bindu","التسجيل"],
+inscDue:["Frais d'inscription (vide = ceux de la classe)","Peyu bindu (bul bind = bu kilaas bi)","رسوم التسجيل (فارغ = رسوم القسم)"],
+hizb:["Hizb appris (sur 60)","Hizb yi mu jàng (ci 60)","الأحزاب المحفوظة (من 60)"],sourate:["Sourate actuelle","Sowar bi muy jàng","السورة الحالية"],
+khatm:["A terminé le Coran","Jeexal na Alxuraan","ختم القرآن"],coran:["Coran","Alxuraan","القرآن"],
+notes:["Remarques","Notes","ملاحظات"],search:["Chercher…","Seet…","بحث…"],all:["Tous","Ñépp","الكل"],
+classe:["Classe","Kilaas","القسم"],classes:["Classes","Kilaas yi","الأقسام"],matricule:["Matricule","Matricule","الرقم"],
+mensualites:["Mensualités","Fey yu weer","الرسوم الشهرية"],inscriptions:["Inscriptions","Bindu yi","التسجيلات"],
+dons:["Dons","Sarax","الهبات"],depenses:["Dépenses","Génne xaalis","المصاريف"],salaires:["Salaires","Pey yi","الرواتب"],bilan:["Bilan","Mbooleem","الحصيلة"],
+encaisser:["Encaisser","Jot xaalis","تسجيل دفع"],rappel:["Rappel","Fàttali","تذكير"],
+paye:["Payé","Fey na","مدفوع"],partiel:["Partiel","Fey na lenn","جزئي"],nonpaye:["Non payé","Feyul","غير مدفوع"],
+mois:["Mois","Weer","الشهر"],montant:["Montant (FCFA)","Xaalis (FCFA)","المبلغ (فرنك)"],mode:["Mode de paiement","Naka la fey","طريقة الدفع"],
+numero:["Numéro qui a payé","Nimero bi fey","رقم الدافع"],date:["Date","Bis","التاريخ"],pour:["Pour quoi ?","Ngir lan ?","مقابل ماذا؟"],
+autre:["Autre (tenue, fournitures, examen…)","Leneen (yére, kayit, eksaame…)","أخرى (زي، أدوات، امتحان…)"],
+donateur:["Donateur","Ki joxe","المتبرع"],type:["Type","Xeet","النوع"],argent:["Argent","Xaalis","نقود"],nature:["En nature","Lenn-lenn","عينية"],
+natureDesc:["Quoi ? (ex : 2 sacs de riz)","Lan ? (ex : 2 saaku ceeb)","ماذا؟ (مثلا: كيسان من الأرز)"],affect:["Utilisation","Ngir lan","الاستعمال"],
+cat:["Catégorie","Xeet","الصنف"],entrees:["Entrées","Li dugg","المداخيل"],sorties:["Sorties","Li génn","المصاريف"],solde:["Solde","Li des ci kees","الرصيد"],
+staff:["Personnel","Liggéeykat yi","الطاقم"],role:["Fonction","Liggéey","الوظيفة"],salaire:["Salaire du mois (FCFA)","Peyu weer (FCFA)","الراتب الشهري (فرنك)"],payer:["Payer","Fey","دفع"],
+params:["Paramètres","Toggu","الإعدادات"],nomEtab:["Nom de l'établissement","Turu daara bi / lekool bi","اسم المؤسسة"],
+resp:["Responsable (Serigne / Directeur)","Ki ko yor (Serigne / Direkteer)","المسؤول (الشيخ / المدير)"],
+ville:["Ville / quartier","Dëkk / gox","المدينة / الحي"],telEtab:["Téléphone","Telefon","الهاتف"],
+wave:["Numéro Wave","Nimero Wave","رقم Wave"],om:["Numéro Orange Money","Nimero Orange Money","رقم Orange Money"],
+mensuDef:["Mensualité par défaut (FCFA)","Fey bu weer (FCFA)","الرسوم الشهرية الافتراضية (فرنك)"],
+inscDef:["Inscription par défaut (FCFA)","Bindu (FCFA)","التسجيل الافتراضي (فرنك)"],
+cantinePrix:["Prix cantine par mois","Njëgu kantin ci weer","سعر المطعم في الشهر"],transportPrix:["Prix transport par mois","Njëgu transport ci weer","سعر النقل في الشهر"],
+rentree:["Mois de la rentrée","Weeru ubbiku","شهر الدخول المدرسي"],nbMois:["Mois payés dans l'année","Ñaata weer lañuy fey","عدد الأشهر المدفوعة"],
+periode:["Découpage de l'année","Naka lañu xaajale at mi","تقسيم السنة"],trim:["Trimestres (3)","Trimestre (3)","ثلاثة فصول"],sem:["Semestres (2)","Semestre (2)","سداسيان"],
+reglement:["Règlement (imprimé sur la fiche d'inscription)","Sàrt yi (ci fiche d'inscription bi)","النظام الداخلي (يطبع في بطاقة التسجيل)"],
+bigText:["Grande écriture","Bind bu rëy","خط كبير"],changeType:["Changer le type d'établissement","Soppi xeet bi","تغيير نوع المؤسسة"],
+recu:["Reçu","Reçu","وصل"],copier:["Copier","Copier","نسخ"],envoyer:["Envoyer au parent","Yónne ko waajur","إرسال إلى ولي الأمر"],
+historique:["Paiements","Fey yi","الدفعات"],fiche:["Modifier","Soppi","تعديل"],tous:["Tous présents","Ñépp teew nañu","الكل حاضر"],
+demo:["Ce sont des exemples. Effacez-les pour commencer avec vos vraies données.","Lii ay misaal la. Far leen ngir tàmbali ak say dokimaa.","هذه أمثلة. احذفها لتبدأ ببياناتك الحقيقية."],
+effacer:["Effacer les exemples","Far misaal yi","حذف الأمثلة"],sauve:["Sauvegarde","Denc","النسخ الاحتياطي"],
+exportT:["Copier la sauvegarde","Copier dokimaa yi","نسخ النسخة الاحتياطية"],exportF:["Télécharger la sauvegarde","Yebbi dokimaa yi","تنزيل النسخة الاحتياطية"],
+importT:["Coller une sauvegarde","Taf dokimaa","لصق نسخة احتياطية"],restaurer:["Restaurer","Delloo","استرجاع"],
+absents:["Absents","Ñi teewul","الغائبون"],retards:["Retards","Ñi yéex","المتأخرون"],excuses:["Excusés","Ñi am lay","المعذورون"],
+copied:["Copié","Copié na","تم النسخ"],saved:["Enregistré","Denc na","تم الحفظ"],deleted:["Supprimé","Far na","تم الحذف"],
+noData:["Rien pour le moment.","Dara amul fi.","لا شيء الآن."],confirmDel:["Toucher encore pour confirmer","Bësaatal ngir dëggal","اضغط مرة أخرى للتأكيد"],
+saisir:["Saisir les notes","Bind not yi","إدخال الدرجات"],bulletins:["Bulletins","Bulletin yi","كشوف النقاط"],
+matiere:["Matière","Matière","المادة"],matieres:["Matières","Matière yi","المواد"],coef:["Coef.","Coef.","المعامل"],
+moyenne:["Moyenne","Moyenne","المعدل"],rang:["Rang","Rang","الرتبة"],moyClasse:["Moyenne de la classe","Moyennu kilaas bi","معدل القسم"],
+partFr:["Partie française","Wàllu farañse","القسم الفرنسي"],partAr:["Partie arabe","Wàllu araab","القسم العربي"],moyGen:["Moyenne générale","Moyenne générale","المعدل العام"],
+bareme:["Notes sur","Not yi ci","النقاط من"],niveau:["Niveau","Niveau","المستوى"],
+pdf:["PDF / Imprimer","PDF / Imprimer","PDF / طباعة"],pdfClasse:["PDF de toute la classe","PDF bu kilaas bi yépp","PDF للقسم كله"],
+messages:["Messages aux parents","Bataaxal ñeel waajur yi","رسائل إلى الأولياء"],modele:["Modèle","Misaal","النموذج"],
+texte:["Texte du message","Bataaxal bi","نص الرسالة"],dest:["Destinataires","Ñi ñuy yónne","المرسل إليهم"],doiventF:["Ceux qui doivent","Ñi am bor","من عليهم ديون"],
+groupe:["Copier pour un groupe WhatsApp","Copier ngir grupu WhatsApp","نسخ لمجموعة واتساب"],
+journal:["Ce que disent les parents","Li waajur yi wax","ما يقوله الأولياء"],aFaire:["À faire","Li war a def","للمتابعة"],fait:["Fait","Def na","تم"],
+quiParle:["Qui parle ?","Kan moo wax ?","من المتكلم؟"],leParent:["Le parent","Waajur bi","ولي الأمر"],nous:["Nous","Nun","نحن"],
+contrat:["Fiche d'inscription","Fiche d'inscription","بطاقة التسجيل"],docs:["Documents PDF","Kayiti PDF","وثائق PDF"],
+listeEl:["Liste des élèves","Limu ndongo yi","قائمة التلاميذ"],etatPay:["État des paiements du mois","Fey yu weer wi","حالة الدفعات للشهر"],
+toutCarnet:["Tout le carnet (tout en un)","Carnet bi yépp","السجل كاملا"],ficheVierge:["Fiche d'inscription vierge","Fiche d'inscription bu weex","بطاقة تسجيل فارغة"],
+apropos:["Abonnement et aide","Abonnement ak ndimbal","الاشتراك والمساعدة"],annee:["Année scolaire","At mu lekool","السنة الدراسية"],
+ans:["ans","at","سنة"],depuis:["depuis le","li ko dale","منذ"],parMois:["/ mois","/ weer","/ شهر"],
+eff:["Effectif","Ñaata ñoo ci nekk","العدد"],noClass:["Ajoutez d'abord une classe : Plus → Classes.","Yokkal kilaas ci Yeneen → Kilaas yi.","أضف قسما أولا: المزيد ← الأقسام."],
+chooseT:["Quel type d'établissement ?","Ban xeet la ?","ما نوع المؤسسة؟"],
+chooseS:["Vous verrez seulement les pages de votre type. Vous pourrez changer plus tard dans Paramètres.","Dangay gis rekk li ñeel sa xeet. Mën nga ko soppi ci Toggu.","سترى فقط صفحات نوعك، ويمكنك التغيير لاحقا من الإعدادات."],
+tDaara:["Daara","Daara","دارا (مدرسة قرآنية)"],tDaaraD:["École coranique : talibés internes et externes, Coran, mensualités, dons.","Daara : taalibe yu fi dëkk ak yuy dellu kër, Alxuraan, fey, sarax.","مدرسة قرآنية: طلاب داخليون وخارجيون، القرآن، الرسوم، الهبات."],
+tFA:["École franco-arabe","Lekool franco-arabe","مدرسة فرنسية عربية"],tFAD:["Français + arabe + Coran : classes, deux bulletins, scolarité, salaires.","Farañse ak araab ak Alxuraan : kilaas, ñaari bulletin, fey, pey.","فرنسي وعربي وقرآن: أقسام، كشفان، رسوم، رواتب."],
+tEC:["École privée","Lekool privée","مدرسة خاصة"],tECD:["Préscolaire, élémentaire, collège, lycée : notes, bulletins, scolarité, cantine, transport.","Préscolaire ba lycée : not, bulletin, fey, kantin, transport.","من التحضيري إلى الثانوي: درجات، كشوف، رسوم، مطعم، نقل."],
+startEmpty:["Commencer","Tàmbali","ابدأ"],startEx:["Voir avec des exemples","Gis ak ay misaal","شاهد مع أمثلة"],
+back:["Retour","Dellu","رجوع"],matDef:["Remettre les matières par défaut","Delloo matière yu njëkk yi","إرجاع المواد الافتراضية"],addMat:["Ajouter une matière","Yokk matière","إضافة مادة"],
+nonNote:["sans note","amul not","بلا درجة"],mention:["Mention","Mention","التقدير"],absAnnee:["Absences (année)","Ñi teewul (at mi)","الغيابات (السنة)"],
+prevenir:["Prévenir","Xamal","إبلاغ"],todo:["À suivre","Li war a topp","للمتابعة"],ecrire:["Écrire ce qu'il a dit…","Bind li mu wax…","اكتب ما قاله…"],
+moisImpayes:["mois non payés","weer yu ñu feyul","أشهر غير مدفوعة"],sansClasse:["Sans classe","Amul kilaas","بدون قسم"],
+pdfInfo:["Le PDF s'ouvre depuis le lien de l'app (GitHub). Choisissez « Enregistrer en PDF » ou imprimez.","PDF bi dafay ubbiku ci lien bu app bi (GitHub).","يفتح PDF من رابط التطبيق (GitHub)."],
+ajouterEl:["Ajouter un élève","Yokk ndongo","إضافة تلميذ"],ajouterTal:["Ajouter un talibé","Yokk taalibe","إضافة طالب"],
+faireAppel:["Faire l'appel","Woote","تسجيل الحضور"],paie:["Paie du mois","Pey bu weer wi","رواتب الشهر"],
+langDoc:["Langue du document","Ban làkk ?","لغة الوثيقة"],langDocS:["Choisissez la langue que le parent comprend.","Tànnal làkk bi waajur bi dégg.","اختر اللغة التي يفهمها ولي الأمر."],langEach:["Chacun dans la langue de son parent","Ku nekk ci làkku waajuram","كل واحد بلغة وليّه"],langue:["Langue du parent","Làkku waajur bi","لغة ولي الأمر"],
+loginT:["Se connecter","Dugg","تسجيل الدخول"],signupT:["Créer un compte","Sos sa compte","إنشاء حساب"],phoneL:["Numéro de téléphone","Nimero telefon","رقم الهاتف"],passL:["Mot de passe","Baatu jàll","كلمة المرور"],pass2L:["Répéter le mot de passe","Bindaatal baatu jàll bi","أعد كتابة كلمة المرور"],
+passNote:["Notez bien votre mot de passe : il faudra le même sur un nouveau téléphone.","Bindal sa baatu jàll : dinga ko soxla ci beneen telefon.","احفظ كلمة المرور جيدا: ستحتاجها في هاتف جديد."],
+loginTxt:["Talibés, élèves, mensualités, présences et bulletins dans le téléphone. Tout est sauvegardé en ligne.","Taalibe yi, ndongo yi, fey yi, ñi teew ak bulletin yi ci sa telefon. Lépp dañu koy denc ci Internet.","الطلاب والتلاميذ والرسوم والحضور وكشوف النقاط في هاتفك. كل شيء محفوظ على الإنترنت."],
+voirEx:["👀 Voir un exemple (sans compte)","👀 Gis misaal (amul compte)","👀 مشاهدة مثال (بدون حساب)"],trialTxt:["7 jours d'essai gratuit.","7 fan yu ñuy jéem te doo fey.","7 أيام تجربة مجانية."],
+errPhone:["Numéro de téléphone invalide","Nimero bi baaxul","رقم الهاتف غير صحيح"],errPass:["Le mot de passe doit avoir au moins 6 caractères","Baatu jàll bi war na am 6 araf ci lu néew","يجب أن تحتوي كلمة المرور على 6 أحرف على الأقل"],errPass2:["Les deux mots de passe ne sont pas pareils","Ñaari baatu jàll yi yemuñu","كلمتا المرور غير متطابقتين"],
+errExists:["Ce numéro a déjà un compte : touchez « Se connecter »","Nimero bii am na compte : bësal « Dugg »","هذا الرقم لديه حساب: اضغط «تسجيل الدخول»"],errLogin:["Numéro ou mot de passe faux","Nimero walla baatu jàll bi baaxul","الرقم أو كلمة المرور خطأ"],errNet:["Pas de connexion internet : réessayez","Amul Internet : jéemaatal","لا يوجد اتصال بالإنترنت: أعد المحاولة"],
+errInactive:["Compte créé mais pas encore actif. Contactez Seck Apps.","Compte bi sos nañu ko waaye doxagul. Jokkool ak Seck Apps.","تم إنشاء الحساب لكنه غير مفعل بعد. تواصل مع Seck Apps."],connexion:["Connexion…","Mi ngi dugg…","جار الاتصال…"],
+nomEtabReq:["Écrivez le nom de votre daara ou école","Bindal turu sa daara walla sa lekool","اكتب اسم الدارة أو المدرسة"],exDemo:["Exemple : rien n'est enregistré.","Misaal la : dara du denc.","مثال: لا يُحفظ شيء."],quitEx:["Quitter l'exemple","Génn ci misaal bi","الخروج من المثال"],
+abo:["Abonnement et compte","Abonnement ak compte","الاشتراك والحساب"],votreId:["Votre ID — à donner pour payer","Sa ID — joxe ko bu ngay fey","رقمك — أعطه عند الدفع"],essai:["Essai gratuit","Jéem","تجربة مجانية"],abonne:["Abonné","Abonné","مشترك"],jusqu:["jusqu'au","ba","حتى"],expire:["Expiré le","Jeex na ci","انتهى في"],
+prixTxt:["Prix : {p} par mois, par Wave ou Orange Money au {n}. Après le paiement, l'abonnement s'active tout seul.","Njëg : {p} ci weer, ci Wave walla Orange Money ci {n}. Bu nga feyee, abonnement bi dina ubbeeku moom kese.","السعر: {p} شهريا، عبر Wave أو Orange Money على الرقم {n}. بعد الدفع يتفعل الاشتراك تلقائيا."],
+contacter:["Contacter Seck Apps sur WhatsApp","Jokkoo ak Seck Apps ci WhatsApp","التواصل مع Seck Apps عبر واتساب"],verifier:["Vérifier mon abonnement","Seet sama abonnement","التحقق من اشتراكي"],connecte:["Connecté","Dugg nga","متصل"],
+syncOk:["Sauvegardé en ligne","Denc nañu ko ci Internet","محفوظ على الإنترنت"],syncErr:["Pas encore envoyé : vérifiez internet","Yónneegul : seetal Internet","لم يُرسل بعد: تحقق من الإنترنت"],syncWait:["Envoi en cours…","Mi ngi yónne…","جار الإرسال…"],
+chgPass:["Changer le mot de passe","Soppi baatu jàll","تغيير كلمة المرور"],changer:["Changer","Soppi","تغيير"],passChanged:["Mot de passe changé","Baatu jàll bi soppi na","تم تغيير كلمة المرور"],logout:["Se déconnecter","Génn","تسجيل الخروج"],
+logoutQ:["Se déconnecter ? Pour revenir il faudra le numéro et le mot de passe.","Génn ? Ngir dellusi dinga soxla nimero bi ak baatu jàll bi.","تسجيل الخروج؟ للعودة ستحتاج الرقم وكلمة المرور."],oui:["Oui","Waaw","نعم"],non:["Non","Déedéet","لا"],
+notSynced:["Pas encore sauvegardé en ligne : connectez-vous à internet avant de vous déconnecter.","Denceeguñu ko ci Internet : dugalal Internet balaa ngay génn.","لم يُحفظ بعد على الإنترنت: اتصل بالإنترنت قبل تسجيل الخروج."],
+bloque:["Abonnement terminé : vous pouvez voir vos données, mais plus enregistrer. Payez l'abonnement dans Plus.","Abonnement bi jeex na : mën nga gis say dokimaa waaye doo mën denc. Feyal abonnement bi ci Yeneen.","انتهى الاشتراك: يمكنك رؤية بياناتك لكن لا يمكنك الحفظ. ادفع الاشتراك من «المزيد»."],
+bnBlocked:["Votre abonnement est terminé. Vous pouvez voir vos données, mais plus enregistrer.","Sa abonnement jeex na. Mën nga gis say dokimaa waaye doo mën denc.","انتهى اشتراكك. يمكنك رؤية بياناتك لكن لا يمكنك الحفظ."],
+bnGrace:["Abonnement expiré le {d}. L'app sera bloquée dans {n} jour(s).","Abonnement bi jeex na ci {d}. App bi dina tëju ci {n} fan.","انتهى الاشتراك في {d}. سيتوقف التطبيق بعد {n} يوم."],
+bnWarn:["{w} se termine le {d} ({n} j).","{w} dina jeex ci {d} ({n} fan).","{w} ينتهي في {d} ({n} يوم)."],votreEssai:["Votre essai gratuit","Sa jéem","تجربتك المجانية"],votreAbo:["Votre abonnement","Sa abonnement","اشتراكك"],
+payAbo:["Payer l'abonnement","Fey abonnement bi","دفع الاشتراك"],payNotYet:["Paiement pas encore enregistré. Réessayez plus tard.","Duñu ko bind ba léegi. Jéemaatal ci kanam.","لم يُسجل الدفع بعد. أعد المحاولة لاحقا."],
+pageAuto:["Votre page se met à jour toute seule quand vous enregistrez. Elle marche tant que l'abonnement est payé.","Sa xët dina yeesu moom kese bu nga dencee. Dina dox su abonnement bi feyee.","تتحدث صفحتك تلقائيا عند الحفظ، وتعمل ما دام الاشتراك مدفوعا."],
+pageOffAbo:["Abonnement terminé : la page est arrêtée.","Abonnement bi jeex na : xët bi taxaw na.","انتهى الاشتراك: الصفحة متوقفة."],majDonnees:["Données mises à jour","Dokimaa yi yeesu nañu","تم تحديث البيانات"],
+needNet:["Connectez-vous à internet pour créer votre compte.","Dugalal Internet ngir sos sa compte.","اتصل بالإنترنت لإنشاء حسابك."],chargement:["Chargement…","Mi ngi yeb…","جار التحميل…"],
+page:["Ma page publique","Sama xët bu ñépp","صفحتي العامة"],
+pageS:["Une page à partager sur WhatsApp, TikTok, Instagram, Facebook : présentation, ce que vous enseignez, classes, tarifs, photos et demande d'inscription. Les visiteurs ne voient jamais les élèves, les paiements ni l'argent.","Xët bu ngay séddoo ci WhatsApp, TikTok, Instagram, Facebook : sa daara walla sa lekool, li ngay jàngale, kilaas yi, njëg yi, nataal yi ak laaj bindu. Ñiy seet duñu gis mukk ndongo yi, fey yi walla xaalis bi.","صفحة تشاركها على واتساب وتيك توك وإنستغرام وفيسبوك: تعريف، ما تعلّمونه، الأقسام، الرسوم، الصور وطلب التسجيل. لا يرى الزوار أبدا التلاميذ ولا الدفعات ولا الأموال."],
+pageOn:["Page activée (visible sur Internet)","Xët bi dafa ubbeeku","الصفحة مفعلة (ظاهرة على الإنترنت)"],
+slogan:["Phrase d'accroche","Baat bu jëkk","عبارة ترحيبية"],presTxt:["Présentation","Wax ci sa daara / lekool","التعريف"],
+photosL:["Photos (jusqu'à 6 ; la 1re est la grande photo)","Nataal yi (ba 6 ; bu jëkk bi mooy bu mag bi)","الصور (حتى 6؛ الأولى هي الكبيرة)"],addPhoto:["+ Ajouter des photos","+ Yokk nataal","+ إضافة صور"],photoMax:["6 photos maximum","6 nataal rekk","6 صور كحد أقصى"],
+horaires:["Horaires","Waxtu yi","الأوقات"],adresseL:["Adresse (quartier, repère)","Adrees (gox, fu mu nekk)","العنوان (الحي، علامة مميزة)"],waL:["Numéro WhatsApp pour les parents","Nimero WhatsApp ngir waajur yi","رقم واتساب للأولياء"],
+showPrix:["Afficher les tarifs","Won njëg yi","إظهار الرسوم"],showEff:["Afficher le nombre d'élèves","Won ñaata ndongo ñoo fi nekk","إظهار عدد التلاميذ"],inscOuv:["Inscriptions ouvertes","Bindu dafa ubbeeku","التسجيل مفتوح"],
+forts:["Points forts (un par ligne)","Li nu gën a mën (benn ci rëdd bu nekk)","نقاط القوة (واحدة في كل سطر)"],voirPage:["Voir ma page","Gis sama xët","عرض صفحتي"],copierLien:["Copier le lien","Copier lien bi","نسخ الرابط"],partagerWA:["Partager sur WhatsApp","Séddoo ci WhatsApp","مشاركة على واتساب"],
+publier:["Mettre ma page en ligne","Yeesal sama xët ci Internet","نشر صفحتي على الإنترنت"],lienL:["Votre lien à partager","Sa lien bu ngay séddoo","رابطك للمشاركة"],codeModif:["Code de modification (gardez-le)","Code bu ñuy soppee (denc ko)","رمز التعديل (احتفظ به)"],
+pubOff:["La mise en ligne marchera quand l'app sera sur Internet. Pour l'instant, regardez avec « Voir ma page ».","Dina dox bu app bi génnee ci Internet. Léegi, seetal ak « Gis sama xët ».","سيعمل النشر عندما يكون التطبيق على الإنترنت. الآن استعمل «عرض صفحتي»."],published:["Page mise en ligne","Xët bi génn na","تم نشر الصفحة"],
+abonnement:["Pour l'abonnement ou de l'aide, écrivez-nous :","Ngir abonnement walla ndimbal, bindal nu :","للاشتراك أو المساعدة، راسلنا:"]
+};
+
+const NIV=[["PS","Petite section","pre"],["MS","Moyenne section","pre"],["GS","Grande section","pre"],["CI","CI","ele"],["CP","CP","ele"],["CE1","CE1","ele"],["CE2","CE2","ele"],["CM1","CM1","ele"],["CM2","CM2","ele"],["6e","6e","moy"],["5e","5e","moy"],["4e","4e","moy"],["3e","3e","moy"],["2nde","Seconde","sec"],["1re","Première","sec"],["Tle","Terminale","sec"]];
+const MAT={
+ pre:[["Langage",1],["Pré-lecture",1],["Pré-calcul",1],["Graphisme",1],["Éveil",1],["Dessin et chant",1]],
+ ele:[["Lecture",1],["Expression écrite",1],["Dictée",1],["Grammaire et conjugaison",1],["Mathématiques",1],["Résolution de problèmes",1],["Histoire-Géographie",1],["Sciences (IST)",1],["Vivre ensemble",1],["EPS",1]],
+ moy:[["Français",4],["Mathématiques",4],["Anglais",2],["Histoire-Géographie",2],["SVT",2],["Sciences physiques",2],["Éducation civique",1],["EPS",1]],
+ sec:[["Français",4],["Mathématiques",4],["Anglais",2],["Espagnol / LV2",2],["Histoire-Géographie",2],["SVT",2],["Sciences physiques",2],["EPS",1]],
+ ar:[["Coran — القرآن الكريم",2],["Lecture arabe — القراءة",1],["Écriture arabe — الكتابة",1],["Grammaire arabe — النحو",1],["Fiqh — الفقه",1],["Tawhid — التوحيد",1],["Sira et Akhlaq — السيرة والأخلاق",1]]};
+const PER={trim:{ids:["T1","T2","T3"],fr:["1er trimestre","2e trimestre","3e trimestre"],wo:["Trimestre 1","Trimestre 2","Trimestre 3"],ar:["الفصل الأول","الفصل الثاني","الفصل الثالث"]},
+ sem:{ids:["S1","S2"],fr:["1er semestre","2d semestre"],wo:["Semestre 1","Semestre 2"],ar:["السداسي الأول","السداسي الثاني"]}};
+const ROLES_D=["Serigne","Oustaz","Diawrigne","Cuisinière","Gardien","Autre"];
+const ROLES_S=["Directeur / Directrice","Enseignant(e)","Maître arabe (oustaz)","Serigne","Surveillant(e)","Secrétaire / comptable","Cuisinière","Chauffeur","Gardien","Agent d'entretien","Autre"];
+const DEP_CATS={fr:["Nourriture (riz, huile…)","Loyer","Eau et électricité","Santé","Habits et nattes","Livres, craie, fournitures","Construction / travaux","Transport","Cantine","Autre"],
+ wo:["Lekk (ceeb, diw…)","Kër (loyer)","Ndox ak kuuraŋ","Wér-gi-yaram","Yére ak basaŋ","Téere, kare, kayit","Tabax","Transport","Kantin","Leneen"],
+ ar:["الطعام (أرز، زيت…)","الإيجار","الماء والكهرباء","الصحة","الملابس والحصائر","الكتب والطباشير والأدوات","البناء والأشغال","النقل","المطعم","أخرى"]};
+const DON_AFF={fr:["Nourriture","Construction","Santé","Habits","Libre"],wo:["Lekk","Tabax","Wér-gi-yaram","Yére","Ngir daara bi"],ar:["الطعام","البناء","الصحة","الملابس","عام"]};
+const REG={
+daara:"1. Le parent paie la mensualité avant le 5 de chaque mois.\n2. Le talibé interne rentre en famille seulement avec l'accord du Serigne.\n3. Le parent prévient la daara en cas de maladie, de voyage ou d'absence.\n4. La daara assure l'enseignement du Coran, l'éducation, et pour les internes la nourriture et le logement.\n5. Le talibé n'est jamais envoyé mendier.\n6. Le parent garde un numéro de téléphone à jour et répond aux appels de la daara.",
+ecole:"1. Les frais d'inscription sont payés à l'inscription et ne sont pas remboursés.\n2. La mensualité est payée avant le 5 de chaque mois, pendant toute l'année scolaire.\n3. Toute absence ou tout retard est justifié par le parent.\n4. La tenue scolaire est obligatoire.\n5. Le parent assiste aux réunions et signe les bulletins.\n6. Le parent garde un numéro de téléphone à jour.",
+fa:"1. Les frais d'inscription sont payés à l'inscription et ne sont pas remboursés.\n2. La mensualité couvre la partie française et la partie arabe ; elle est payée avant le 5 de chaque mois.\n3. L'élève suit les deux programmes : français, arabe et Coran.\n4. Toute absence ou tout retard est justifié par le parent.\n5. La tenue scolaire est obligatoire.\n6. Le parent assiste aux réunions, signe les bulletins et garde un numéro à jour."};
+
+const REGL={wo:{
+daara:"1. Waajur bi dafay fey fey bu weer balaa 5 bu weer wu nekk.\n2. Taalibe bu dëkk ci daara bi du dellu kër te Serigne bi nanguwul.\n3. Waajur bi dafay xamal daara bi bu doom ji feebaree, tukkee walla mu teewul.\n4. Daara bi dafay jàngal Alxuraan, yar doom ji, te ñi fi dëkk ñu jox leen lekk ak fu ñuy fanaan.\n5. Taalibe bi du yónnees mukk yelwaan.\n6. Waajur bi dafay am nimero bu baax te tontu woote yu daara bi.",
+fa:"1. Peyu bindu dañu koy fey bu ñuy bind doom ji, te duñu ko delloo.\n2. Fey bu weer bi dafa boole wàllu farañse ak wàllu araab ; dañu koy fey balaa 5 bu weer wu nekk.\n3. Ndongo bi dafay jàng ñaari wàll yi : farañse, araab ak Alxuraan.\n4. Bu ndongo bi teewul walla mu yéex, waajur bi war na ko leeral.\n5. Yéreg lekool bi war na.\n6. Waajur bi dafay teew ci ndaje yi, xaatim bulletin yi te am nimero bu baax."},
+ar:{
+daara:"1. يدفع ولي الأمر الرسوم الشهرية قبل اليوم الخامس من كل شهر.\n2. لا يعود الطالب الداخلي إلى أهله إلا بإذن الشيخ.\n3. يخبر ولي الأمر الدارة في حالة المرض أو السفر أو الغياب.\n4. تتكفل الدارة بتعليم القرآن والتربية، وبالطعام والسكن للطلاب الداخليين.\n5. لا يُرسَل الطالب أبدا للتسول.\n6. يحتفظ ولي الأمر برقم هاتف صحيح ويجيب على اتصالات الدارة.",
+fa:"1. تدفع رسوم التسجيل عند التسجيل ولا تسترد.\n2. تشمل الرسوم الشهرية القسم الفرنسي والقسم العربي، وتدفع قبل اليوم الخامس من كل شهر.\n3. يتابع التلميذ البرنامجين: الفرنسية والعربية والقرآن.\n4. يبرر ولي الأمر كل غياب أو تأخر.\n5. الزي المدرسي إلزامي.\n6. يحضر ولي الأمر الاجتماعات ويوقع الكشوف ويحتفظ برقم هاتف صحيح."}};
+const PT={
+fr:{recu:"REÇU N°",date:"Date",tal:"Talibé",elv:"Élève",parent:"Parent",mensDe:"Mensualité de",insc:"Frais d'inscription",objet:"Objet",recuM:"Montant reçu",mode:"Mode",du:"Total encore dû",merci:"Jërëjëf. Yalla na Yalla yokk barke.",tel:"Tél",
+ ficheT:"Fiche d'inscription",ficheTD:"Fiche d'inscription du talibé",nom:"Prénom et nom",sexe:"Sexe",G:"Garçon",F:"Fille",naiss:"Date de naissance",regime:"Régime",int:"Interne (dort à la daara)",ext:"Externe (rentre à la maison)",maitre:"Serigne / oustaz",maitreCl:"Maître",classe:"Classe",matricule:"Matricule",arrivee:"Date d'arrivée",parentT:"Parent / tuteur",telP:"Téléphone",adr:"Quartier / adresse",fraisI:"Frais d'inscription",mensu:"Mensualité",paiement:"Paiement",especes:"Espèces",regl:"Règlement",decl:"Je soussigné(e), parent ou tuteur, déclare avoir lu et accepté le règlement ci-dessus.",faitA:"Fait à",le:"le",sigP:"Le parent (lu et approuvé)",sigS:"Le Serigne",sigD:"Le Directeur / La Directrice",annee:"Année scolaire",edite:"Édité le",
+ bullT:"Bulletin de notes",matiere:"Matière",note:"Note",coef:"Coef.",mention:"Mention",partFr:"Partie française",partAr:"Partie arabe",moyFr:"Moyenne partie française",moyAr:"Moyenne partie arabe",moyGen:"Moyenne générale",moy:"Moyenne",rang:"Rang",moyCl:"Moyenne de la classe",abs:"Absences (année)",neLe:"Né(e) le",salam:"Assalamou alaykoum"},
+wo:{recu:"REÇU N°",date:"Bis",tal:"Taalibe",elv:"Ndongo",parent:"Waajur",mensDe:"Fey bu weeru",insc:"Peyu bindu",objet:"Ngir",recuM:"Xaalis bi ñu jot",mode:"Naka la fey",du:"Bor bi des",merci:"Jërëjëf. Yalla na Yalla yokk barke.",tel:"Tel",
+ ficheT:"Fiche bindu",ficheTD:"Fiche bindu taalibe",nom:"Tur ak sant",sexe:"Góor walla jigéen",G:"Góor",F:"Jigéen",naiss:"Bisu juddu",regime:"Fan lay fanaan",int:"Dëkk ci daara bi",ext:"Dellu kër",maitre:"Serigne / oustaz",maitreCl:"Jàngalekat",classe:"Kilaas",matricule:"Matricule",arrivee:"Bis bi mu ñëw",parentT:"Waajur",telP:"Telefon",adr:"Gox / adrees",fraisI:"Peyu bindu",mensu:"Fey bu weer",paiement:"Naka lañuy fey",especes:"Xaalis ci loxo",regl:"Sàrt yi",decl:"Man, waajur bi, jàng naa sàrt yi te nangu naa leen.",faitA:"Bind nañu ko ci",le:"ci",sigP:"Waajur bi (jàng na te nangu na)",sigS:"Serigne bi",sigD:"Direkteer bi",annee:"At mu lekool",edite:"Bind nañu ko ci",
+ bullT:"Bulletin",matiere:"Matière",note:"Not",coef:"Coef.",mention:"Mention",partFr:"Wàllu farañse",partAr:"Wàllu araab",moyFr:"Moyennu wàllu farañse",moyAr:"Moyennu wàllu araab",moyGen:"Moyenne générale",moy:"Moyenne",rang:"Rang",moyCl:"Moyennu kilaas bi",abs:"Ñaata yoon la teewul (at mi)",neLe:"Juddu na ci",salam:"Assalamou alaykoum"},
+ar:{recu:"وصل رقم",date:"التاريخ",tal:"الطالب",elv:"التلميذ",parent:"ولي الأمر",mensDe:"رسوم شهر",insc:"رسوم التسجيل",objet:"البيان",recuM:"المبلغ المستلم",mode:"طريقة الدفع",du:"المبلغ المتبقي",merci:"شكرا، بارك الله فيكم.",tel:"الهاتف",
+ ficheT:"بطاقة التسجيل",ficheTD:"بطاقة تسجيل الطالب",nom:"الاسم واللقب",sexe:"الجنس",G:"ذكر",F:"أنثى",naiss:"تاريخ الميلاد",regime:"نوع الإقامة",int:"داخلي (يبيت في الدارة)",ext:"خارجي (يرجع إلى البيت)",maitre:"الشيخ / الأستاذ",maitreCl:"المعلم",classe:"القسم",matricule:"الرقم",arrivee:"تاريخ الالتحاق",parentT:"ولي الأمر",telP:"الهاتف",adr:"الحي / العنوان",fraisI:"رسوم التسجيل",mensu:"الرسوم الشهرية",paiement:"طريقة الدفع",especes:"نقدا",regl:"النظام الداخلي",decl:"أنا الموقع أدناه، ولي الأمر، أقر بأنني قرأت النظام الداخلي ووافقت عليه.",faitA:"حرر في",le:"بتاريخ",sigP:"ولي الأمر (قرأت ووافقت)",sigS:"الشيخ",sigD:"المدير",annee:"السنة الدراسية",edite:"بتاريخ",
+ bullT:"كشف النقاط",matiere:"المادة",note:"الدرجة",coef:"المعامل",mention:"التقدير",partFr:"القسم الفرنسي",partAr:"القسم العربي",moyFr:"معدل القسم الفرنسي",moyAr:"معدل القسم العربي",moyGen:"المعدل العام",moy:"المعدل",rang:"الرتبة",moyCl:"معدل القسم",abs:"الغيابات (السنة)",neLe:"تاريخ الميلاد",salam:"السلام عليكم"}};
+const pt=(lg,k)=>((PT[lg]||PT.fr)[k]??PT.fr[k]);
+
+/* ---------- Modèles de messages ---------- */
+const TPL=[
+ ["rappel",{fr:"Rappel de paiement",wo:"Fàttali fey",ar:"تذكير بالدفع"},{
+  fr:"Assalamou alaykoum {parent}.\n{ecole} vous rappelle le paiement pour {enfant}.\nReste à payer : {reste}.\n{paiement}\nJërëjëf.",
+  wo:"Assalamou alaykoum {parent}.\n{ecole} di la fàttali fey bu {enfant}.\nLi des : {reste}.\n{paiement}\nJërëjëf.",
+  ar:"السلام عليكم {parent}.\nتذكركم {ecole} بدفع رسوم {enfant}.\nالباقي: {reste}.\n{paiement}\nشكرا."}],
+ ["reunion",{fr:"Réunion des parents",wo:"Ndaje waajur yi",ar:"اجتماع الأولياء"},{
+  fr:"Assalamou alaykoum {parent}.\n{ecole} invite les parents à une réunion le ____ à ____ h.\nVotre présence est importante. Jërëjëf.",
+  wo:"Assalamou alaykoum {parent}.\n{ecole} di woo waajur yi ci ndaje ci ____ ci ____ waxtu.\nSa teew am na solo. Jërëjëf.",
+  ar:"السلام عليكم {parent}.\nتدعوكم {ecole} إلى اجتماع الأولياء يوم ____ الساعة ____.\nحضوركم مهم. شكرا."}],
+ ["vacances",{fr:"Vacances / fermeture",wo:"Noflaay / tëju",ar:"عطلة / إغلاق"},{
+  fr:"Assalamou alaykoum {parent}.\n{ecole} sera fermé(e) du ____ au ____ (Magal, Gamou, Tabaski, Korité, vacances…).\nReprise le ____. Jërëjëf.",
+  wo:"Assalamou alaykoum {parent}.\n{ecole} dina tëju li dale ____ ba ____ (Magal, Gàmmu, Tabaski, Kori, noflaay…).\nDañuy dellu ci ____. Jërëjëf.",
+  ar:"السلام عليكم {parent}.\nستغلق {ecole} من ____ إلى ____ (المغال، المولد، العيد، العطلة…).\nالعودة يوم ____. شكرا."}],
+ ["absence",{fr:"Absence de l'enfant",wo:"Doom ji teewul",ar:"غياب الطفل"},{
+  fr:"Assalamou alaykoum {parent}.\n{enfant} n'était pas présent(e) aujourd'hui à {ecole}.\nMerci de nous dire la raison. Jërëjëf.",
+  wo:"Assalamou alaykoum {parent}.\n{enfant} teewul tey ci {ecole}.\nNangeel nu wax lu ko waral. Jërëjëf.",
+  ar:"السلام عليكم {parent}.\nلم يحضر {enfant} اليوم إلى {ecole}.\nنرجو إخبارنا بالسبب. شكرا."}],
+ ["bulletin",{fr:"Bulletins disponibles",wo:"Bulletin yi jeex nañu",ar:"الكشوف جاهزة"},{
+  fr:"Assalamou alaykoum {parent}.\nLes bulletins de {ecole} sont prêts. Passez récupérer celui de {enfant} et le signer. Jërëjëf.",
+  wo:"Assalamou alaykoum {parent}.\nBulletin yu {ecole} pare nañu. Ñëwal jël bu {enfant} te xaatim ko. Jërëjëf.",
+  ar:"السلام عليكم {parent}.\nكشوف النقاط في {ecole} جاهزة. تفضلوا باستلام كشف {enfant} وتوقيعه. شكرا."}],
+ ["khatm",{fr:"Fin du Coran (khatm)",wo:"Jeexal Alxuraan",ar:"ختم القرآن"},{
+  fr:"Assalamou alaykoum {parent}.\nAlhamdoulillah ! {enfant} a terminé la mémorisation du Coran à {ecole}.\nQu'Allah le/la bénisse. Jërëjëf.",
+  wo:"Assalamou alaykoum {parent}.\nAlhamdoulillah ! {enfant} jeexal na Alxuraan ci {ecole}.\nYalla na ko Yalla barkeel. Jërëjëf.",
+  ar:"السلام عليكم {parent}.\nالحمد لله! ختم {enfant} حفظ القرآن الكريم في {ecole}.\nبارك الله فيه. شكرا."}],
+ ["libre",{fr:"Message libre",wo:"Bataaxal bu bees",ar:"رسالة حرة"},{fr:"Assalamou alaykoum {parent}.\n",wo:"Assalamou alaykoum {parent}.\n",ar:"السلام عليكم {parent}.\n"}]
+];
+
+/* ---------- Outils ---------- */
+let S;
+const L=()=>(S&&S.settings&&S.settings.lang)||UILANG||"fr";
+const t=k=>{const r=K[k];if(!r)return k;return r[LI[L()]]||r[0]};
+const TY=()=>S&&S.settings?S.settings.type:null;const isD=()=>TY()==="daara";const isFA=()=>TY()==="fa";const isEc=()=>TY()==="ecole";
+const who=()=>isD()?t("tal"):t("elv");
+const uid=()=>Math.random().toString(36).slice(2,9);
+const pad=n=>String(n).padStart(2,"0");
+const today=()=>{const d=new Date();return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())};
+const thisMonth=()=>today().slice(0,7);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const F=n=>(Math.round(+n||0)).toLocaleString("fr-FR").replace(/ | /g," ")+" F";
+const $=s=>document.querySelector(s);
+const MOIS={fr:["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"],ar:["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"]};
+const moisLabel=(m,force)=>{if(!m)return"";const[y,mm]=m.split("-");return ((force||L())==="ar"?MOIS.ar:MOIS.fr)[+mm-1]+" "+y};
+const dateLabel=d=>{if(!d)return"";const[y,m,dd]=d.split("-");return +dd+" "+MOIS.fr[+m-1]+" "+y};
+const dateL=(d,lg)=>{if(!d)return"";const[y,m,dd]=d.split("-");return +dd+" "+(lg==="ar"?MOIS.ar:MOIS.fr)[+m-1]+" "+y};
+const parentLang=e=>(e&&e.langue&&S.settings.type!=="ecole")?e.langue:"fr";
+const wrapLg=(lg,html)=>lg==="ar"?`<div dir="rtl" class="prtl">${html}</div>`:html;
+function regFor(lg){const s=S.settings;if(lg==="wo")return s.reglementWo||(REGL.wo[s.type]||"")||s.reglement||"";if(lg==="ar")return s.reglementAr||(REGL.ar[s.type]||"")||s.reglement||"";return s.reglement||""}
+const initials=n=>String(n||"?").split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join("").toUpperCase();
+function phone(n){let d=String(n||"").replace(/\D/g,"");if(d.startsWith("00"))d=d.slice(2);if(d.length===9)d="221"+d;return d}
+const wa=(n,msg)=>"https://wa.me/"+phone(n)+"?text="+encodeURIComponent(msg);
+function toast(msg){const d=document.createElement("div");d.className="toast";d.textContent=msg;document.body.appendChild(d);setTimeout(()=>d.remove(),2000)}
+async function copy(txt){try{await navigator.clipboard.writeText(txt);toast(t("copied"))}catch(e){const ta=document.createElement("textarea");ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");toast(t("copied"))}catch(_){}ta.remove()}}
+function monthsBetween(a,b){const out=[];if(!a||!b||a>b)return out;let[y,m]=a.split("-").map(Number);const[yb,mb]=b.split("-").map(Number);while(y<yb||(y===yb&&m<=mb)){out.push(y+"-"+pad(m));m++;if(m>12){m=1;y++}}return out}
+function rentreeDefault(){const d=new Date();const y=d.getMonth()+1>=9?d.getFullYear():d.getFullYear()-1;return y+"-10"}
+const anneeLabel=()=>{const y=+(S.settings.rentree||rentreeDefault()).slice(0,4);return y+"-"+(y+1)};
+const age=d=>{if(!d)return"";const y=+String(d).slice(0,4);return y?new Date().getFullYear()-y:""};
+
+/* ---------- Données ---------- */
+function blank(type,lang){
+  return {v:2,demo:false,lic:{id:newId(),trialEnd:"",exp:"",maxSeen:today()},settings:{type,nom:"",resp:"",ville:"",tel:"",wave:"",om:"",lang:lang||"fr",big:false,rentree:rentreeDefault(),nbMois:9,periode:"trim",
+    mensuDef:type==="daara"?5000:type==="fa"?7500:15000,inscDef:type==="daara"?0:type==="fa"?10000:25000,cantinePrix:7500,transportPrix:10000,reglement:REG[type]||""},
+    classes:[],eleves:[],staff:[],paie:[],presences:{},paiements:[],notes:{},dons:[],depenses:[],journal:[]};
+}
+function defMats(niv,withAr){const g=(NIV.find(n=>n[0]===niv)||NIV[3])[2];const fr=MAT[g].map(([n,c])=>({id:uid(),nom:n,coef:c,part:"fr"}));
+  return withAr?fr.concat(MAT.ar.map(([n,c])=>({id:uid(),nom:n,coef:c,part:"ar"}))):fr}
+const barFor=niv=>{const g=(NIV.find(n=>n[0]===niv)||NIV[3])[2];return g==="moy"||g==="sec"?20:10};
+function rnd(seed){let x=seed;return()=>{x=(x*9301+49297)%233280;return x/233280}}
+function sample(type,lang){
+  const s=blank(type,lang);s.demo=true;const d=today(),m=thisMonth(),r=rnd(7);
+  const R=s.settings.rentree;
+  if(type==="daara"){
+    Object.assign(s.settings,{nom:"Daara Keur Serigne (exemple)",resp:"Serigne Abdou Fall",ville:"Touba, Darou Marnane"});
+    s.staff=[{id:"s1",nom:"Serigne Abdou Fall",role:"Serigne",tel:"770000001",salaire:0},{id:"s2",nom:"Oustaz Ibou Diop",role:"Oustaz",tel:"770000002",salaire:40000},{id:"s3",nom:"Modou Faye",role:"Diawrigne",tel:"770000003",salaire:15000},{id:"s4",nom:"Awa Sène",role:"Cuisinière",tel:"770000004",salaire:25000}];
+    const L_=[["Moussa Diop","G","2014-03-02","interne","Fatou Diop","771112233","s1",5000,34,"Al-Kahf"],["Cheikh Fall","G","2016-07-11","externe","Aliou Fall","772223344","s2",5000,8,"Al-Mulk"],["Abdou Lahad Ndiaye","G","2012-01-20","interne","Awa Ndiaye","773334455","s1",5000,60,"—"],["Mamadou Sarr","G","2017-05-05","externe","Ousmane Sarr","774445566","s2",3000,3,"An-Naba"],["Ibrahima Gueye","G","2015-09-09","interne","Khady Gueye","775556677","s1",5000,21,"Ta-Ha"],["Saliou Mbaye","G","2018-02-14","externe","Ndeye Mbaye","776667788","s2",3000,1,"Al-Fatiha"]];
+    s.eleves=L_.map((x,i)=>({id:"e"+i,nom:x[0],sexe:x[1],naiss:x[2],regime:x[3],parent:x[4],tel:x[5],maitre:x[6],mensu:x[7],hizb:x[8],sourate:x[9],khatm:x[8]>=60,arrivee:R+"-01",actif:true,langue:["wo","fr","ar","wo","ar","fr"][i]}));
+    s.dons=[{id:uid(),donateur:"Famille Mbacké",tel:"",type:"nature",montant:30000,nature:"2 sacs de riz",mode:"",numero:"",date:d,affect:"Nourriture"},{id:uid(),donateur:"Anonyme",tel:"",type:"argent",montant:10000,nature:"",mode:"Wave",numero:"778889900",date:d,affect:"Libre"}];
+  }else{
+    const fa=type==="fa";
+    Object.assign(s.settings,fa?{nom:"École franco-arabe Nour (exemple)",resp:"Cheikh Mbaye, directeur",ville:"Thiès, Hersent"}:{nom:"École privée Les Baobabs (exemple)",resp:"Mme Aminata Ndiaye, directrice",ville:"Dakar, Parcelles Assainies"});
+    s.staff=fa?[{id:"s1",nom:"Cheikh Mbaye",role:"Directeur / Directrice",tel:"770000011",salaire:150000},{id:"s2",nom:"Pape Sow",role:"Enseignant(e)",tel:"770000012",salaire:90000},{id:"s3",nom:"Oustaz Lamine Ndiaye",role:"Maître arabe (oustaz)",tel:"770000013",salaire:80000},{id:"s4",nom:"Mariama Kane",role:"Enseignant(e)",tel:"770000014",salaire:90000},{id:"s5",nom:"Oustaz Ibrahima Kane",role:"Maître arabe (oustaz)",tel:"770000015",salaire:80000}]
+      :[{id:"s1",nom:"Aminata Ndiaye",role:"Directeur / Directrice",tel:"770000021",salaire:200000},{id:"s2",nom:"Fatou Ba",role:"Enseignant(e)",tel:"770000022",salaire:100000},{id:"s3",nom:"Pape Sow",role:"Enseignant(e)",tel:"770000023",salaire:110000},{id:"s4",nom:"Mariama Diallo",role:"Enseignant(e)",tel:"770000024",salaire:110000},{id:"s5",nom:"Lamine Diatta",role:"Chauffeur",tel:"770000025",salaire:70000}];
+    s.classes=fa?[{id:"c1",niveau:"CI",nom:"CI",bareme:10,mensu:7500,inscription:10000,maitre:"s2",maitreAr:"s3",mats:defMats("CI",true)},{id:"c2",niveau:"CE1",nom:"CE1",bareme:10,mensu:8500,inscription:10000,maitre:"s4",maitreAr:"s5",mats:defMats("CE1",true)}]
+      :[{id:"c1",niveau:"GS",nom:"Grande section",bareme:10,mensu:15000,inscription:25000,maitre:"s2",mats:defMats("GS")},{id:"c2",niveau:"CI",nom:"CI A",bareme:10,mensu:17500,inscription:25000,maitre:"s3",mats:defMats("CI")},{id:"c3",niveau:"CE1",nom:"CE1",bareme:10,mensu:17500,inscription:25000,maitre:"s4",mats:defMats("CE1")}];
+    const names=[["Aïssatou Diop","F","Fatou Diop"],["Mouhamed Fall","G","Aliou Fall"],["Khadija Ndiaye","F","Awa Ndiaye"],["Serigne Saliou Sarr","G","Ousmane Sarr"],["Mame Diarra Gueye","F","Khady Gueye"],["Babacar Mbaye","G","Ndeye Mbaye"],["Ndèye Fatou Sy","F","Mansour Sy"],["Alioune Badara Cissé","G","Rokhaya Cissé"],["Coumba Thiam","F","Daouda Thiam"]];
+    s.eleves=names.map((x,i)=>{const c=s.classes[i%s.classes.length];return {id:"e"+i,nom:x[0],sexe:x[1],naiss:(2014+(i%5))+"-0"+(1+i%9)+"-1"+(i%9),classe:c.id,parent:x[2],tel:"77"+String(1112233+i*1111111).slice(0,7),matricule:"2026-"+pad(i+1)+"0",
+      cantine:!fa&&i%3===0,transport:!fa&&i%4===1,reduc:i===5?2500:0,mensu:"",insc:"",hizb:fa?Math.floor(r()*12):0,sourate:fa?["Al-Mulk","An-Naba","Al-Fatiha","Al-Jinn"][i%4]:"",arrivee:R+"-01",actif:true,langue:fa?["fr","wo","ar"][i%3]:"fr"}});
+    s.notes.T1={};s.eleves.forEach(e=>{const c=s.classes.find(z=>z.id===e.classe);s.notes.T1[e.id]={};c.mats.forEach(mt=>{s.notes.T1[e.id][mt.id]=Math.round((4+r()*5.8)*4)/4})});
+    s.eleves.forEach((e,i)=>{if(i%3!==2)s.paiements.push({id:uid(),eleve:e.id,type:"insc",mois:"",montant:fa?10000:25000,mode:i%2?"Wave":"Espèces",numero:i%2?e.tel:"",date:d,note:""})});
+    if(fa)s.dons=[{id:uid(),donateur:"Association des parents",tel:"",type:"argent",montant:50000,nature:"",mode:"Orange Money",numero:"776665544",date:d,affect:"Construction"}];
+    s.paie=[{id:uid(),staff:"s2",mois:m,montant:fa?90000:100000,mode:"Wave",numero:"",date:d}];
+  }
+  s.eleves.forEach((e,i)=>{if(i%3===0)s.paiements.push({id:uid(),eleve:e.id,type:"mens",mois:m,montant:due(e,s),mode:"Wave",numero:e.tel,date:d,note:""});else if(i%3===1)s.paiements.push({id:uid(),eleve:e.id,type:"mens",mois:m,montant:Math.round(due(e,s)/2),mode:"Espèces",numero:"",date:d,note:""})});
+  s.presences[d]={};s.eleves.forEach((e,i)=>s.presences[d][e.id]=i===3?"A":i===4&&type!=="daara"?"R":"P");
+  s.depenses=[{id:uid(),cat:DEP_CATS.fr[type==="daara"?0:5],montant:type==="daara"?18000:12000,mode:"Espèces",numero:"",date:d,note:type==="daara"?"Huile et poisson":"Craie et cahiers"}];
+  s.journal=[{id:uid(),eleve:"e1",date:d,qui:"parent",texte:type==="daara"?"Le papa paiera le reste à la fin du mois.":"La maman demande un rendez-vous avec la maîtresse.",todo:true}];
+  s.page={on:true,inscOuv:true,showPrix:true,showEff:true,cantineOn:true,transportOn:true,photos:[],slug:"",code:"",wa:"771234567",
+    slogan:type==="daara"?"Apprendre le Coran dans la discipline, la piété et la bonne humeur":type==="fa"?"Réussir en français, en arabe et dans la religion":"Une école sérieuse, proche des parents",
+    pres:type==="daara"?"Notre daara accueille les talibés internes et externes depuis plus de 15 ans. Les enfants mémorisent le Coran avec des maîtres patients, mangent trois fois par jour et sont suivis un par un. Les parents reçoivent des nouvelles régulières sur WhatsApp.":type==="fa"?"Notre école suit le programme officiel en français et enseigne l'arabe et le Coran chaque jour. Les élèves préparent le CFEE option franco-arabe. Deux bulletins par trimestre : un en français, un en arabe.":"Notre école accueille les enfants de la petite section au CE1. Classes de 25 élèves maximum, enseignants expérimentés, cantine et transport scolaire. Les parents suivent les notes et les absences.",
+    horaires:type==="daara"?"Tous les jours : 6h – 13h et 15h – 19h\nRepos : jeudi après-midi et vendredi matin":"Lundi – vendredi : 8h – 13h et 15h – 17h\nMercredi après-midi et samedi : repos",
+    adresse:type==="daara"?"Près de la grande mosquée":type==="fa"?"Derrière le marché Moussanté":"Unité 14, à côté de la pharmacie",
+    forts:type==="daara"?"Serigne avec 20 ans d'expérience\nRepas trois fois par jour\nLe talibé n'est jamais envoyé mendier\nNouvelles aux parents sur WhatsApp":type==="fa"?"Deux bulletins : français et arabe\nPréparation au CFEE option franco-arabe\nOustaz formés":"25 élèves maximum par classe\nCours de soutien le samedi\nCantine et transport"};
+  return s;
+}
+function migrate(o){
+  const s=blank("daara",o.settings&&o.settings.lang);
+  Object.assign(s.settings,{nom:o.settings.nom,resp:o.settings.serigne||"",ville:o.settings.ville,tel:o.settings.tel,wave:o.settings.wave,om:o.settings.om,mensuDef:o.settings.mensu||5000,big:o.settings.big});
+  s.demo=!!o.demo;s.staff=(o.maitres||[]).map(m=>({id:m.id,nom:m.nom,role:"Serigne",tel:m.tel,salaire:0}));
+  s.eleves=(o.talibes||[]).map(x=>({...x,naiss:x.naiss?String(x.naiss):""}));s.presences=o.presences||{};
+  s.paiements=(o.paiements||[]).map(p=>({id:p.id,eleve:p.talibe,type:"mens",mois:p.mois,montant:p.montant,mode:p.mode,numero:p.numero,date:p.date,note:""}));
+  s.dons=o.dons||[];s.depenses=o.depenses||[];return s;
+}
+function fixS(o){if(!o||!o.settings)return null;["classes","eleves","staff","paie","paiements","dons","depenses","journal"].forEach(k=>{if(!Array.isArray(o[k]))o[k]=[]});o.presences=o.presences||{};o.notes=o.notes||{};
+  o.lic=o.lic||{};if(!o.lic.id)o.lic.id=newId();if(o.page&&Array.isArray(o.page.photos)){if(o.page.photos.length&&!PHOTOS.length){PHOTOS=o.page.photos;savePhotosLocal()}delete o.page.photos}return o}
+function readLocal(){try{const r=localStorage.getItem(KEY);if(r)return fixS(JSON.parse(r))}catch(e){}try{const o=localStorage.getItem(OLD);if(o)return fixS(migrate(JSON.parse(o)))}catch(e){}return null}
+function load(){S=readLocal()}
+function writeLocal(){if(DEMO||!S)return;try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){toast("Enregistrement impossible sur ce téléphone")}}
+const DIRTY=KEY+".dirty";
+const isDirty=()=>{try{return localStorage.getItem(DIRTY)==="1"}catch(e){return false}};
+const setDirty=x=>{try{x?localStorage.setItem(DIRTY,"1"):localStorage.removeItem(DIRTY)}catch(e){}};
+function save(){
+  if(DEMO||!S)return;
+  if(licState().st==="blocked"){const back=readLocal();if(back)S=back;toast(t("bloque"));return}
+  S.savedAt=Date.now();if(USER)S.uid=USER.id;writeLocal();setDirty(true);schedulePush();schedulePage();
+}
+/* ---------- En ligne (Supabase) ---------- */
+let PHOTOS=[];try{PHOTOS=JSON.parse(localStorage.getItem(KEY+".photos")||"[]")||[]}catch(e){PHOTOS=[]}
+function savePhotosLocal(){try{localStorage.setItem(KEY+".photos",JSON.stringify(PHOTOS))}catch(e){}}
+function phoneDigits(p){let d=String(p||"").replace(/\D/g,"");if(d.startsWith("00"))d=d.slice(2);if(d.length===9)d="221"+d;return d}
+const userPhone=()=>USER&&USER.email?USER.email.split("@")[0].replace(/^221(\d\d)(\d{3})(\d\d)(\d\d)$/,"$1 $2 $3 $4"):"";
+function syncLabel(){return syncSt==="ok"?t("syncOk"):syncSt==="err"?t("syncErr"):t("syncWait")}
+function setSync(st){syncSt=st;const e=document.getElementById("syncDot");if(e){e.className="sync "+st;e.textContent=st==="ok"?"☁ ✓":st==="err"?"☁ !":"☁ …"}const x=document.getElementById("syncTxt");if(x)x.textContent=syncLabel()}
+function schedulePush(){if(!SB||!USER)return;clearTimeout(pushT);setSync("wait");pushT=setTimeout(push,1500)}
+async function push(){if(!SB||!USER||!S||pushing)return;if(!isDirty()){setSync("ok");return}pushing=true;const at=S.savedAt||0;
+  try{const {error}=await SB.from(T_DATA).upsert({user_id:USER.id,phone:USER.email.split("@")[0],nom:S.settings.nom||"",compte_id:S.lic.id||"",saved_at:at,data:S,updated_at:new Date().toISOString()});
+    if(error)throw error;if((S.savedAt||0)===at)setDirty(false);setSync("ok")}
+  catch(e){setSync("err");clearTimeout(retryT);retryT=setTimeout(push,20000)}
+  finally{pushing=false;if(isDirty()&&syncSt==="ok")schedulePush()}}
+async function cloudCheck(){if(!SB||!USER)return "skip";
+  const r=await SB.from(T_DATA).select("saved_at").eq("user_id",USER.id).maybeSingle();if(r.error)throw r.error;
+  if(!r.data){if(S&&S.settings&&S.settings.type){S.uid=USER.id;setDirty(true);await push()}return "empty"}
+  const cAt=Number(r.data.saved_at)||0,lAt=(S&&S.savedAt)||0;
+  if(!S||S.uid!==USER.id||cAt>lAt){const dd=await SB.from(T_DATA).select("data").eq("user_id",USER.id).single();if(dd.error)throw dd.error;
+    S=fixS(dd.data.data);if(S){S.uid=USER.id;writeLocal()}setDirty(false);setSync("ok");return "down"}
+  if(lAt>cAt){S.uid=USER.id;setDirty(true);await push();return "up"}
+  setDirty(false);setSync("ok");return "same"}
+async function fetchLic(){if(!SB||!USER||!S)return false;
+  let r=await SB.from(T_LIC).select("trial_end,paid_until").eq("user_id",USER.id).maybeSingle();if(r.error)throw r.error;
+  if(!r.data){const te=addDaysI(today(),TRIAL_DAYS);const ins=await SB.from(T_LIC).insert({user_id:USER.id,phone:USER.email.split("@")[0],trial_end:te});
+    if(ins.error)throw ins.error;r={data:{trial_end:te,paid_until:null}}}
+  const te=r.data.trial_end||"",pu=r.data.paid_until||"";
+  if(S.lic.trialEnd===te&&(S.lic.exp||"")===pu&&S.lic.srv)return false;
+  S.lic.trialEnd=te;S.lic.exp=pu;S.lic.srv=1;writeLocal();return true}
+async function loadPhotos(){if(!SB||!USER)return;try{const r=await SB.from(T_PAGE).select("data").eq("user_id",USER.id).maybeSingle();if(!r.error&&r.data&&r.data.data&&Array.isArray(r.data.data.photos)){PHOTOS=r.data.data.photos;savePhotosLocal()}}catch(e){}}
+function schedulePage(){if(!SB||!USER||DEMO||!S||!S.page)return;clearTimeout(pageT);pageT=setTimeout(pushPage,2500)}
+async function pushPage(){if(!SB||!USER||!S||!S.page)return;const data=buildPublicData();const on=!!S.page.on;const sig=JSON.stringify([on,data]);if(sig===lastPage)return;
+  try{const {error}=await SB.from(T_PAGE).upsert({user_id:USER.id,page_id:S.lic.id,actif:on,data,updated_at:new Date().toISOString()});if(error)throw error;lastPage=sig}
+  catch(e){clearTimeout(pageT);pageT=setTimeout(pushPage,30000)}}
+async function afterLogin(){const old=readLocal();S=old&&old.uid&&old.uid!==USER.id?null:old;if(!S){try{localStorage.removeItem(KEY)}catch(e){}}
+  try{await cloudCheck()}catch(e){setSync("err")}try{if(S)await fetchLic()}catch(e){}await loadPhotos();view="home";render()}
+async function boot(){const t0=Date.now();while(!window.supabase&&Date.now()-t0<7000)await new Promise(r=>setTimeout(r,150));
+  if(!window.supabase){BOOTING=false;S=readLocal();render();return}
+  SB=window.supabase.createClient(SUPA_URL,SUPA_KEY,{auth:{persistSession:true,autoRefreshToken:true,storageKey:"daaraEcole.auth"}});
+  try{const {data}=await SB.auth.getSession();USER=data&&data.session?data.session.user:null}catch(e){USER=null}
+  BOOTING=false;if(!USER){S=null;render();return}
+  S=readLocal();if(S&&S.uid&&S.uid!==USER.id)S=null;render();
+  let ch=false;try{if(await cloudCheck()==="down")ch=true}catch(e){setSync("err")}try{if(S&&await fetchLic())ch=true}catch(e){}if(ch)render();loadPhotos();
+  document.addEventListener("visibilitychange",async()=>{if(document.visibilityState!=="visible"||!USER||DEMO||isDirty())return;let c2=false;try{if(await cloudCheck()==="down"){c2=true;toast(t("majDonnees"))}}catch(e){}try{if(S&&await fetchLic())c2=true}catch(e){}if(c2)render()});
+  window.addEventListener("online",()=>{if(isDirty())push()})}
+async function doAuth(){const ph=phoneDigits(v("auPhone")),pw=(document.getElementById("auPass")||{}).value||"",su=AUTH_MODE==="signup";const m=document.getElementById("auMsg");const say=x=>{if(m)m.textContent=x};
+  if(!SB)return say(t("needNet"));
+  if(ph.length<9)return say(t("errPhone"));if(pw.length<6)return say(t("errPass"));
+  if(su&&pw!==((document.getElementById("auPass2")||{}).value||""))return say(t("errPass2"));
+  const b=document.getElementById("auBtn");if(b){b.disabled=true;b.textContent=t("connexion")}say("");const email=ph+MAIL_DOM;
+  try{const r=su?await SB.auth.signUp({email,password:pw}):await SB.auth.signInWithPassword({email,password:pw});
+    if(r.error)throw r.error;if(!r.data.session){say(t("errInactive"));if(b){b.disabled=false;b.textContent=su?t("signupT"):t("loginT")}return}
+    USER=r.data.session.user;await afterLogin()}
+  catch(e){const msg=String(e&&e.message||"");
+    say(/already|registered|exists/i.test(msg)?t("errExists"):/invalid login|credentials/i.test(msg)?t("errLogin"):/fetch|network|Failed/i.test(msg)?t("errNet"):msg);
+    if(b){b.disabled=false;b.textContent=su?t("signupT"):t("loginT")}}}
+async function doLogout(){if(isDirty()){await push();if(isDirty())return toast(t("notSynced"))}
+  try{await SB.auth.signOut()}catch(e){}USER=null;S=null;PHOTOS=[];try{localStorage.removeItem(KEY);localStorage.removeItem(KEY+".photos")}catch(e){}setDirty(false);closeSheet();view="home";render()}
+/* ---------- Abonnement ---------- */
+function addDaysI(iso,n){const[y,m,d]=iso.split("-").map(Number);const x=new Date(y,m-1,d+n);return x.getFullYear()+"-"+pad(x.getMonth()+1)+"-"+pad(x.getDate())}
+function diffD(a,b){const q=x=>{const[y,m,d]=x.split("-").map(Number);return Date.UTC(y,m-1,d)};return Math.round((q(b)-q(a))/86400000)}
+function effToday(){const x=today();if(!S||DEMO||!S.lic)return x;const m=S.lic.maxSeen||x;const e=x>m?x:m;if(e!==S.lic.maxSeen){S.lic.maxSeen=e;writeLocal()}return e}
+function licState(){if(DEMO||!S||!S.lic)return{st:"ok",left:99,end:"",trial:true};const x=effToday(),a=S.lic.trialEnd||"",b=S.lic.exp||"",end=a>b?a:b;
+  if(!end)return{st:"ok",left:TRIAL_DAYS,end:"",trial:true};const left=diffD(x,end),trial=!b||a>=b;
+  if(left>=0)return{st:left<=5?"warn":"ok",left,end,trial};if(-left<=GRACE_DAYS)return{st:"grace",left,end,trial};return{st:"blocked",left,end,trial}}
+function licBanner(){if(DEMO)return `<div class="demo"><span style="flex:1;min-width:180px">${t("exDemo")}</span><button class="sm" data-act="quitDemo">${t("quitEx")}</button></div>`;
+  const Lc=licState();const fill=(k,o)=>t(k).replace(/\{(\w)\}/g,(_,c)=>o[c]??"");
+  if(Lc.st==="blocked")return `<div class="demo" style="background:var(--bad-soft);color:var(--bad)"><span style="flex:1;min-width:180px">${t("bnBlocked")}</span><button class="sm danger" data-more="abo">${t("payAbo")}</button></div>`;
+  if(Lc.st==="grace")return `<div class="demo" style="background:var(--bad-soft);color:var(--bad)"><span style="flex:1">${fill("bnGrace",{d:dateLabel(Lc.end),n:GRACE_DAYS+Lc.left})}</span><button class="sm danger" data-more="abo">${t("payAbo")}</button></div>`;
+  if(Lc.st==="warn")return `<div class="demo"><span style="flex:1">${fill("bnWarn",{w:Lc.trial?t("votreEssai"):t("votreAbo"),d:dateLabel(Lc.end),n:Lc.left})}</span><button class="sm" data-more="abo">${t("payAbo")}</button></div>`;
+  return ""}
+
+/* ---------- Calculs ---------- */
+const el=id=>S.eleves.find(x=>x.id===id);
+const cls=id=>S.classes.find(x=>x.id===id);
+const stf=id=>S.staff.find(x=>x.id===id);
+const actifs=()=>S.eleves.filter(x=>x.actif!==false);
+function due(e,s){s=s||S;const st=s.settings;
+  if(st.type==="daara")return +e.mensu||+st.mensuDef||0;
+  const c=s.classes.find(z=>z.id===e.classe);
+  const base=(e.mensu!==""&&e.mensu!=null&&+e.mensu>0)?+e.mensu:((c&&+c.mensu)||+st.mensuDef||0);
+  return Math.max(0,base+(e.cantine?+st.cantinePrix||0:0)+(e.transport?+st.transportPrix||0:0)-(+e.reduc||0));
+}
+function inscDue(e){if(isD())return 0;const c=cls(e.classe);if(e.insc!==""&&e.insc!=null&&!isNaN(+e.insc))return +e.insc;return c&&c.inscription!=null&&c.inscription!==""?+c.inscription:+S.settings.inscDef||0}
+const paidM=(e,m)=>S.paiements.filter(p=>p.eleve===e.id&&p.type==="mens"&&p.mois===m).reduce((a,p)=>a+(+p.montant||0),0);
+const paidI=e=>S.paiements.filter(p=>p.eleve===e.id&&p.type==="insc").reduce((a,p)=>a+(+p.montant||0),0);
+function schoolMonths(){const[y,m]=(S.settings.rentree||rentreeDefault()).split("-").map(Number);const out=[];for(let i=0;i<(+S.settings.nbMois||9);i++){const mm=(m-1+i)%12+1,yy=y+Math.floor((m-1+i)/12);out.push(yy+"-"+pad(mm))}return out}
+function owedMonths(e){const arr=(e.arrivee||today()).slice(0,7);if(isD())return monthsBetween(arr,thisMonth());return schoolMonths().filter(m=>m<=thisMonth()&&m>=arr)}
+function arrears(e){return owedMonths(e).reduce((a,m)=>a+Math.max(0,due(e)-paidM(e,m)),0)+Math.max(0,inscDue(e)-paidI(e))}
+const unpaidCount=e=>owedMonths(e).filter(m=>paidM(e,m)<due(e)).length;
+function status(e,m){const d=due(e),p=paidM(e,m);if(p>=d&&d>0)return["p-ok",t("paye")];if(d===0)return["p-ok","—"];if(p>0)return["p-warn",t("partiel")];return["p-bad",t("nonpaye")]}
+function totals(m){
+  const inM=x=>(x.date||"").startsWith(m);
+  const sum=(arr,f)=>arr.filter(f).reduce((a,x)=>a+(+x.montant||0),0);
+  const mens=sum(S.paiements,p=>inM(p)&&p.type==="mens"),insc=sum(S.paiements,p=>inM(p)&&p.type==="insc"),aut=sum(S.paiements,p=>inM(p)&&p.type==="autre");
+  const donsA=sum(S.dons,x=>inM(x)&&x.type==="argent"),donsN=sum(S.dons,x=>inM(x)&&x.type!=="argent");
+  const dep=sum(S.depenses,inM),sal=sum(S.paie,inM);
+  return{mens,insc,aut,donsA,donsN,dep,sal,entr:mens+insc+aut+donsA,sort:dep+sal,solde:mens+insc+aut+donsA-dep-sal};
+}
+function monthDue(m,list){return list.reduce((a,e)=>a+(owedMonthsAll(e).includes(m)?due(e):0),0)}
+function owedMonthsAll(e){const arr=(e.arrivee||"0000-00").slice(0,7);if(isD())return monthsBetween(arr,"9999-12").slice(0,240);return schoolMonths().filter(m=>m>=arr)}
+function payText(){const s=S.settings;return [s.wave?"Wave : "+s.wave:"",s.om?"Orange Money : "+s.om:""].filter(Boolean).join(" / ")}
+const elName=e=>e?e.nom:"?";
+
+/* notes */
+const perIds=()=>PER[S.settings.periode||"trim"].ids;
+const perLabel=(id,lg)=>{const p=PER[S.settings.periode||"trim"];const i=p.ids.indexOf(id);return (p[lg||L()]||p.fr)[i]||id};
+const getNote=(per,eid,mid)=>{const v=S.notes[per]&&S.notes[per][eid]&&S.notes[per][eid][mid];return v===""||v==null?null:+v};
+function avgOf(e,per,mats){let s=0,c=0;mats.forEach(mt=>{const n=getNote(per,e.id,mt.id);if(n!=null&&!isNaN(n)){s+=n*(+mt.coef||1);c+=(+mt.coef||1)}});return c?s/c:null}
+function classResults(c,per){
+  const list=actifs().filter(e=>e.classe===c.id);
+  const fr=c.mats.filter(m=>m.part!=="ar"),ar=c.mats.filter(m=>m.part==="ar");
+  const res=list.map(e=>({e,fr:avgOf(e,per,fr),ar:ar.length?avgOf(e,per,ar):null,avg:avgOf(e,per,c.mats)}));
+  const ranked=res.filter(r=>r.avg!=null).sort((a,b)=>b.avg-a.avg);
+  ranked.forEach((r,i)=>{r.rank=(i>0&&Math.abs(ranked[i-1].avg-r.avg)<1e-9)?ranked[i-1].rank:i+1});
+  const classAvg=ranked.length?ranked.reduce((a,r)=>a+r.avg,0)/ranked.length:null;
+  return{res:ranked.concat(res.filter(r=>r.avg==null)),classAvg,n:ranked.length};
+}
+function mention(v,b,ar){if(v==null)return"—";const x=v*10/(b||10);
+  const M=ar?["ممتاز","جيد جدا","جيد","مستحسن","مقبول","ضعيف"]:["Excellent","Très bien","Bien","Assez bien","Passable","Insuffisant"];
+  if(b>=20)return x>=9?M[0]:x>=8?M[1]:x>=7?M[2]:x>=6?M[3]:x>=5?M[4]:M[5];
+  return x>=9?M[0]:x>=8?M[1]:x>=7?M[2]:x>=6?M[3]:x>=5?M[4]:M[5];}
+const rankLabel=(r,e,lg)=>r?(lg==="ar"?String(r):r===1?(e&&e.sexe==="F"?"1re":"1er"):r+"e"):"—";
+const fmtN=v=>v==null?"—":(Math.round(v*100)/100).toString().replace(".",",");
+
+/* ---------- Icônes ---------- */
+const IC={
+home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>',
+el:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.5c2.4.2 4 1.8 4.5 4.5"/></svg>',
+pres:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="17" rx="2"/><path d="M8 2v4M16 2v4M8 13l3 3 5-6"/></svg>',
+notes:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/></svg>',
+money:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 9.5v5M18 9.5v5"/></svg>',
+more:'<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>',
+lawha:'<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 4h14v3c0 1-1 1.5-1 2.5V27a1 1 0 0 1-1 1H11a1 1 0 0 1-1-1V9.5C10 8.5 9 8 9 7z"/><path d="M13.5 13h5M13 17h6M13.5 21h5"/></svg>',
+school:'<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"><path d="M3 13L16 6l13 7-13 7z"/><path d="M8 16v6c2 2.5 5 3.5 8 3.5s6-1 8-3.5v-6"/><path d="M29 13v7"/></svg>',
+fa:'<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7c4-1.5 8-1 12 1.5v18C12 24 8 23.5 4 25z"/><path d="M28 7c-4-1.5-8-1-12 1.5v18c4-2.5 8-3 12-1.5z"/></svg>',
+cls:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></svg>',
+msg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>',
+doc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"/><path d="M9 14l3 3 3-3M12 10v7"/></svg>',
+gear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>',
+disk:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M5 3h11l3 3v15H5z"/><path d="M8 3v5h7V3M8 21v-7h8v7"/></svg>',
+help:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7M12 17h.01"/></svg>',
+globe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg>',
+staff:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="7" r="3.5"/><path d="M5 21c.8-4 3.5-6 7-6s6.2 2 7 6"/></svg>'};
+
+/* ---------- Navigation ---------- */
+let view="home",pendingDel=null,sentSet=new Set(),tmpMats=null;
+const sub={talF:"all",q:"",cls:"",presDate:today(),presCls:"",money:"mens",mois:thisMonth(),moneyCls:"",more:"",nCls:"",nPer:"",nMode:"saisie",nMat:"",msgTpl:"rappel",msgTo:"all",salMois:thisMonth()};
+function tabsList(){return isD()?[["home",t("home"),IC.home],["el",t("tal"),IC.el],["pres",t("pres"),IC.pres],["money",t("money"),IC.money],["more",t("more"),IC.more]]
+  :[["home",t("home"),IC.home],["el",t("elv"),IC.el],["pres",t("pres"),IC.pres],["notes",t("notesT"),IC.notes],["money",t("money"),IC.money],["more",t("more"),IC.more]]}
+function renderTabs(){const tl=tabsList();const n=$("#tabs");n.style.gridTemplateColumns=`repeat(${tl.length},1fr)`;n.hidden=!TY();n.innerHTML=tl.map(([k,l,i])=>`<button data-tab="${k}" class="${view===k?"on":""}">${i}<span>${l}</span></button>`).join("")}
+function langBtns(){return `<div class="langs" role="group" aria-label="Langue">${[["fr","FR"],["wo","Wolof"],["ar","عربي"]].filter(x=>!(x[0]==="ar"&&TY()==="ecole")).map(([k,l])=>`<button class="${L()===k?"on":""}" data-lang="${k}" ${k==="ar"?'lang="ar"':""}>${l}</button>`).join("")}</div>`}
+function header(){const s=S.settings;const ic=isD()?IC.lawha:isFA()?IC.fa:IC.school;return `<header class="top"><div class="logo" aria-hidden="true">${ic}</div><div class="grow"><h1>${esc(s.nom||(isD()?t("tDaara"):isFA()?t("tFA"):t("tEC")))}</h1><small>${esc([s.resp,s.ville].filter(Boolean).join(" · "))}${isD()?"":" · "+anneeLabel()}</small></div>${USER?`<span id="syncDot" class="sync ${syncSt}">${syncSt==="ok"?"☁ ✓":syncSt==="err"?"☁ !":"☁ …"}</span>`:""}${langBtns()}</header>`}
+let UILANG=(()=>{try{return localStorage.getItem("daaraEcole.lang")||"fr"}catch(e){return "fr"}})();
+function render(){
+  if(BOOTING){$("#app").innerHTML=`<div class="empty" style="padding-top:40vh">${t("chargement")}</div>`;$("#tabs").hidden=true;return}
+  if(SB&&!USER&&!DEMO){document.documentElement.lang=L();document.documentElement.dir=L()==="ar"?"rtl":"ltr";$("#app").innerHTML=vLogin();$("#tabs").hidden=true;return}
+  if(!S||!S.settings||!S.settings.type){document.documentElement.lang=L();document.documentElement.dir=L()==="ar"?"rtl":"ltr";$("#app").innerHTML=vChoose();$("#tabs").hidden=true;return}
+  if(TY()==="ecole"&&S.settings.lang==="ar"){S.settings.lang="fr";writeLocal()}
+  document.body.classList.toggle("big",!!S.settings.big);
+  document.documentElement.lang=L();document.documentElement.dir=L()==="ar"?"rtl":"ltr";
+  if(isD()&&view==="notes")view="home";
+  const V={home:vHome,el:vEl,pres:vPres,notes:vNotes,money:vMoney,more:vMore}[view]||vHome;
+  $("#app").innerHTML=header()+licBanner()+V();renderTabs();
+}
+function vLogin(){const su=AUTH_MODE==="signup";
+  return `<header class="top"><div class="logo" aria-hidden="true">${IC.lawha}</div><div class="grow"><h1>Daara & École</h1><small>Daara · Franco-arabe · École privée</small></div>${langBtns()}</header>
+  <p style="margin:18px 0 6px">${t("loginTxt")} <b>${t("trialTxt")}</b></p>
+  <form id="fAuth" class="card stack" style="margin-top:12px">
+   <div class="seg"><button type="button" data-act="authMode" data-m="login" class="${su?"":"on"}">${t("loginT")}</button><button type="button" data-act="authMode" data-m="signup" class="${su?"on":""}">${t("signupT")}</button></div>
+   ${fld("auPhone",t("phoneL"),"","tel",'autocomplete="username" placeholder="77 000 00 00"')}
+   <div class="field"><label for="auPass">${t("passL")}</label><input id="auPass" type="password" autocomplete="${su?"new-password":"current-password"}"></div>
+   ${su?`<div class="field"><label for="auPass2">${t("pass2L")}</label><input id="auPass2" type="password" autocomplete="new-password"></div><div class="small muted">${t("passNote")}</div>`:""}
+   <button type="submit" id="auBtn">${su?t("signupT"):t("loginT")}</button><div class="small" id="auMsg" style="color:var(--bad)"></div>
+  </form>
+  <button class="ghost full" style="margin-top:14px" data-act="demo">${t("voirEx")}</button>`}
+
+/* ---------- Champs ---------- */
+function fld(id,lab,val,type="text",extra=""){return `<div class="field"><label for="${id}">${lab}</label><input id="${id}" type="${type}" value="${esc(val??"")}" ${type==="number"?'inputmode="numeric" min="0"':""} ${type==="tel"?'inputmode="tel"':""} ${extra}></div>`}
+function sel(id,lab,opts,val){return `<div class="field">${lab?`<label for="${id}">${lab}</label>`:""}<select id="${id}" ${lab?"":`aria-label="${id}"`}>${opts.map(o=>{const[v,l]=Array.isArray(o)?o:[o,o];return `<option value="${esc(v)}" ${String(v)===String(val)?"selected":""}>${esc(l)}</option>`}).join("")}</select></div>`}
+function chk(id,lab,on){return `<label class="chk"><input type="checkbox" id="${id}" ${on?"checked":""}> ${lab}</label>`}
+const clsOpts=(withAll)=>[...(withAll?[["",t("all")]]:[]),...S.classes.map(c=>[c.id,c.nom])];
+const v=id=>{const e=document.getElementById(id);return e?e.value.trim():""};
+const ck=id=>{const e=document.getElementById(id);return !!(e&&e.checked)};
+function demoBanner(){return (S.demo&&!DEMO)?`<div class="demo"><span style="flex:1;min-width:180px">${t("demo")}</span><button class="sm" data-act="clearDemo">${t("effacer")}</button></div>`:""}
+function avatar(e){return `<div class="av ${e.sexe==="F"?"f":""}">${esc(initials(e.nom))}</div>`}
+function elSub(e){if(isD())return (e.regime==="interne"?`<span class="pill p-int">${t("int")}</span>`:`<span class="pill p-ext">${t("ext")}</span>`)+` <span class="small muted">Hizb ${+e.hizb||0}/60</span>`;
+  const c=cls(e.classe);return `<span class="pill p-ext">${esc(c?c.nom:t("sansClasse"))}</span>${isFA()?` <span class="small muted">Hizb ${+e.hizb||0}/60</span>`:""}${e.cantine?` <span class="small muted">· ${t("cantine")}</span>`:""}${e.transport?` <span class="small muted">· ${t("transport")}</span>`:""}`}
+
+/* ---------- Écran de choix ---------- */
+function vChoose(){
+  const card=(k,ic,ti,de)=>`<div class="card tycard"><div class="ic">${ic}</div><h3>${ti}</h3><div class="muted small">${de}</div><div class="row">${DEMO?`<button class="ghost" style="flex:1" data-choose="${k}" data-ex="1">${t("startEx")}</button>`:`<button style="flex:1" data-choose="${k}">${t("startEmpty")}</button>`}</div></div>`;
+  return `<header class="top"><div class="logo" aria-hidden="true">${IC.lawha}</div><div class="grow"><h1>Daara & École</h1><small>Sénégal</small></div>${langBtns()}</header>
+  ${DEMO?licBanner():`<div class="card stack" style="margin-top:14px">${fld("chNom",t("nomEtab"),"","text",'placeholder="ex : Daara Serigne Touba"')}</div>`}
+  <h2>${t("chooseT")}</h2><p class="muted" style="margin-top:-4px">${t("chooseS")}</p>
+  <div class="stack">${card("daara",IC.lawha,t("tDaara"),t("tDaaraD"))}${card("fa",IC.fa,t("tFA"),t("tFAD"))}${card("ecole",IC.school,t("tEC"),t("tECD"))}</div>`;
+}
+
+/* ---------- Accueil ---------- */
+function vHome(){
+  const a=actifs(),p=S.presences[today()]||{},nP=a.filter(x=>p[x.id]==="P"||p[x.id]==="R").length,m=thisMonth(),T_=totals(m);
+  const dueM=monthDue(m,a),paidMo=a.reduce((s,e)=>s+paidM(e,m),0);
+  const debt=a.map(e=>({e,r:arrears(e)})).filter(o=>o.r>0).sort((A,B)=>B.r-A.r);
+  const todo=S.journal.filter(j=>j.todo).slice(-6).reverse();
+  let counts="";
+  if(isD()){const ints=a.filter(x=>x.regime==="interne").length;counts=`<div class="stat"><span>${t("internes")}</span><b>${ints}</b></div><div class="stat"><span>${t("externes")}</span><b>${a.length-ints}</b></div>`}
+  else counts=`<div class="stat"><span>${t("eff")}</span><b>${a.length}</b><span>${S.classes.length} ${t("classes").toLowerCase()}</span></div><div class="stat"><span>${t("garcon")} / ${t("fille")}</span><b>${a.filter(e=>e.sexe!=="F").length} / ${a.filter(e=>e.sexe==="F").length}</b></div>`;
+  return `${demoBanner()}<h2>${esc(moisLabel(m))}</h2>
+  <div class="grid2">
+   <div class="stat hero"><span>${t("caisse")}</span><b class="num">${F(T_.solde)}</b><span>${t("entrees")} <span class="num">${F(T_.entr)}</span> · ${t("sorties")} <span class="num">${F(T_.sort)}</span></span></div>
+   ${counts}
+   <div class="stat"><span>${t("present")}</span><b>${nP} / ${a.length}</b></div>
+   <div class="stat"><span>${t("encaisse")}</span><b class="num">${F(paidMo)}</b><span>${t("reste")} <span class="num">${F(Math.max(0,dueM-paidMo))}</span></span></div>
+  </div>
+  <div class="row" style="margin-top:12px"><button style="flex:1" data-act="newEl">+ ${isD()?t("ajouterTal"):t("ajouterEl")}</button><button class="ghost" style="flex:1" data-tab="pres">${t("faireAppel")}</button></div>
+  ${!isD()&&S.classes.length?`<h3>${t("classes")}</h3><div class="list">${S.classes.map(c=>{const n=a.filter(e=>e.classe===c.id).length;const pm=a.filter(e=>e.classe===c.id&&(p[e.id]==="P"||p[e.id]==="R")).length;return `<button class="item" data-gocls="${c.id}"><div class="main"><div class="name">${esc(c.nom)}</div><div class="small muted">${esc((stf(c.maitre)||{}).nom||"")}${isFA()&&c.maitreAr?" · "+esc((stf(c.maitreAr)||{}).nom||""):""}</div></div><span class="small muted">${pm}/${n}</span></button>`}).join("")}</div>`:""}
+  ${todo.length?`<h3>${t("todo")}</h3><div class="list">${todo.map(j=>`<div class="item"><div class="main"><div class="name">${esc(elName(el(j.eleve)))}</div><div class="small">${esc(j.texte)}</div><div class="small muted">${dateLabel(j.date)} · ${j.qui==="parent"?t("leParent"):t("nous")}</div></div><button class="sm soft" data-jdone="${j.id}">✓ ${t("fait")}</button></div>`).join("")}</div>`:""}
+  <h3>${t("doivent")}</h3>
+  ${debt.length?`<div class="list">${debt.slice(0,10).map(({e,r})=>`<div class="item">${avatar(e)}<button class="main" style="all:unset;flex:1;min-width:0;cursor:pointer" data-open="${e.id}"><div class="name">${esc(e.nom)}</div><div class="small muted">${esc(e.parent||"")} · <span class="num">${esc(e.tel||"")}</span></div></button><div style="text-align:end"><div class="num" style="color:var(--bad);font-weight:700">${F(r)}</div>${e.tel?`<a class="btn wa sm" href="${wa(e.tel,fillTpl("rappel",e))}" target="_blank" rel="noopener">WhatsApp</a>`:""}</div></div>`).join("")}</div>`:`<div class="card empty">${t("noData")}</div>`}`;
+}
+
+/* ---------- Élèves ---------- */
+function vEl(){
+  const q=sub.q.toLowerCase();
+  let list=actifs().filter(e=>isD()?(sub.talF==="all"||e.regime===sub.talF):(!sub.cls||e.classe===sub.cls)).filter(e=>!q||(e.nom+" "+(e.parent||"")+" "+(e.tel||"")+" "+(e.matricule||"")).toLowerCase().includes(q));
+  list.sort((a,b)=>a.nom.localeCompare(b.nom));
+  const filt=isD()?`<div class="seg">${[["all",t("all")],["interne",t("internes")],["externe",t("externes")]].map(([k,l])=>`<button data-talf="${k}" class="${sub.talF===k?"on":""}">${l}</button>`).join("")}</div>`
+    :(S.classes.length?sel("fCls","",clsOpts(true),sub.cls):`<div class="card small muted">${t("noClass")}</div>`);
+  return `${demoBanner()}<h2>${who()} <span class="muted small">(${list.length})</span></h2>
+  <div class="stack">
+   <input id="q" type="search" placeholder="${t("search")}" value="${esc(sub.q)}" aria-label="${t("search")}">
+   ${filt}
+   ${list.length?`<div class="list">${list.map(e=>{const ar=arrears(e);return `<button class="item" data-open="${e.id}">${avatar(e)}<div class="main"><div class="name">${esc(e.nom)} ${e.khatm?"✓":""}</div><div>${elSub(e)}</div>${isD()||isFA()?`<div class="bar"><i style="width:${Math.min(100,(+e.hizb||0)/60*100)}%"></i></div>`:""}</div>${ar>0?`<span class="pill p-bad num">${F(ar)}</span>`:`<span class="pill p-ok">${t("paye")}</span>`}</button>`}).join("")}</div>`:`<div class="card empty">${t("noData")}</div>`}
+   <button class="full" data-act="newEl">+ ${isD()?t("ajouterTal"):t("ajouterEl")}</button>
+  </div>`;
+}
+
+/* ---------- Appel ---------- */
+function vPres(){
+  const d=sub.presDate,p=S.presences[d]||{};
+  let a=actifs();if(!isD()&&sub.presCls)a=a.filter(e=>e.classe===sub.presCls);
+  a.sort((x,y)=>x.nom.localeCompare(y.nom));
+  const keys=isD()?["P","A","E"]:["P","A","R","E"];const lab={P:"✓",A:"✗",R:"R",E:"E"};
+  const c={P:0,A:0,R:0,E:0};a.forEach(x=>{if(p[x.id])c[p[x.id]]++});
+  const row=x=>`<div class="item" style="flex-wrap:wrap"><div class="main"><div class="name">${esc(x.nom)}</div>${p[x.id]==="A"&&x.tel?`<a class="small" style="color:var(--bad)" href="${wa(x.tel,fillTpl("absence",x))}" target="_blank" rel="noopener">${t("prevenir")} (WhatsApp)</a>`:""}</div><div class="pres">${keys.map(k=>`<button class="${k} ${p[x.id]===k?"on":""}" data-pres="${x.id}" data-v="${k}" aria-label="${k}">${lab[k]}</button>`).join("")}</div></div>`;
+  let body="";
+  if(isD()){const g=(r,ti)=>{const l=a.filter(x=>x.regime===r);return l.length?`<h3>${ti}</h3><div class="list">${l.map(row).join("")}</div>`:""};body=g("interne",t("internes"))+g("externe",t("externes"))}
+  else body=a.length?`<div class="list">${a.map(row).join("")}</div>`:`<div class="card empty">${t("noData")}</div>`;
+  return `<h2>${t("pres")}</h2><div class="stack">
+   <input type="date" id="presDate" value="${d}" aria-label="${t("date")}">
+   ${!isD()&&S.classes.length?sel("presCls","",clsOpts(true),sub.presCls):""}
+   <div class="grid3" style="grid-template-columns:repeat(${keys.length},1fr)"><div class="stat"><span>✓</span><b style="color:var(--ok)">${c.P}</b></div><div class="stat"><span>✗ ${t("absents")}</span><b style="color:var(--bad)">${c.A}</b></div>${isD()?"":`<div class="stat"><span>R ${t("retards")}</span><b style="color:var(--warn)">${c.R}</b></div>`}<div class="stat"><span>E ${t("excuses")}</span><b>${c.E}</b></div></div>
+   <button class="soft" data-act="allPresent">✓ ${t("tous")}</button>
+   ${body}</div>`;
+}
+
+/* ---------- Notes ---------- */
+function vNotes(){
+  if(!S.classes.length)return `<h2>${t("notesT")}</h2><div class="card">${t("noClass")}</div><button class="full" style="margin-top:10px" data-more="classes">${t("classes")}</button>`;
+  if(!cls(sub.nCls))sub.nCls=S.classes[0].id;
+  if(!perIds().includes(sub.nPer))sub.nPer=perIds()[0];
+  const c=cls(sub.nCls);if(!c.mats.find(m=>m.id===sub.nMat))sub.nMat=(c.mats[0]||{}).id||"";
+  const head=`<h2>${t("notesT")}</h2><div class="stack"><div class="grid2">${sel("nCls",t("classe"),clsOpts(false),sub.nCls)}${sel("nPer",t("periode"),perIds().map(id=>[id,perLabel(id)]),sub.nPer)}</div>
+   <div class="seg"><button data-nmode="saisie" class="${sub.nMode==="saisie"?"on":""}">${t("saisir")}</button><button data-nmode="bull" class="${sub.nMode==="bull"?"on":""}">${t("bulletins")}</button></div>`;
+  const list=actifs().filter(e=>e.classe===c.id).sort((a,b)=>a.nom.localeCompare(b.nom));
+  if(!list.length)return head+`<div class="card empty">${t("noData")}</div></div>`;
+  if(sub.nMode==="saisie"){
+    if(!c.mats.length)return head+`<div class="card">${t("matieres")} : 0</div></div>`;
+    const mt=c.mats.find(m=>m.id===sub.nMat);
+    return head+sel("nMat",t("matiere"),c.mats.map(m=>[m.id,m.nom+(m.part==="ar"?" ("+t("partAr")+")":"")+" · coef "+m.coef]),sub.nMat)+
+     `<div class="list">${list.map(e=>{const n=getNote(sub.nPer,e.id,mt.id);return `<div class="item"><div class="main"><div class="name">${esc(e.nom)}</div></div><input class="noteIn" type="number" inputmode="decimal" step="0.25" min="0" max="${c.bareme}" data-note="${e.id}" value="${n==null?"":n}" aria-label="${esc(e.nom)}"><span class="small muted">/${c.bareme}</span></div>`}).join("")}</div>
+     <p class="small muted">${t("bareme")} ${c.bareme}. ${L()==="fr"?"Les notes sont enregistrées dès que vous les écrivez.":""}</p></div>`;
+  }
+  const R=classResults(c,sub.nPer);
+  return head+`<div class="grid2"><div class="stat"><span>${t("moyClasse")}</span><b>${fmtN(R.classAvg)} <small class="muted">/${c.bareme}</small></b></div><div class="stat"><span>${t("eff")}</span><b>${R.n} / ${list.length}</b></div></div>
+   <button class="ghost" data-act="pdfClasse">${t("pdfClasse")}</button>
+   <div class="list">${R.res.map(r=>`<button class="item" data-bull="${r.e.id}"><div class="av">${r.rank?esc(rankLabel(r.rank,r.e)):"—"}</div><div class="main"><div class="name">${esc(r.e.nom)}</div><div class="small muted">${mention(r.avg,c.bareme)}${isFA()?` · FR ${fmtN(r.fr)} · AR ${fmtN(r.ar)}`:""}</div></div><b class="num">${fmtN(r.avg)}</b></button>`).join("")}</div></div>`;
+}
+function bulletinInner(e,per,print,lg){
+  const c=cls(e.classe);if(!c)return"";const R=classResults(c,per);const me=R.res.find(r=>r.e.id===e.id)||{};lg=lg||"fr";
+  const P=(k,pk)=>print?pt(lg,pk):t(k);const arM=print?lg==="ar":L()==="ar";
+  const absY=Object.entries(S.presences).filter(([d,p])=>d>=(S.settings.rentree||"")&&p[e.id]==="A").length;
+  const tbl=(mats,ar)=>`<table class="${print?"ptbl":"tbl"} ${ar&&print?"prtl":""}" ${ar?'dir="rtl"':""}><thead><tr><th>${ar?"المادة":P("matiere","matiere")}</th><th class="r">${ar?"الدرجة":print?pt(lg,"note"):"Note"} /${c.bareme}</th><th class="r">${ar?"المعامل":P("coef","coef")}</th><th>${ar?"التقدير":P("mention","mention")}</th></tr></thead><tbody>${mats.map(mt=>{const n=getNote(per,e.id,mt.id);const nm=ar&&mt.nom.includes("—")?mt.nom.split("—")[1].trim():mt.nom;return `<tr><td class="${ar?"ar":""}">${esc(nm)}</td><td class="r num">${fmtN(n)}</td><td class="r">${mt.coef}</td><td>${mention(n,c.bareme,ar||arM)}</td></tr>`}).join("")}</tbody></table>`;
+  const fr=c.mats.filter(m=>m.part!=="ar"),ar=c.mats.filter(m=>m.part==="ar");
+  const pairs=[];
+  if(ar.length){pairs.push([print?pt(lg,"moyFr"):t("partFr"),`<b>${fmtN(me.fr)}</b> /${c.bareme}`]);pairs.push([print?pt(lg,"moyAr"):t("partAr"),`<b>${fmtN(me.ar)}</b> /${c.bareme}`])}
+  pairs.push([ar.length?P("moyGen","moyGen"):P("moyenne","moy"),`<b>${fmtN(me.avg)}</b> /${c.bareme} — ${mention(me.avg,c.bareme,arM)}`]);
+  pairs.push([P("rang","rang"),`<b>${esc(rankLabel(me.rank,e,print?lg:L()))}</b> / ${R.n}`]);
+  pairs.push([P("moyClasse","moyCl"),fmtN(R.classAvg)]);
+  pairs.push([P("absAnnee","abs"),String(absY)]);
+  const sum=print?`<div class="kv">${pairs.map(([a,b])=>`<span>${a}</span><span>${b}</span>`).join("")}</div>`
+    :`<div class="card stack" style="margin-top:10px">${pairs.map(([a,b])=>`<div class="row between"><span>${a}</span><span>${b}</span></div>`).join("")}</div>`;
+  const frHead=ar.length&&print?`<div class="pt">${pt(lg,"partFr")}</div>`:"";
+  return `${frHead}${tbl(fr,false)}${ar.length?(print?`<div class="pt">${pt(lg,"partAr")}${lg==="ar"?"":" — القسم العربي"}</div>`:`<h3>${t("partAr")} — القسم العربي</h3>`)+tbl(ar,true):""}${sum}`;
+}
+function bulletinSheet(eid){
+  const e=el(eid),c=cls(e.classe);const R=classResults(c,sub.nPer);const me=R.res.find(r=>r.e.id===eid)||{};
+  openSheet(`<h2>${esc(e.nom)}</h2><div class="small muted">${esc(c.nom)} · ${esc(perLabel(sub.nPer))} · ${anneeLabel()}</div>
+   <div class="tblwrap" style="margin-top:10px">${bulletinInner(e,sub.nPer,false)}</div>
+   <div class="row" style="margin-top:12px"><button style="flex:1" data-pbull="${eid}">${t("pdf")}</button>${e.tel?(()=>{const lg=parentLang(e);return `<a class="btn wa" style="flex:1" href="${wa(e.tel,`${pt(lg,"salam")} ${e.parent||""}.\n${S.settings.nom} — ${pt(lg,"bullT")} ${perLabel(sub.nPer,lg)}\n${e.nom} (${c.nom}) : ${pt(lg,"moy")} ${fmtN(me.avg)}/${c.bareme}, ${pt(lg,"rang")} ${rankLabel(me.rank,e,lg)}/${R.n}, ${mention(me.avg,c.bareme,lg==="ar")}.\n${pt(lg,"merci")}`)}" target="_blank" rel="noopener">WhatsApp</a>`})():""}</div>
+   <button class="ghost full" style="margin-top:10px" data-close="1">${t("close")}</button>`);
+}
+
+/* ---------- Argent ---------- */
+function vMoney(){
+  const tabs=[["mens",t("mensualites")],...(isD()?[]:[["insc",t("inscriptions")]]),...(isEc()?[]:[["dons",t("dons")]]),["dep",t("depenses")],["sal",t("salaires")],["bilan",t("bilan")]];
+  if(!tabs.find(x=>x[0]===sub.money))sub.money="mens";
+  const m=sub.mois;let body="";
+  const clsF=!isD()&&S.classes.length?sel("moneyCls","",clsOpts(true),sub.moneyCls):"";
+  let a=actifs().sort((x,y)=>x.nom.localeCompare(y.nom));if(!isD()&&sub.moneyCls)a=a.filter(e=>e.classe===sub.moneyCls);
+  if(sub.money==="mens"){
+    const dueM=monthDue(m,a),pd=a.reduce((s,e)=>s+paidM(e,m),0);
+    body=`${clsF}<div class="grid2"><div class="stat"><span>${t("encaisse")}</span><b class="num" style="color:var(--ok)">${F(pd)}</b></div><div class="stat"><span>${t("reste")}</span><b class="num" style="color:var(--bad)">${F(Math.max(0,dueM-pd))}</b></div></div>
+    <div class="list">${a.map(e=>{const d=due(e),p=paidM(e,m),[cl,lb]=status(e,m),r=Math.max(0,d-p);return `<div class="item" style="flex-wrap:wrap"><div class="main"><div class="name">${esc(e.nom)}</div><div class="small muted num">${F(p)} / ${F(d)}${r>0?" · "+t("reste")+" "+F(r):""}</div></div><span class="pill ${cl}">${lb}</span><div class="row" style="width:100%;justify-content:flex-end">${r>0&&e.tel?`<a class="btn wa sm" href="${wa(e.tel,fillTpl("rappel",e))}" target="_blank" rel="noopener">${t("rappel")}</a>`:""}<button class="sm" data-pay="${e.id}" data-ptype="mens">${t("encaisser")}</button></div></div>`}).join("")||`<div class="empty">${t("noData")}</div>`}</div>`;
+  }else if(sub.money==="insc"){
+    const tot=a.reduce((s,e)=>s+inscDue(e),0),pd=a.reduce((s,e)=>s+Math.min(inscDue(e),paidI(e)),0);
+    body=`${clsF}<div class="grid2"><div class="stat"><span>${t("paye")}</span><b class="num" style="color:var(--ok)">${F(pd)}</b></div><div class="stat"><span>${t("reste")}</span><b class="num" style="color:var(--bad)">${F(Math.max(0,tot-pd))}</b></div></div>
+    <div class="list">${a.map(e=>{const d=inscDue(e),p=paidI(e),r=Math.max(0,d-p);return `<div class="item"><div class="main"><div class="name">${esc(e.nom)}</div><div class="small muted num">${F(p)} / ${F(d)}</div></div>${r>0?`<button class="sm" data-pay="${e.id}" data-ptype="insc">${t("encaisser")}</button>`:`<span class="pill p-ok">${t("paye")}</span>`}</div>`}).join("")||`<div class="empty">${t("noData")}</div>`}</div>`;
+  }else if(sub.money==="dons"){
+    const l=S.dons.filter(d=>(d.date||"").startsWith(m)).sort((a,b)=>b.date.localeCompare(a.date));
+    body=`<button class="full" data-act="newDon">+ ${t("add")}</button><div class="list">${l.map(d=>`<button class="item" data-don="${d.id}"><div class="main"><div class="name">${esc(d.donateur||"Anonyme")}</div><div class="small muted">${dateLabel(d.date)} · ${esc(d.type==="argent"?(d.mode||"")+(d.numero?" "+d.numero:""):d.nature)} · ${esc(d.affect||"")}</div></div><span class="num" style="font-weight:700;color:var(--ok)">${d.type==="argent"?"+":"≈"}${F(d.montant)}</span></button>`).join("")||`<div class="empty">${t("noData")}</div>`}</div>`;
+  }else if(sub.money==="dep"){
+    const l=S.depenses.filter(d=>(d.date||"").startsWith(m)).sort((a,b)=>b.date.localeCompare(a.date));
+    const catL=c=>{const i=DEP_CATS.fr.indexOf(c);return i>=0?DEP_CATS[L()][i]:c};
+    body=`<button class="full" data-act="newDep">+ ${t("add")}</button><div class="list">${l.map(d=>`<button class="item" data-dep="${d.id}"><div class="main"><div class="name">${esc(catL(d.cat))}</div><div class="small muted">${dateLabel(d.date)} · ${esc(d.mode||"")}${d.numero?" "+esc(d.numero):""}${d.note?" · "+esc(d.note):""}</div></div><span class="num" style="font-weight:700;color:var(--bad)">−${F(d.montant)}</span></button>`).join("")||`<div class="empty">${t("noData")}</div>`}</div>`;
+  }else if(sub.money==="sal"){
+    const tot=S.staff.reduce((s,x)=>s+(+x.salaire||0),0),pd=S.paie.filter(p=>p.mois===m).reduce((s,p)=>s+(+p.montant||0),0);
+    body=`<div class="grid2"><div class="stat"><span>${t("paye")}</span><b class="num">${F(pd)}</b></div><div class="stat"><span>${t("reste")}</span><b class="num" style="color:var(--bad)">${F(Math.max(0,tot-pd))}</b></div></div>
+    <div class="list">${S.staff.map(x=>{const p=S.paie.filter(z=>z.staff===x.id&&z.mois===m).reduce((s,z)=>s+(+z.montant||0),0),sa=+x.salaire||0,r=Math.max(0,sa-p);return `<div class="item"><div class="main"><div class="name">${esc(x.nom)}</div><div class="small muted">${esc(x.role)} · <span class="num">${F(p)} / ${F(sa)}</span></div></div>${sa===0?`<span class="pill p-int">—</span>`:r>0?`<button class="sm" data-paystaff="${x.id}">${t("payer")}</button>`:`<span class="pill p-ok">${t("paye")}</span>`}</div>`}).join("")||`<div class="empty">${t("noData")}</div>`}</div>
+    <button class="ghost full" data-more="staff">${t("staff")}</button>`;
+  }else{
+    const T_=totals(m);
+    const byMode={};const addM=(k,v)=>byMode[k||"—"]=(byMode[k||"—"]||0)+(+v||0);
+    S.paiements.filter(p=>(p.date||"").startsWith(m)).forEach(p=>addM(p.mode,p.montant));S.dons.filter(d=>(d.date||"").startsWith(m)&&d.type==="argent").forEach(d=>addM(d.mode,d.montant));
+    const rows=o=>Object.entries(o).map(([k,v])=>`<div class="row between"><span>${esc(k)}</span><b class="num">${F(v)}</b></div>`).join("")||`<span class="muted">${t("noData")}</span>`;
+    body=`<div class="card stack">
+      <div class="row between"><span>${t("mensualites")}</span><b class="num">${F(T_.mens)}</b></div>
+      ${isD()?"":`<div class="row between"><span>${t("inscriptions")}</span><b class="num">${F(T_.insc)}</b></div>`}
+      ${T_.aut?`<div class="row between"><span>${t("autre")}</span><b class="num">${F(T_.aut)}</b></div>`:""}
+      ${isEc()?"":`<div class="row between"><span>${t("dons")}</span><b class="num">${F(T_.donsA)}</b></div>`}
+      <div class="row between" style="color:var(--bad)"><span>${t("depenses")}</span><b class="num">−${F(T_.dep)}</b></div>
+      <div class="row between" style="color:var(--bad)"><span>${t("salaires")}</span><b class="num">−${F(T_.sal)}</b></div>
+      <hr style="border:0;border-top:1px solid var(--line);margin:0;width:100%">
+      <div class="row between" style="font-size:1.2em"><b>${t("solde")}</b><b class="num">${F(T_.solde)}</b></div>
+      ${T_.donsN?`<div class="small muted">+ ${t("nature").toLowerCase()} ≈ ${F(T_.donsN)}</div>`:""}</div>
+    <h3>${t("entrees")} · ${t("mode")}</h3><div class="card stack">${rows(byMode)}</div>
+    <div class="row"><button class="ghost" style="flex:1" data-act="copyBilan">${t("copier")}</button><button class="ghost" style="flex:1" data-doc="bilan">${t("pdf")}</button></div>`;
+  }
+  return `<h2>${t("money")}</h2><div class="stack">
+   <input type="month" id="mois" value="${m}" aria-label="${t("mois")}">
+   <div class="seg">${tabs.map(([k,l])=>`<button data-money="${k}" class="${sub.money===k?"on":""}">${l}</button>`).join("")}</div>
+   ${body}</div>`;
+}
+
+/* ---------- Plus ---------- */
+function vMore(){
+  const back=`<button class="ghost sm" data-more="" style="margin-top:14px">← ${t("back")}</button>`;
+  if(sub.more==="classes")return back+vClasses();
+  if(sub.more==="staff")return back+vStaff();
+  if(sub.more==="msg")return back+vMsg();
+  if(sub.more==="docs")return back+vDocs();
+  if(sub.more==="params")return back+vParams();
+  if(sub.more==="backup")return back+vBackup();
+  if(sub.more==="about"||sub.more==="abo")return back+vAbo();
+  if(sub.more==="page")return back+vPage();
+  const it=(k,ic,l)=>`<button class="item" data-more="${k}">${ic}<div class="main name">${l}</div><span class="muted">›</span></button>`;
+  return `<h2>${t("more")}</h2><div class="list menu">
+   ${it("page",IC.globe,t("page"))}${isD()?"":it("classes",IC.cls,t("classes"))}${it("staff",IC.staff,t("staff"))}${it("msg",IC.msg,t("messages"))}${it("docs",IC.doc,t("docs"))}${it("params",IC.gear,t("params"))}${it("backup",IC.disk,t("sauve"))}${it("abo",IC.help,t("abo"))}</div>`;
+}
+function vClasses(){
+  return `<h2>${t("classes")}</h2><div class="list">${S.classes.map(c=>`<button class="item" data-cls="${c.id}"><div class="main"><div class="name">${esc(c.nom)}</div><div class="small muted">${esc((stf(c.maitre)||{}).nom||"—")} · ${c.mats.length} ${t("matieres").toLowerCase()} · /${c.bareme} · <span class="num">${F(c.mensu)}</span>${t("parMois")}</div></div><span class="small muted">${actifs().filter(e=>e.classe===c.id).length}</span></button>`).join("")||`<div class="empty">${t("noData")}</div>`}</div>
+  <button class="full" style="margin-top:10px" data-act="newCls">+ ${t("add")}</button>`;
+}
+function vStaff(){
+  return `<h2>${t("staff")}</h2><div class="list">${S.staff.map(x=>`<button class="item" data-staff="${x.id}"><div class="av">${esc(initials(x.nom))}</div><div class="main"><div class="name">${esc(x.nom)}</div><div class="small muted">${esc(x.role)} · <span class="num">${esc(x.tel||"")}</span></div></div><span class="num small">${F(x.salaire)}</span></button>`).join("")||`<div class="empty">${t("noData")}</div>`}</div>
+  <button class="full" style="margin-top:10px" data-act="newStaff">+ ${t("add")}</button>`;
+}
+function fillTpl(key,e,txt){
+  const lg=(e&&e.langue&&!isEc())?e.langue:L();
+  const tp=TPL.find(x=>x[0]===key)||TPL[0];const body=txt!=null?txt:(tp[2][lg]||tp[2].fr);
+  const pay=payText();
+  return body.replace(/\{parent\}/g,e?(e.parent||""):"").replace(/\{enfant\}/g,e?e.nom:(lg==="ar"?"طفلكم":lg==="wo"?"sa doom":"votre enfant"))
+   .replace(/\{reste\}/g,e?F(arrears(e)):"____").replace(/\{ecole\}/g,S.settings.nom||"").replace(/\{paiement\}/g,pay?(lg==="ar"?"الدفع: ":lg==="wo"?"Fey : ":"Paiement : ")+pay:"").replace(/\n\n+/g,"\n").trim();
+}
+function msgRecipients(){
+  let a=actifs();const to=sub.msgTo;
+  if(to==="interne"||to==="externe")a=a.filter(e=>e.regime===to);else if(to==="doivent")a=a.filter(e=>arrears(e)>0);else if(to.startsWith("c:"))a=a.filter(e=>e.classe===to.slice(2));
+  return a.filter(e=>e.tel).sort((x,y)=>x.nom.localeCompare(y.nom));
+}
+function vMsg(){
+  const tpls=TPL.filter(x=>!(x[0]==="khatm"&&isEc()));
+  const tp=tpls.find(x=>x[0]===sub.msgTpl)||tpls[0];sub.msgTpl=tp[0];
+  const txt=sub.msgTxt!=null?sub.msgTxt:(tp[2][L()]||tp[2].fr);
+  const opts=[["all",t("all")],...(isD()?[["interne",t("internes")],["externe",t("externes")]]:S.classes.map(c=>["c:"+c.id,t("classe")+" "+c.nom])),["doivent",t("doiventF")]];
+  const rec=msgRecipients();
+  return `<h2>${t("messages")}</h2><div class="stack">
+   ${sel("msgTpl",t("modele"),tpls.map(x=>[x[0],x[1][L()]||x[1].fr]),sub.msgTpl)}
+   <div class="field"><label for="msgTxt">${t("texte")}</label><textarea id="msgTxt" style="min-height:150px">${esc(txt)}</textarea></div>
+   <div class="small muted">{parent} {enfant} {reste} {ecole} {paiement}${isEc()?"":" · "+t("langue")+" → WhatsApp"}</div>
+   ${sel("msgTo",t("dest"),opts,sub.msgTo)}
+   <button class="ghost" data-act="copyGroup">${t("groupe")}</button>
+   <div class="list" id="msgList">${rec.map(e=>`<div class="item"><div class="main"><div class="name">${esc(e.parent||e.nom)}</div><div class="small muted">${esc(e.nom)} · <span class="num">${esc(e.tel)}</span></div></div><a class="btn wa sm" data-sent="${e.id}" href="${wa(e.tel,fillTpl(sub.msgTpl,e,sub.msgTxt!=null?sub.msgTxt:null))}" target="_blank" rel="noopener">${sentSet.has(sub.msgTpl+e.id)?"✓ ":""}WhatsApp</a></div>`).join("")||`<div class="empty">${t("noData")}</div>`}</div>
+   </div>`;
+}
+function vDocs(){
+  const b=(k,l)=>`<button class="ghost" data-doc="${k}">${l}</button>`;
+  return `<h2>${t("docs")}</h2><div class="card stack">
+   <input type="month" id="mois" value="${sub.mois}" aria-label="${t("mois")}">
+   ${b("liste",t("listeEl"))}${b("etat",t("etatPay"))}${b("bilan",t("bilan"))}${b("vierge",t("ficheVierge"))}${b("tout",t("toutCarnet"))}
+   ${isD()?"":`<button class="ghost" data-tab="notes">${t("bulletins")} →</button>`}
+   <p class="small muted">${t("pdfInfo")}</p></div>`;
+}
+function vParams(){
+  const s=S.settings;
+  return `<h2>${t("params")}</h2><form id="fSet" class="card stack">
+   ${fld("s_nom",t("nomEtab"),s.nom)}${fld("s_resp",t("resp"),s.resp)}${fld("s_ville",t("ville"),s.ville)}
+   ${fld("s_tel",t("telEtab"),s.tel,"tel")}<div class="grid2">${fld("s_wave",t("wave"),s.wave,"tel")}${fld("s_om",t("om"),s.om,"tel")}</div>
+   ${fld("s_mensu",t("mensuDef"),s.mensuDef,"number")}
+   ${isD()?"":`${fld("s_insc",t("inscDef"),s.inscDef,"number")}
+   ${isEc()?`<div class="grid2">${fld("s_cant",t("cantinePrix"),s.cantinePrix,"number")}${fld("s_trans",t("transportPrix"),s.transportPrix,"number")}</div>`:""}
+   <div class="grid2">${fld("s_rentree",t("rentree"),s.rentree,"month")}${fld("s_nbm",t("nbMois"),s.nbMois,"number",'max="12"')}</div>
+   ${sel("s_per",t("periode"),[["trim",t("trim")],["sem",t("sem")]],s.periode)}`}
+   <div class="field"><label for="s_reg">${t("reglement")}</label><textarea id="s_reg" style="min-height:170px">${esc(s.reglement)}</textarea></div>
+   ${isEc()?"":`<div class="field"><label for="s_regWo">${t("reglement")} — Wolof</label><textarea id="s_regWo" style="min-height:170px">${esc(regFor("wo"))}</textarea></div><div class="field"><label for="s_regAr">${t("reglement")} — العربية</label><textarea id="s_regAr" dir="rtl" style="min-height:170px;font-family:var(--f-ar)">${esc(regFor("ar"))}</textarea></div>`}
+   ${chk("s_big",t("bigText"),s.big)}
+   <button type="submit">${t("save")}</button></form>
+   <h3>${t("changeType")}</h3><div class="card stack"><div class="row">${[["daara",t("tDaara")],["fa",t("tFA")],["ecole",t("tEC")]].map(([k,l])=>`<button class="sm ${TY()===k?"":"ghost"}" data-settype="${k}">${l}</button>`).join("")}</div></div>`;
+}
+function vBackup(){return `<h2>${t("sauve")}</h2><div class="card stack">
+   <button class="ghost" data-act="exportT">${t("exportT")}</button><button class="ghost" data-act="exportF">${t("exportF")}</button>
+   <label for="imp">${t("importT")}</label><textarea id="imp" placeholder='{"settings":…}'></textarea>
+   <button class="soft" data-act="import">${t("restaurer")}</button></div>`}
+function vAbo(){const Lc=licState();const id=S.lic?S.lic.id:"";const msg="Bonjour "+SUPPORT_NAME+", je veux payer l'abonnement Daara & École.\nNom : "+(S.settings.nom||"")+"\nID : "+id;
+  const chipC=Lc.st==="blocked"||Lc.st==="grace"?"p-bad":Lc.st==="warn"?"p-warn":"p-ok";
+  return `<h2>${t("abo")}</h2><div class="card stack" style="text-align:center"><span class="small muted">${t("votreId")}</span><b class="num" style="font-size:1.8em;letter-spacing:.12em">${esc(id)}</b>
+   <span><span class="pill ${chipC}">${Lc.st==="blocked"||Lc.st==="grace"?t("expire")+" "+dateLabel(Lc.end):(Lc.trial?t("essai"):t("abonne"))+(Lc.end?" "+t("jusqu")+" "+dateLabel(Lc.end):"")}</span></span>
+   <span class="small" style="text-align:start">${t("prixTxt").replace("{p}",esc(PRIX_MOIS)).replace("{n}",esc(PAY_NUM))}</span>
+   <a class="btn wa" href="${wa(SUPPORT_WA,msg)}" target="_blank" rel="noopener">${t("contacter")}</a>
+   ${USER?`<button class="ghost" data-act="chkSub">${t("verifier")}</button>`:""}</div>
+  ${USER?`<h3>${t("connecte")}</h3><div class="card stack"><div><b class="num">${esc(userPhone())}</b></div><div class="small"><b id="syncTxt">${syncLabel()}</b></div>
+   <div class="field"><label for="newPass">${t("chgPass")}</label><input id="newPass" type="password" autocomplete="new-password"></div><button class="ghost" data-act="chgPass">${t("changer")}</button>
+   <div id="outZone"><button class="danger full" data-act="askLogout">${t("logout")}</button></div></div>`:""}`}
+function vAbout(){return `<h2>${t("apropos")}</h2><div class="card stack"><span>${t("abonnement")}</span><b class="num" style="font-size:1.3em">${VENDEUR}</b><span class="small muted">WhatsApp · Wave · Orange Money</span>
+   <div class="row"><button class="sm ghost" data-act="copyV">${t("copier")}</button><a class="btn wa sm" href="${wa("221778790006","Assalamou alaykoum, je voudrais l'abonnement Daara & École.")}" target="_blank" rel="noopener">WhatsApp</a></div></div>`}
+
+/* ---------- Feuilles ---------- */
+function openSheet(html){$("#sheet").innerHTML=`<div class="sheet-bg" data-close="1"><div class="sheet" role="dialog" aria-modal="true">${html}</div></div>`}
+function closeSheet(){$("#sheet").innerHTML="";tmpMats=null}
+const delBtn=(k,id)=>`<button type="button" class="danger" data-del="${k}" data-id="${id}">${t("del")}</button>`;
+const formBtns=`<div class="row"><button type="submit" style="flex:1">${t("save")}</button><button type="button" class="ghost" data-close="1">${t("cancel")}</button></div>`;
+
+function elForm(e){
+  const nw=!e;e=e||{nom:"",sexe:"G",naiss:"",regime:"interne",parent:"",tel:"",tel2:"",adresse:"",arrivee:today(),maitre:"",mensu:isD()?S.settings.mensuDef:"",hizb:0,sourate:"",khatm:false,notes:"",classe:sub.cls||(S.classes[0]||{}).id||"",cantine:false,transport:false,reduc:0,insc:"",matricule:""};
+  const staffOpts=[["","—"],...S.staff.map(x=>[x.id,x.nom+" ("+x.role+")"])];
+  openSheet(`<h2>${nw?(isD()?t("ajouterTal"):t("ajouterEl")):esc(e.nom)}</h2>
+  <form id="fEl" class="stack" data-id="${nw?"":e.id}">
+   ${fld("e_nom",t("nom"),e.nom,"text","required")}
+   <div class="grid2">${sel("e_sexe",t("sexe"),[["G",t("garcon")],["F",t("fille")]],e.sexe)}${fld("e_naiss",t("naiss"),e.naiss,"date")}</div>
+   ${isD()?sel("e_regime",t("regime"),[["interne",t("interne")],["externe",t("externe")]],e.regime)+sel("e_maitre",t("maitre"),staffOpts,e.maitre)
+     :sel("e_classe",t("classe"),[["",t("sansClasse")],...clsOpts(false)],e.classe)+fld("e_mat",t("matricule"),e.matricule)}
+   ${fld("e_parent",t("parent"),e.parent)}<div class="grid2">${fld("e_tel",t("tel"),e.tel,"tel")}${fld("e_tel2",t("tel2"),e.tel2,"tel")}</div>
+   ${isEc()?"":sel("e_lang",t("langue"),[["fr","Français"],["wo","Wolof"],["ar","العربية"]],e.langue||(L()==="ar"?"ar":L()==="wo"?"wo":"fr"))}
+   ${fld("e_adr",t("adresse"),e.adresse)}${fld("e_arr",t("arrivee"),e.arrivee,"date")}
+   ${isD()?fld("e_mensu",t("mensu"),e.mensu,"number"):fld("e_mensu",t("mensuSpec"),e.mensu,"number")+fld("e_insc",t("inscDue"),e.insc,"number")+fld("e_reduc",t("reduc"),e.reduc,"number")}
+   ${isEc()?`<div class="card stack">${chk("e_cant",t("cantine")+" (+"+F(S.settings.cantinePrix)+t("parMois")+")",e.cantine)}${chk("e_trans",t("transport")+" (+"+F(S.settings.transportPrix)+t("parMois")+")",e.transport)}</div>`:""}
+   ${isD()||isFA()?`<div class="grid2">${fld("e_hizb",t("hizb"),e.hizb,"number",'max="60"')}${fld("e_sour",t("sourate"),e.sourate)}</div>${chk("e_khatm",t("khatm"),e.khatm)}`:""}
+   <div class="field"><label for="e_notes">${t("notes")}</label><textarea id="e_notes">${esc(e.notes)}</textarea></div>
+   ${formBtns}${nw?"":delBtn("el",e.id)}
+  </form>`);
+}
+function elFiche(id){
+  const e=el(id);if(!e)return;const ar=arrears(e),c=cls(e.classe),mt=stf(e.maitre);
+  const pays=S.paiements.filter(p=>p.eleve===id).sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+  const months=(isD()?owedMonths(e):schoolMonths().filter(m=>m>=(e.arrivee||"").slice(0,7))).slice().reverse();
+  const abs=Object.entries(S.presences).filter(([d,p])=>d.startsWith(thisMonth())&&p[id]==="A").length;
+  const jr=S.journal.filter(j=>j.eleve===id).sort((a,b)=>b.date.localeCompare(a.date));
+  openSheet(`<div class="row">${avatar(e).replace('class="av','style="width:54px;height:54px;font-size:1.1em" class="av')}<div style="flex:1;min-width:0"><h2 style="margin:0">${esc(e.nom)}</h2><div class="small muted">${elSub(e)} ${e.naiss?"· "+age(e.naiss)+" "+t("ans"):""}</div></div></div>
+  <div class="card stack" style="margin-top:12px">
+   ${isD()||isFA()?`<div><b>${t("coran")}</b> : Hizb ${+e.hizb||0}/60 ${e.sourate?"· "+esc(e.sourate):""} ${e.khatm?`<span class="pill p-ok">${t("khatm")}</span>`:""}<div class="bar"><i style="width:${Math.min(100,(+e.hizb||0)/60*100)}%"></i></div></div>`:""}
+   ${isD()?`<div class="small">${t("maitre")} : <b>${esc(mt?mt.nom:"—")}</b></div>`:`<div class="small">${t("classe")} : <b>${esc(c?c.nom:"—")}</b>${e.matricule?" · "+t("matricule")+" "+esc(e.matricule):""}</div>`}
+   <div class="small">${t("parent")} : <b>${esc(e.parent||"—")}</b>${isEc()?"":` (${({fr:"Français",wo:"Wolof",ar:"العربية"})[parentLang(e)]})`} · <span class="num">${esc(e.tel||"")}</span>${e.tel2?` · <span class="num">${esc(e.tel2)}</span>`:""}</div>
+   <div class="small">${t("mensu")} : <b class="num">${F(due(e))}</b>${t("parMois")}${isD()?"":` · ${t("inscription")} : <b class="num">${F(paidI(e))} / ${F(inscDue(e))}</b>`}</div>
+   <div class="small">${t("absents")} (${t("mois").toLowerCase()}) : <b>${abs}</b> · ${t("depuis")} ${dateLabel(e.arrivee)}</div>
+   ${e.notes?`<div class="small muted">${esc(e.notes)}</div>`:""}
+  </div>
+  <div class="grid2" style="margin-top:10px"><div class="stat"><span>${t("retard")}</span><b class="num" style="color:${ar>0?"var(--bad)":"var(--ok)"}">${F(ar)}</b><span>${unpaidCount(e)} ${t("moisImpayes")}</span></div><div class="stat"><span>${t("historique")}</span><b>${pays.length}</b></div></div>
+  <div class="row" style="margin-top:10px"><button style="flex:1" data-pay="${id}" data-ptype="mens">${t("encaisser")}</button>${e.tel&&ar>0?`<a class="btn wa" style="flex:1" href="${wa(e.tel,fillTpl("rappel",e))}" target="_blank" rel="noopener">${t("rappel")}</a>`:""}</div>
+  <h3>${t("journal")}</h3>
+  <form id="fJr" class="card stack" data-el="${id}">
+   <textarea id="j_txt" placeholder="${t("ecrire")}" style="min-height:70px"></textarea>
+   <div class="row">${sel("j_qui","",[["parent",t("leParent")],["nous",t("nous")]],"parent")}${chk("j_todo",t("aFaire"),false)}<button type="submit" class="sm">${t("add")}</button></div>
+  </form>
+  ${jr.length?`<div class="list" style="margin-top:8px">${jr.map(j=>`<div class="item"><div class="main"><div class="small">${esc(j.texte)}</div><div class="small muted">${dateLabel(j.date)} · ${j.qui==="parent"?t("leParent"):t("nous")}</div></div>${j.todo?`<button class="sm soft" data-jdone="${j.id}" data-back="${id}">✓</button>`:`<span class="pill p-ok">${t("fait")}</span>`}</div>`).join("")}</div>`:""}
+  <h3>${t("mois")}</h3>
+  <div class="list">${months.map(mo=>{const[cl,lb]=status(e,mo);return `<div class="item"><div class="main">${esc(moisLabel(mo))}</div><span class="small num muted">${F(paidM(e,mo))}</span><span class="pill ${cl}">${lb}</span></div>`}).join("")||`<div class="empty">${t("noData")}</div>`}</div>
+  <h3>${t("historique")}</h3>
+  <div class="list">${pays.map(p=>`<button class="item" data-recu="${p.id}"><div class="main"><div>${dateLabel(p.date)} · ${p.type==="mens"?esc(moisLabel(p.mois)):p.type==="insc"?t("inscription"):esc(p.note||t("autre"))}</div><div class="small muted">${esc(p.mode)}${p.numero?" · "+esc(p.numero):""}</div></div><b class="num">${F(p.montant)}</b></button>`).join("")||`<div class="empty">${t("noData")}</div>`}</div>
+  <div class="row" style="margin-top:14px"><button class="ghost" style="flex:1" data-edit="${id}">✎ ${t("fiche")}</button><button class="ghost" style="flex:1" data-pfiche="${id}">${t("contrat")}</button></div>
+  <button class="ghost full" style="margin-top:10px" data-close="1">${t("close")}</button>`);
+}
+function payForm(id,ptype,pid){
+  const e=el(id);const p=pid?S.paiements.find(z=>z.id===pid):null;ptype=p?p.type:ptype||"mens";
+  let m=p?p.mois:sub.mois;if(!p&&ptype==="mens"){const firstUnpaid=owedMonths(e).find(mo=>paidM(e,mo)<due(e));if(firstUnpaid)m=firstUnpaid}
+  const r=ptype==="insc"?Math.max(0,inscDue(e)-paidI(e)):Math.max(0,due(e)-paidM(e,m||thisMonth()));
+  openSheet(`<h2>${t("encaisser")} · ${esc(e.nom)}</h2>
+  <form id="fPay" class="stack" data-el="${id}" data-id="${p?p.id:""}">
+   ${isD()?`<input type="hidden" id="p_type" value="mens">`:sel("p_type",t("pour"),[["mens",t("mensualites")],["insc",t("inscription")],["autre",t("autre")]],ptype)}
+   ${fld("p_mois",t("mois"),m||thisMonth(),"month")}
+   ${fld("p_note",t("notes"),p?p.note:"")}
+   ${fld("p_montant",t("montant"),p?p.montant:(r||due(e)),"number","required")}
+   ${sel("p_mode",t("mode"),MODES,p?p.mode:"Wave")}
+   ${fld("p_numero",t("numero"),p?p.numero:e.tel,"tel")}
+   ${fld("p_date",t("date"),p?p.date:today(),"date")}
+   ${formBtns}${p?delBtn("pay",p.id):""}
+  </form>`);
+}
+function recuText(p,lg){const e=el(p.eleve)||{nom:"?"};const s=S.settings;lg=lg||parentLang(e);const P=k=>pt(lg,k);
+  const quoi=p.type==="mens"?P("mensDe")+" : "+moisLabel(p.mois,lg==="ar"?"ar":"fr"):p.type==="insc"?P("insc")+" "+anneeLabel():P("objet")+" : "+(p.note||"—");
+  return `${s.nom}\n${[s.resp,s.ville].filter(Boolean).join(" – ")}${s.tel?"\n"+P("tel")+" : "+s.tel:""}\n------------------------------\n${P("recu")} ${p.id.toUpperCase()}\n${P("date")} : ${dateL(p.date,lg)}\n${isD()?P("tal"):P("elv")} : ${e.nom}${e.classe&&cls(e.classe)?" ("+cls(e.classe).nom+")":""}\n${P("parent")} : ${e.parent||"—"}\n${quoi}\n${P("recuM")} : ${F(p.montant)}\n${P("mode")} : ${p.mode}${p.numero?" ("+p.numero+")":""}\n${P("du")} : ${F(arrears(e))}\n------------------------------\n${P("merci")}`}
+function recuSheet(pid){const p=S.paiements.find(z=>z.id===pid);if(!p)return;const e=el(p.eleve);const txt=recuText(p);
+  openSheet(`<h2>${t("recu")}</h2><div class="recu" ${parentLang(e)==="ar"?'dir="rtl"':""}>${esc(txt)}</div>
+  <div class="row" style="margin-top:12px"><button class="ghost" style="flex:1" data-copyrecu="${pid}">${t("copier")}</button><button class="ghost" style="flex:1" data-precu="${pid}">PDF</button>${e&&e.tel?`<a class="btn wa" style="flex:1" href="${wa(e.tel,txt)}" target="_blank" rel="noopener">WhatsApp</a>`:""}</div>
+  <div class="row" style="margin-top:10px"><button class="ghost" style="flex:1" data-editpay="${pid}">✎</button><button class="ghost" style="flex:1" data-close="1">OK</button></div>`)}
+function donForm(id){
+  const d=id?S.dons.find(z=>z.id===id):{type:"argent",mode:"Wave",date:today(),affect:"Libre"};
+  openSheet(`<h2>${t("dons")}</h2><form id="fDon" class="stack" data-id="${id||""}">
+   ${fld("d_donateur",t("donateur"),d.donateur)}${fld("d_tel",t("telEtab"),d.tel,"tel")}
+   ${sel("d_type",t("type"),[["argent",t("argent")],["nature",t("nature")]],d.type)}
+   ${fld("d_nature",t("natureDesc"),d.nature)}${fld("d_montant",t("montant"),d.montant,"number")}
+   <div class="grid2">${sel("d_mode",t("mode"),["",...MODES],d.mode)}${fld("d_numero",t("numero"),d.numero,"tel")}</div>
+   ${sel("d_affect",t("affect"),DON_AFF.fr.map((x,i)=>[x,DON_AFF[L()][i]]),d.affect)}${fld("d_date",t("date"),d.date,"date")}
+   ${formBtns}${id?delBtn("don",id):""}</form>`);
+}
+function depForm(id){
+  const d=id?S.depenses.find(z=>z.id===id):{cat:DEP_CATS.fr[0],mode:"Espèces",date:today()};
+  openSheet(`<h2>${t("depenses")}</h2><form id="fDep" class="stack" data-id="${id||""}">
+   ${sel("x_cat",t("cat"),DEP_CATS.fr.map((x,i)=>[x,DEP_CATS[L()][i]]),d.cat)}${fld("x_montant",t("montant"),d.montant,"number","required")}
+   <div class="grid2">${sel("x_mode",t("mode"),MODES,d.mode)}${fld("x_numero",t("numero"),d.numero,"tel")}</div>
+   ${fld("x_date",t("date"),d.date,"date")}<div class="field"><label for="x_note">${t("notes")}</label><textarea id="x_note">${esc(d.note)}</textarea></div>
+   ${formBtns}${id?delBtn("dep",id):""}</form>`);
+}
+function staffForm(id){
+  const x=id?stf(id):{role:isD()?"Oustaz":"Enseignant(e)",salaire:0};const roles=isD()?ROLES_D:ROLES_S;
+  openSheet(`<h2>${t("staff")}</h2><form id="fStaff" class="stack" data-id="${id||""}">
+   ${fld("f_nom",t("nom"),x.nom,"text","required")}${sel("f_role",t("role"),roles.includes(x.role)?roles:[x.role,...roles],x.role)}
+   ${fld("f_tel",t("telEtab"),x.tel,"tel")}${fld("f_sal",t("salaire"),x.salaire,"number")}
+   ${formBtns}${id?delBtn("staff",id):""}</form>`);
+}
+function payStaffForm(sid){
+  const x=stf(sid);const m=sub.mois;const p=S.paie.filter(z=>z.staff===sid&&z.mois===m).reduce((s,z)=>s+(+z.montant||0),0);
+  openSheet(`<h2>${t("payer")} · ${esc(x.nom)}</h2><form id="fPaie" class="stack" data-staff="${sid}">
+   ${fld("q_mois",t("mois"),m,"month")}${fld("q_montant",t("montant"),Math.max(0,(+x.salaire||0)-p),"number","required")}
+   <div class="grid2">${sel("q_mode",t("mode"),MODES,"Wave")}${fld("q_numero",t("numero"),x.tel,"tel")}</div>${fld("q_date",t("date"),today(),"date")}
+   ${formBtns}</form>`);
+}
+function matRows(){const fa=isFA();return tmpMats.map((m,i)=>`<div class="matrow ${fa?"fa":""}"><input id="mn_${i}" value="${esc(m.nom)}" aria-label="${t("matiere")}"><input id="mc_${i}" type="number" inputmode="decimal" min="0" value="${esc(m.coef)}" aria-label="${t("coef")}">${fa?`<select id="mp_${i}" aria-label="part"><option value="fr" ${m.part!=="ar"?"selected":""}>FR</option><option value="ar" ${m.part==="ar"?"selected":""}>AR</option></select>`:""}<button type="button" class="danger sm" data-matdel="${i}" aria-label="${t("del")}">✕</button></div>`).join("")}
+function readMats(){if(!tmpMats)return;tmpMats=tmpMats.map((m,i)=>({id:m.id,nom:v("mn_"+i)||m.nom,coef:+v("mc_"+i)||1,part:isFA()?(v("mp_"+i)||m.part):"fr"}))}
+function clsForm(id){
+  const c=id?cls(id):{niveau:"CI",nom:"",bareme:10,mensu:S.settings.mensuDef,inscription:S.settings.inscDef,maitre:"",maitreAr:"",mats:defMats("CI",isFA())};
+  tmpMats=c.mats.map(m=>({...m}));const so=[["","—"],...S.staff.map(x=>[x.id,x.nom])];
+  openSheet(`<h2>${t("classe")}</h2><form id="fCls" class="stack" data-id="${id||""}">
+   <div class="grid2">${sel("c_niv",t("niveau"),NIV.map(n=>[n[0],n[1]]),c.niveau)}${fld("c_nom",t("classe"),c.nom||"","text",'placeholder="ex : CE1 A"')}</div>
+   <div class="grid2">${sel("c_bar",t("bareme"),[[10,"10"],[20,"20"]],c.bareme)}${fld("c_mensu",t("mensu"),c.mensu,"number")}</div>
+   ${fld("c_insc",t("inscription")+" (FCFA)",c.inscription,"number")}
+   ${sel("c_mai",t("maitreCl"),so,c.maitre)}${isFA()?sel("c_maiAr",t("maitreAr"),so,c.maitreAr):""}
+   <h3>${t("matieres")} · ${t("coef")}</h3><div id="matBox" class="stack">${matRows()}</div>
+   <div class="row"><button type="button" class="ghost sm" data-act="matAdd">+ ${t("addMat")}</button><button type="button" class="ghost sm" data-act="matDef">${t("matDef")}</button></div>
+   ${formBtns}${id?delBtn("cls",id):""}</form>`);
+}
+
+/* ---------- Impression / PDF ---------- */
+function ph(title,lg){lg=lg||"fr";const s=S.settings;return `<div class="ph"><div><b>${esc(s.nom||"")}</b><br>${esc([s.resp,s.ville].filter(Boolean).join(" – "))}${s.tel?"<br>"+pt(lg,"tel")+" : "+esc(s.tel):""}</div><div>${isD()?"":pt(lg,"annee")+" "+anneeLabel()+"<br>"}${pt(lg,"edite")} ${dateL(today(),lg)}</div></div>${title?`<div class="pt">${title}</div>`:""}`}
+let langCb=null;
+function askLang(def,cb,withEach){if(isEc()){cb("fr");return}langCb=cb;
+  openSheet(`<h2>${t("langDoc")}</h2><p class="muted small">${t("langDocS")}</p><div class="stack">${withEach?`<button data-plang="each">${t("langEach")}</button>`:""}${[["fr","Français"],["wo","Wolof"],["ar","العربية"]].map(([k,l])=>`<button class="${k===def&&!withEach?"":"ghost"}" data-plang="${k}" ${k==="ar"?'lang="ar" style="font-family:var(--f-ar);font-size:1.15em"':""}>${l}${k===def&&!withEach?" ✓":""}</button>`).join("")}<button class="ghost" data-close="1">${t("cancel")}</button></div>`)}
+let pdfTold=false;
+function doPrint(html){$("#print").innerHTML=html;try{window.print()}catch(e){}if(!pdfTold){pdfTold=true;setTimeout(()=>toast(t("pdfInfo")),400)}}
+function pBulletin(e,per,lg){lg=lg||"fr";const c=cls(e.classe);const P=k=>pt(lg,k);return `<div class="pg">${ph(P("bullT")+" — "+perLabel(per,lg),lg)}<div class="kv"><span>${isD()?P("tal"):P("elv")}</span><span><b>${esc(e.nom)}</b></span><span>${P("classe")}</span><span>${esc(c.nom)}</span><span>${P("matricule")}</span><span>${esc(e.matricule||"—")}</span><span>${P("neLe")}</span><span>${dateL(e.naiss,lg)||"—"}</span><span>${P("maitreCl")}</span><span>${esc((stf(c.maitre)||{}).nom||"—")}${isFA()&&c.maitreAr?" / "+esc((stf(c.maitreAr)||{}).nom||""):""}</span></div>${bulletinInner(e,per,true,lg)}<div class="sig"><div>${P("sigD")}</div><div>${P("parent")}</div></div></div>`}
+function pFiche(e,lg){lg=lg||"fr";const P=k=>pt(lg,k);
+  const s=S.settings,c=e?cls(e.classe):null,blankF=!e;const L_=(k,v)=>`<span>${P(k)}</span><span>${blankF?"…………………………………":esc(v||"—")}</span>`;
+  const frais=isD()?L_("mensu",e?F(due(e)):""):L_("fraisI",e?F(inscDue(e)):"")+L_("mensu",e?F(due(e)):"")+(isEc()?`<span>Cantine</span><span>${blankF?"……………":e.cantine?"Oui (+"+F(s.cantinePrix)+")":"Non"}</span><span>Transport</span><span>${blankF?"……………":e.transport?"Oui (+"+F(s.transportPrix)+")":"Non"}</span>`:"");
+  return `<div class="pg">${ph(isD()?P("ficheTD"):P("ficheT"),lg)}
+   <div class="kv">${L_("nom",e&&e.nom)}${L_("sexe",e&&(e.sexe==="F"?P("F"):P("G")))}${L_("naiss",e&&dateL(e.naiss,lg))}
+   ${isD()?L_("regime",e&&(e.regime==="interne"?P("int"):P("ext")))+L_("maitre",e&&(stf(e.maitre)||{}).nom):L_("classe",c&&c.nom)+L_("matricule",e&&e.matricule)}
+   ${L_("arrivee",e&&dateL(e.arrivee,lg))}${L_("parentT",e&&e.parent)}${L_("telP",e&&[e.tel,e.tel2].filter(Boolean).join(" / "))}${L_("adr",e&&e.adresse)}${frais}
+   <span>${P("paiement")}</span><span>${esc(payText()||P("especes"))}</span></div>
+   <div class="pt" style="font-size:11pt">${P("regl")}</div><div class="regl">${esc(regFor(lg))}</div>
+   <p>${P("decl")}</p><p>${P("faitA")} ${esc((s.ville||"").split(",")[0]||"……………")}, ${P("le")} ${blankF?"……………":dateL(today(),lg)}</p>
+   <div class="sig"><div>${P("sigP")}</div><div>${isD()?P("sigS"):P("sigD")}</div></div></div>`;
+}
+function pListe(){const a=actifs().sort((x,y)=>x.nom.localeCompare(y.nom));
+  const grp=isD()?[["interne","Internes"],["externe","Externes"]].map(([k,l])=>[l,a.filter(e=>e.regime===k)]):S.classes.map(c=>[c.nom,a.filter(e=>e.classe===c.id)]).concat([["Sans classe",a.filter(e=>!cls(e.classe))]]);
+  return `<div class="pg">${ph(isD()?"Liste des talibés":"Liste des élèves")}${grp.filter(g=>g[1].length).map(([l,list])=>`<b>${esc(l)} (${list.length})</b><table class="ptbl"><thead><tr><th>#</th><th>Nom</th><th>Sexe</th><th>Naissance</th><th>Parent</th><th>Téléphone</th>${isD()||isFA()?"<th>Hizb</th>":""}</tr></thead><tbody>${list.map((e,i)=>`<tr><td>${i+1}</td><td>${esc(e.nom)}</td><td>${e.sexe==="F"?"F":"G"}</td><td>${dateLabel(e.naiss)}</td><td>${esc(e.parent||"")}</td><td>${esc(e.tel||"")}</td>${isD()||isFA()?`<td>${+e.hizb||0}/60</td>`:""}</tr>`).join("")}</tbody></table>`).join("")}</div>`}
+function pEtat(m){const a=actifs().sort((x,y)=>x.nom.localeCompare(y.nom));let td=0,tp=0,ta=0;
+  const rows=a.map(e=>{const d=owedMonthsAll(e).includes(m)?due(e):0,p=paidM(e,m),ar=arrears(e);td+=d;tp+=p;ta+=ar;return `<tr><td>${esc(e.nom)}</td><td>${esc(isD()?(e.regime==="interne"?"Interne":"Externe"):((cls(e.classe)||{}).nom||""))}</td><td class="r">${F(d)}</td><td class="r">${F(p)}</td><td class="r">${F(Math.max(0,d-p))}</td><td class="r">${F(ar)}</td></tr>`}).join("");
+  return `<div class="pg">${ph("État des paiements — "+moisLabel(m,"fr"))}<table class="ptbl"><thead><tr><th>Nom</th><th>${isD()?"Régime":"Classe"}</th><th>Dû</th><th>Payé</th><th>Reste du mois</th><th>Total en retard</th></tr></thead><tbody>${rows}<tr><th colspan="2">Total</th><th class="r">${F(td)}</th><th class="r">${F(tp)}</th><th class="r">${F(Math.max(0,td-tp))}</th><th class="r">${F(ta)}</th></tr></tbody></table></div>`}
+function pBilan(m){const T_=totals(m);
+  const deps=S.depenses.filter(d=>(d.date||"").startsWith(m)),dons=S.dons.filter(d=>(d.date||"").startsWith(m)),paie=S.paie.filter(p=>(p.date||"").startsWith(m));
+  return `<div class="pg">${ph("Bilan du mois — "+moisLabel(m,"fr"))}<table class="ptbl"><tbody>
+   <tr><td>Mensualités</td><td class="r">${F(T_.mens)}</td></tr>${isD()?"":`<tr><td>Inscriptions</td><td class="r">${F(T_.insc)}</td></tr>`}<tr><td>Autres paiements</td><td class="r">${F(T_.aut)}</td></tr>${isEc()?"":`<tr><td>Dons en argent</td><td class="r">${F(T_.donsA)}</td></tr>`}
+   <tr><th>Total entrées</th><th class="r">${F(T_.entr)}</th></tr><tr><td>Dépenses</td><td class="r">− ${F(T_.dep)}</td></tr><tr><td>Salaires</td><td class="r">− ${F(T_.sal)}</td></tr>
+   <tr><th>Solde du mois</th><th class="r">${F(T_.solde)}</th></tr></tbody></table>
+   ${deps.length?`<b>Dépenses</b><table class="ptbl"><thead><tr><th>Date</th><th>Catégorie</th><th>Note</th><th>Mode</th><th>Montant</th></tr></thead><tbody>${deps.map(d=>`<tr><td>${dateLabel(d.date)}</td><td>${esc(d.cat)}</td><td>${esc(d.note||"")}</td><td>${esc(d.mode||"")} ${esc(d.numero||"")}</td><td class="r">${F(d.montant)}</td></tr>`).join("")}</tbody></table>`:""}
+   ${paie.length?`<b>Salaires payés</b><table class="ptbl"><thead><tr><th>Date</th><th>Nom</th><th>Mode</th><th>Montant</th></tr></thead><tbody>${paie.map(p=>`<tr><td>${dateLabel(p.date)}</td><td>${esc((stf(p.staff)||{}).nom||"")}</td><td>${esc(p.mode)} ${esc(p.numero||"")}</td><td class="r">${F(p.montant)}</td></tr>`).join("")}</tbody></table>`:""}
+   ${dons.length?`<b>Dons</b><table class="ptbl"><thead><tr><th>Date</th><th>Donateur</th><th>Détail</th><th>Utilisation</th><th>Montant</th></tr></thead><tbody>${dons.map(d=>`<tr><td>${dateLabel(d.date)}</td><td>${esc(d.donateur||"Anonyme")}</td><td>${esc(d.type==="argent"?(d.mode||"")+" "+(d.numero||""):d.nature)}</td><td>${esc(d.affect||"")}</td><td class="r">${d.type==="argent"?"":"≈ "}${F(d.montant)}</td></tr>`).join("")}</tbody></table>`:""}
+   <div class="sig"><div>Le responsable</div><div>Le trésorier</div></div></div>`}
+function bilanText(){const m=sub.mois,T_=totals(m),s=S.settings;
+  return `${s.nom} — Bilan ${moisLabel(m,"fr")}\nMensualités : ${F(T_.mens)}${isD()?"":"\nInscriptions : "+F(T_.insc)}${T_.aut?"\nAutres : "+F(T_.aut):""}${isEc()?"":"\nDons : "+F(T_.donsA)}\nDépenses : ${F(T_.dep)}\nSalaires : ${F(T_.sal)}\nSolde : ${F(T_.solde)}\n${isD()?"Talibés":"Élèves"} : ${actifs().length}`}
+
+/*PUB-START*/
+/* ---------- Page publique (partagée entre l'app et page.html) ---------- */
+const PUB_BASE="https://seckappssn-maker.github.io/daara-ecole/page.html";
+const PS={
+fr:{insOuv:"Inscriptions ouvertes",insFerm:"Inscriptions fermées pour le moment",annee:"Année",enseigne:"Ce que nous enseignons",niveaux:"Classes et tarifs",classe:"Classe",insc:"Inscription",mensu:"Mensualité",parMois:"/ mois",services:"Services",cantine:"Cantine",transport:"Transport scolaire",internat:"Internat : le talibé dort à la daara",externat:"Externat : le talibé rentre à la maison",horaires:"Horaires",adresse:"Adresse",itin:"Voir l'itinéraire",contact:"Contact",forts:"Nos points forts",photos:"Photos",eleves:"élèves",talibes:"talibés",demande:"Demande d'inscription",enfant:"Prénom et nom de l'enfant",naiss:"Date de naissance",niveau:"Classe souhaitée",regime:"Régime",parent:"Votre nom",tel:"Votre téléphone",quartier:"Votre quartier",msg:"Message (facultatif)",envoyer:"Envoyer la demande sur WhatsApp",sinscrire:"S'inscrire",ecrire:"WhatsApp",appeler:"Appeler",indispo:"Cette page n'est pas disponible pour le moment.",partager:"Partager cette page",sendNote:"Votre demande est prête. Touchez le bouton vert pour l'envoyer sur WhatsApp. L'établissement vous répondra.",ouvrirWA:"Ouvrir WhatsApp",tDaara:"Daara",tFA:"École franco-arabe",tEC:"École privée",resp:"Responsable",prix:"Tarifs",nonPrecise:"Indifférent",copie:"Lien copié",sur:"sur",salam:"Assalamou alaykoum",dem:"Demande d'inscription",depuis:"Envoyé depuis la page de l'établissement",
+ prog:{daara:["Mémorisation du Coran (hifz)","Lecture et écriture de l'arabe","Tajwid (bonne récitation)","Éducation islamique et bonne conduite"],fa:["Programme officiel en français","Langue arabe : lecture, écriture, grammaire","Coran et éducation islamique","Préparation au CFEE, option franco-arabe"],ec:["Programme officiel de l'Éducation nationale","Suivi régulier et bulletins pour les parents"]},
+ exam:{CM2:"Préparation au CFEE","3e":"Préparation au BFEM",Tle:"Préparation au Baccalauréat"}},
+wo:{insOuv:"Bindu dafa ubbeeku",insFerm:"Bindu tëju na léegi",annee:"At",enseigne:"Li nuy jàngale",niveaux:"Kilaas yi ak njëg yi",classe:"Kilaas",insc:"Bindu",mensu:"Fey bu weer",parMois:"/ weer",services:"Ndimbal yi",cantine:"Kantin",transport:"Transport bu lekool",internat:"Taalibe bi mën na fanaan ci daara bi",externat:"Taalibe bi mën na dellu kër",horaires:"Waxtu yi",adresse:"Adrees",itin:"Gis yoon wi",contact:"Jokkoo ak nu",forts:"Li nu gën a mën",photos:"Nataal yi",eleves:"ndongo",talibes:"taalibe",demande:"Laaj bindu",enfant:"Turu doom ji",naiss:"Bisu juddu",niveau:"Kilaas bi nga bëgg",regime:"Fan lay fanaan",parent:"Sa tur",tel:"Sa telefon",quartier:"Sa gox",msg:"Bataaxal (su la neexee)",envoyer:"Yónne laaj bi ci WhatsApp",sinscrire:"Bind sa doom",ecrire:"WhatsApp",appeler:"Woote",indispo:"Xët bii amul léegi.",partager:"Séddoo xët bii",sendNote:"Sa laaj pare na. Bësal butoŋ bu wert bi ngir yónne ko ci WhatsApp. Dañu lay tontu.",ouvrirWA:"Ubbi WhatsApp",tDaara:"Daara",tFA:"Lekool franco-arabe",tEC:"Lekool privée",resp:"Ki ko yor",prix:"Njëg yi",nonPrecise:"Lu mu mën di",copie:"Lien bi copié na",sur:"ci",salam:"Assalamou alaykoum",dem:"Laaj bindu",depuis:"Yónne nañu ko ci xëtu lekool bi",
+ prog:{daara:["Jàng Alxuraan ba mu xam ko ci xol","Jàng ak bind araab","Tajwid (jàng bu rafet)","Yar ak diine"],fa:["Jàng farañse bu nguur gi","Araab : jàng, bind, nahw","Alxuraan ak diine","Waajal CFEE, option franco-arabe"],ec:["Programu nguur gi","Topp ndongo yi ak bulletin ngir waajur yi"]},
+ exam:{CM2:"Waajal CFEE","3e":"Waajal BFEM",Tle:"Waajal Bac"}},
+ar:{insOuv:"التسجيل مفتوح",insFerm:"التسجيل مغلق حاليا",annee:"السنة",enseigne:"ما نعلّمه",niveaux:"الأقسام والرسوم",classe:"القسم",insc:"التسجيل",mensu:"الرسوم الشهرية",parMois:"/ شهر",services:"الخدمات",cantine:"المطعم",transport:"النقل المدرسي",internat:"قسم داخلي: يبيت الطالب في الدارة",externat:"قسم خارجي: يرجع الطالب إلى البيت",horaires:"الأوقات",adresse:"العنوان",itin:"عرض الطريق",contact:"اتصل بنا",forts:"مميزاتنا",photos:"الصور",eleves:"تلميذ",talibes:"طالب",demande:"طلب تسجيل",enfant:"اسم الطفل ولقبه",naiss:"تاريخ الميلاد",niveau:"القسم المطلوب",regime:"نوع الإقامة",parent:"اسمك",tel:"هاتفك",quartier:"حيّك",msg:"رسالة (اختياري)",envoyer:"إرسال الطلب عبر واتساب",sinscrire:"سجّل طفلك",ecrire:"واتساب",appeler:"اتصال",indispo:"هذه الصفحة غير متاحة حاليا.",partager:"مشاركة هذه الصفحة",sendNote:"طلبك جاهز. اضغط الزر الأخضر لإرساله عبر واتساب، وستجيبك المؤسسة.",ouvrirWA:"فتح واتساب",tDaara:"دارا (مدرسة قرآنية)",tFA:"مدرسة فرنسية عربية",tEC:"مدرسة خاصة",resp:"المسؤول",prix:"الرسوم",nonPrecise:"لا يهم",copie:"تم نسخ الرابط",sur:"من",salam:"السلام عليكم",dem:"طلب تسجيل",depuis:"أرسل من صفحة المؤسسة",
+ prog:{daara:["حفظ القرآن الكريم","القراءة والكتابة بالعربية","التجويد","التربية الإسلامية والأخلاق"],fa:["البرنامج الرسمي بالفرنسية","اللغة العربية: قراءة وكتابة ونحو","القرآن الكريم والتربية الإسلامية","التحضير لشهادة نهاية المرحلة الابتدائية (الخيار الفرنسي العربي)"],ec:["البرنامج الرسمي لوزارة التربية","متابعة التلاميذ وكشوف النقاط للأولياء"]},
+ exam:{CM2:"التحضير للشهادة الابتدائية","3e":"التحضير لشهادة الإعدادية",Tle:"التحضير للبكالوريا"}}};
+const pubEsc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const pubF=n=>(Math.round(+n||0)).toLocaleString("fr-FR").replace(/ | /g," ")+" F";
+const pubPhone=n=>{let d=String(n||"").replace(/\D/g,"");if(d.startsWith("00"))d=d.slice(2);if(d.length===9)d="221"+d;return d};
+const pubLangs=D=>D.type==="ecole"?["fr","wo"]:["fr","wo","ar"];
+const PUB_IC={
+lawha:'<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 4h14v3c0 1-1 1.5-1 2.5V27a1 1 0 0 1-1 1H11a1 1 0 0 1-1-1V9.5C10 8.5 9 8 9 7z"/><path d="M13.5 13h5M13 17h6M13.5 21h5"/></svg>',
+fa:'<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7c4-1.5 8-1 12 1.5v18C12 24 8 23.5 4 25z"/><path d="M28 7c-4-1.5-8-1-12 1.5v18c4-2.5 8-3 12-1.5z"/></svg>',
+school:'<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"><path d="M3 13L16 6l13 7-13 7z"/><path d="M8 16v6c2 2.5 5 3.5 8 3.5s6-1 8-3.5v-6"/><path d="M29 13v7"/></svg>',
+pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
+clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'};
+function renderPublic(D,lg,opt){
+  opt=opt||{};lg=pubLangs(D).includes(lg)?lg:"fr";const P=PS[lg];const e=pubEsc;
+  const ty=D.type==="daara"?"daara":D.type==="fa"?"fa":"ec";
+  const tyL=ty==="daara"?P.tDaara:ty==="fa"?P.tFA:P.tEC;const ic=ty==="daara"?PUB_IC.lawha:ty==="fa"?PUB_IC.fa:PUB_IC.school;
+  const photos=(D.photos||[]).filter(Boolean);
+  const prog=P.prog[ty].slice();if(ty!=="daara")(D.niveaux||[]).forEach(n=>{if(P.exam[n.niv]&&!prog.includes(P.exam[n.niv]))prog.push(P.exam[n.niv])});
+  const lgBtns=`<div class="pub-langs">${pubLangs(D).map(k=>`<button type="button" data-plg="${k}" class="${k===lg?"on":""}" ${k==="ar"?'lang="ar"':""}>${k==="fr"?"FR":k==="wo"?"Wolof":"عربي"}</button>`).join("")}</div>`;
+  const hero=photos.length?`<div class="pub-hero-img" style="background-image:url('${photos[0]}')"></div>`:`<div class="pub-hero-img pub-hero-empty">${ic}</div>`;
+  const waN=pubPhone(D.wa);
+  const prix=D.showPrix?(ty==="daara"?(D.mensu?`<div class="pub-card"><h3>${P.prix}</h3><div class="pub-row"><span>${P.mensu}</span><b>${pubF(D.mensu)} <small>${P.parMois}</small></b></div>${D.insc?`<div class="pub-row"><span>${P.insc}</span><b>${pubF(D.insc)}</b></div>`:""}</div>`:"")
+    :((D.niveaux||[]).length?`<div class="pub-card"><h3>${P.niveaux}</h3><div class="pub-tbl"><table><thead><tr><th>${P.classe}</th><th>${P.insc}</th><th>${P.mensu}</th></tr></thead><tbody>${D.niveaux.map(n=>`<tr><td>${e(n.nom)}</td><td>${n.insc?pubF(n.insc):"—"}</td><td>${n.mensu?pubF(n.mensu):"—"}</td></tr>`).join("")}</tbody></table></div></div>`:"")):
+    ((D.niveaux||[]).length&&ty!=="daara"?`<div class="pub-card"><h3>${P.niveaux}</h3><div class="pub-chips">${D.niveaux.map(n=>`<span>${e(n.nom)}</span>`).join("")}</div></div>`:"");
+  const serv=[];if(ty==="daara"){serv.push(P.internat);serv.push(P.externat)}
+  if(D.cantine)serv.push(P.cantine+(D.showPrix?` — ${pubF(D.cantine)} ${P.parMois}`:""));if(D.transport)serv.push(P.transport+(D.showPrix?` — ${pubF(D.transport)} ${P.parMois}`:""));
+  const forts=(D.forts||[]).filter(x=>x.trim());
+  const niveauOpts=ty==="daara"?[["interne",P.internat.split(":")[0]],["externe",P.externat.split(":")[0]]]:(D.niveaux||[]).map(n=>[n.nom,n.nom]);
+  const form=D.inscOuv?`<div class="pub-card" id="pubInsc"><h3>${P.demande}</h3><form id="pubForm" class="pub-form">
+     <label>${P.enfant}<input name="enfant" required autocomplete="off"></label>
+     <label>${P.naiss}<input name="naiss" type="date"></label>
+     ${niveauOpts.length?`<label>${ty==="daara"?P.regime:P.niveau}<select name="niveau"><option value="">${P.nonPrecise}</option>${niveauOpts.map(([v,l])=>`<option value="${e(v)}">${e(l)}</option>`).join("")}</select></label>`:""}
+     <label>${P.parent}<input name="parent" required autocomplete="name"></label>
+     <label>${P.tel}<input name="tel" type="tel" inputmode="tel" required autocomplete="tel"></label>
+     <label>${P.quartier}<input name="quartier"></label>
+     <label>${P.msg}<textarea name="msg" rows="3"></textarea></label>
+     <button type="submit" class="pub-wa">${P.envoyer}</button></form><div id="pubSent" hidden></div></div>`:`<div class="pub-card pub-closed">${P.insFerm}</div>`;
+  return `<div class="pub" ${lg==="ar"?'dir="rtl"':""} lang="${lg}">
+   <div class="pub-top">${opt.preview?`<button type="button" class="pub-back" data-pubclose="1">←</button>`:""}<span class="pub-brand">${ic}<b>${e(D.nom||tyL)}</b></span>${lgBtns}</div>
+   <header class="pub-hero">${hero}<div class="pub-hero-txt"><span class="pub-badge">${tyL}${D.annee&&ty!=="daara"?" · "+e(D.annee):""}</span><h1>${e(D.nom||tyL)}</h1>${D.slogan?`<p class="pub-slogan">${e(D.slogan)}</p>`:""}<div class="pub-meta">${D.ville?`<span>${PUB_IC.pin}${e(D.ville)}</span>`:""}${D.eff?`<span>${D.eff} ${ty==="daara"?P.talibes:P.eleves}</span>`:""}</div>
+    ${D.inscOuv?`<a href="#pubInsc" class="pub-open">${PUB_IC.check}${P.insOuv}</a>`:""}</div></header>
+   <main class="pub-main">
+    ${D.pres?`<div class="pub-card"><p class="pub-pres">${e(D.pres).replace(/\n/g,"<br>")}</p>${D.resp?`<p class="pub-small">${P.resp} : <b>${e(D.resp)}</b></p>`:""}</div>`:""}
+    <div class="pub-card"><h3>${P.enseigne}</h3><ul class="pub-list">${prog.map(x=>`<li>${PUB_IC.check}<span>${e(x)}</span></li>`).join("")}</ul></div>
+    ${forts.length?`<div class="pub-card"><h3>${P.forts}</h3><ul class="pub-list">${forts.map(x=>`<li>${PUB_IC.check}<span>${e(x)}</span></li>`).join("")}</ul></div>`:""}
+    ${prix}
+    ${serv.length?`<div class="pub-card"><h3>${P.services}</h3><ul class="pub-list">${serv.map(x=>`<li>${PUB_IC.check}<span>${e(x)}</span></li>`).join("")}</ul></div>`:""}
+    ${photos.length>1?`<div class="pub-card"><h3>${P.photos}</h3><div class="pub-gal">${photos.slice(1).map(p=>`<img src="${p}" alt="" loading="lazy">`).join("")}</div></div>`:""}
+    ${D.horaires||D.adresse?`<div class="pub-card"><h3>${P.contact}</h3>${D.horaires?`<div class="pub-info">${PUB_IC.clock}<div><b>${P.horaires}</b><br>${e(D.horaires).replace(/\n/g,"<br>")}</div></div>`:""}${D.adresse?`<div class="pub-info">${PUB_IC.pin}<div><b>${P.adresse}</b><br>${e(D.adresse)}${D.ville?", "+e(D.ville):""}<br><a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((D.adresse||"")+" "+(D.ville||"")+" Sénégal")}" target="_blank" rel="noopener">${P.itin} →</a></div></div>`:""}${waN?`<div class="pub-info"><span class="pub-num">${e(D.wa)}</span></div>`:""}</div>`:""}
+    ${form}
+    <button type="button" class="pub-share" data-pubshare="1">${P.partager}</button>
+    <p class="pub-foot">Daara & École</p>
+   </main>
+   ${waN?`<div class="pub-bar">${D.inscOuv?`<a href="#pubInsc" class="pub-b1">${P.sinscrire}</a>`:""}<a href="https://wa.me/${waN}" target="_blank" rel="noopener" class="pub-b2">${P.ecrire}</a></div>`:""}
+  </div>`;
+}
+function pubInscMessage(D,lg,f){
+  const P=PS[lg]||PS.fr;const L=[];
+  L.push(`${P.salam}. ${P.dem} — ${D.nom||""}`);
+  L.push(`${P.enfant} : ${f.enfant||""}`);if(f.naiss)L.push(`${P.naiss} : ${f.naiss.split("-").reverse().join("/")}`);
+  if(f.niveau)L.push(`${D.type==="daara"?P.regime:P.niveau} : ${f.niveau}`);
+  L.push(`${P.parent} : ${f.parent||""}`);L.push(`${P.tel} : ${f.tel||""}`);if(f.quartier)L.push(`${P.quartier} : ${f.quartier}`);if(f.msg)L.push(`${P.msg.split(" (")[0]} : ${f.msg}`);
+  L.push(`(${P.depuis})`);return L.join("\n");
+}
+function pubBind(root,getD,getLg,setLg,link){
+  root.addEventListener("click",ev=>{const b=ev.target.closest("[data-plg],[data-pubshare],a[href^='#pub']");if(!b)return;
+    if(b.dataset.plg){setLg(b.dataset.plg);return}
+    if(b.dataset.pubshare){const D=getD();const url=link();const txt=(D.nom||"")+" — "+url;
+      const done=()=>{const s=document.createElement("div");s.className="pub-toast";s.textContent=PS[getLg()].copie;document.body.appendChild(s);setTimeout(()=>s.remove(),1800)};
+      if(navigator.share){navigator.share({title:D.nom||"",url}).catch(()=>{})}else if(navigator.clipboard){navigator.clipboard.writeText(txt).then(done,()=>{})}return}
+    if(b.getAttribute("href")&&b.getAttribute("href").startsWith("#pub")){ev.preventDefault();const t=root.querySelector(b.getAttribute("href"));if(t)t.scrollIntoView({behavior:"smooth",block:"start"})}
+  });
+  root.addEventListener("submit",ev=>{if(ev.target.id!=="pubForm")return;ev.preventDefault();const D=getD(),lg=getLg();
+    const f=Object.fromEntries(new FormData(ev.target).entries());const url="https://wa.me/"+pubPhone(D.wa)+"?text="+encodeURIComponent(pubInscMessage(D,lg,f));
+    const box=root.querySelector("#pubSent");ev.target.hidden=true;box.hidden=false;box.innerHTML=`<p class="pub-note">${PS[lg].sendNote}</p><a class="pub-wa" href="${url}" target="_blank" rel="noopener">${PS[lg].ouvrirWA}</a>`;
+  });
+}
+/*PUB-END*/
+/* ---------- Ma page publique (éditeur dans l'app) ---------- */
+function pg(){if(!S.page)S.page={on:true,slogan:"",pres:"",horaires:"",adresse:"",wa:"",showPrix:true,showEff:false,inscOuv:true,forts:"",cantineOn:true,transportOn:true};return S.page}
+function slugify(s){return String(s||"daara").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,32)||"ecole"}
+function ensureSlug(){const p=pg();if(!S.lic)S.lic={id:newId()};return p}
+const pubLink=()=>PUB_BASE+"?id="+encodeURIComponent((S.lic&&S.lic.id)||"");
+function photosChanged(){savePhotosLocal();schedulePage()}
+function buildPublicData(){const p=pg(),s=S.settings;
+  return {type:TY(),nom:s.nom,resp:s.resp,ville:s.ville,annee:anneeLabel(),slogan:p.slogan,pres:p.pres,photos:(DEMO?(p.photos||[]):PHOTOS).slice(0,6),horaires:p.horaires,adresse:p.adresse,wa:p.wa||s.tel,
+    showPrix:!!p.showPrix,inscOuv:!!p.inscOuv,forts:String(p.forts||"").split("\n").map(x=>x.trim()).filter(Boolean),eff:p.showEff?actifs().length:0,
+    mensu:isD()?+s.mensuDef||0:0,insc:isD()?+s.inscDef||0:0,
+    niveaux:isD()?[]:S.classes.map(c=>({nom:c.nom,niv:c.niveau,insc:+c.inscription||0,mensu:+c.mensu||0})),
+    cantine:isEc()&&p.cantineOn?+s.cantinePrix||0:0,transport:isEc()&&p.transportOn?+s.transportPrix||0:0};
+}
+function vPage(){
+  const p=ensureSlug();const link=pubLink();
+  return `<h2>${t("page")}</h2><p class="muted small" style="margin-top:-4px">${t("pageS")}</p>
+  <div class="card stack">
+   <div class="small muted">${t("lienL")}</div><div class="recu" style="font-size:.82em">${esc(link)}</div>
+   <div class="row"><button class="sm" style="flex:1" data-act="pgView">${t("voirPage")}</button><button class="sm ghost" style="flex:1" data-act="pgCopy">${t("copierLien")}</button><a class="btn wa sm" style="flex:1" href="https://wa.me/?text=${encodeURIComponent((S.settings.nom||"")+" — "+link)}" target="_blank" rel="noopener">${t("partagerWA")}</a></div>
+  </div>
+  <form id="fPage" class="card stack" style="margin-top:12px">
+   ${chk("pg_on",t("pageOn"),p.on)}${chk("pg_insc",t("inscOuv"),p.inscOuv)}
+   ${fld("pg_slogan",t("slogan"),p.slogan,"text",'maxlength="90" placeholder="ex : Apprendre le Coran dans la discipline et la bonne humeur"')}
+   <div class="field"><label for="pg_pres">${t("presTxt")}</label><textarea id="pg_pres" maxlength="900" style="min-height:120px">${esc(p.pres)}</textarea></div>
+   <div class="field"><label>${t("photosL")}</label>
+    <div class="phgrid">${PHOTOS.map((ph,i)=>`<div class="ph"><img src="${ph}" alt=""><div class="phb">${i?`<button type="button" class="sm soft" data-phfirst="${i}" aria-label="1">★</button>`:`<span class="pill p-ok">1</span>`}<button type="button" class="sm danger" data-phdel="${i}" aria-label="${t("del")}">✕</button></div></div>`).join("")}</div>
+    ${PHOTOS.length<6?`<label class="btn ghost" style="margin-top:8px">${t("addPhoto")}<input id="pg_ph" type="file" accept="image/*" multiple hidden></label>`:`<span class="small muted">${t("photoMax")}</span>`}</div>
+   <div class="field"><label for="pg_hor">${t("horaires")}</label><textarea id="pg_hor" style="min-height:70px" placeholder="Lundi – vendredi : 8h – 13h, 15h – 17h">${esc(p.horaires)}</textarea></div>
+   ${fld("pg_adr",t("adresseL"),p.adresse)}
+   ${fld("pg_wa",t("waL"),p.wa||S.settings.tel,"tel")}
+   <div class="field"><label for="pg_forts">${t("forts")}</label><textarea id="pg_forts" style="min-height:90px" placeholder="${isD()?"Serigne diplômé, 20 ans d'expérience&#10;Repas trois fois par jour&#10;Suivi de chaque talibé":"Petits effectifs par classe&#10;Taux de réussite au CFEE&#10;Cours de soutien le samedi"}">${esc(p.forts)}</textarea></div>
+   ${chk("pg_prix",t("showPrix"),p.showPrix)}${chk("pg_eff",t("showEff"),p.showEff)}
+   ${isEc()?chk("pg_cant",t("cantine"),p.cantineOn)+chk("pg_trans",t("transport"),p.transportOn):""}
+   <button type="submit">${t("save")}</button>
+   <div class="small muted">${t("pageAuto")}</div>${licState().st==="blocked"?`<div class="small" style="color:var(--bad)">${t("pageOffAbo")}</div>`:""}
+  </form>`;
+}
+function readPage(){const p=pg();const g=id=>document.getElementById(id);if(!g("fPage"))return p;
+  Object.assign(p,{on:ck("pg_on"),inscOuv:ck("pg_insc"),slogan:v("pg_slogan"),pres:v("pg_pres"),horaires:v("pg_hor"),adresse:v("pg_adr"),wa:v("pg_wa"),forts:v("pg_forts"),showPrix:ck("pg_prix"),showEff:ck("pg_eff")});
+  if(isEc())Object.assign(p,{cantineOn:ck("pg_cant"),transportOn:ck("pg_trans")});return p}
+function shrinkImage(file,max,q){return new Promise((res,rej)=>{const fr=new FileReader();fr.onerror=rej;fr.onload=()=>{const im=new Image();im.onerror=rej;im.onload=()=>{let w=im.width,h=im.height;const k=Math.min(1,max/Math.max(w,h));w=Math.round(w*k);h=Math.round(h*k);const c=document.createElement("canvas");c.width=w;c.height=h;c.getContext("2d").drawImage(im,0,0,w,h);res(c.toDataURL("image/jpeg",q))};im.src=fr.result};fr.readAsDataURL(file)})}
+let pubLg="fr";
+function openPubPreview(){
+  readPage();const D=buildPublicData();pubLg=(isEc()&&L()==="ar")?"fr":L();
+  let ov=document.getElementById("pubPrev");if(ov)ov.remove();ov=document.createElement("div");ov.id="pubPrev";document.body.appendChild(ov);
+  const draw=()=>{ov.innerHTML=renderPublic(D,pubLg,{preview:true})};draw();
+  pubBind(ov,()=>D,()=>pubLg,lg=>{pubLg=lg;draw()},pubLink);
+  ov.addEventListener("click",e=>{if(e.target.closest("[data-pubclose]"))ov.remove()});
+}
+/* ---------- Événements ---------- */
+document.addEventListener("click",e=>{
+  const b=e.target.closest("button,a,[data-close]");if(!b)return;
+  if(b.dataset.close&&(b.classList.contains("sheet-bg")?e.target===b:true)){closeSheet();return}
+  const d=b.dataset;
+  if(d.sent){sentSet.add(sub.msgTpl+d.sent);b.textContent="✓ WhatsApp";return}
+  if(d.lang){if(document.getElementById("fPage"))readPage();UILANG=d.lang;try{localStorage.setItem("daaraEcole.lang",d.lang)}catch(_){}if(S&&S.settings){S.settings.lang=d.lang;writeLocal()}render();return}
+  if(d.phdel!==undefined){if(licState().st==="blocked")return toast(t("bloque"));readPage();PHOTOS.splice(+d.phdel,1);photosChanged();save();render();return}
+  if(d.phfirst!==undefined){readPage();const x=PHOTOS.splice(+d.phfirst,1)[0];PHOTOS.unshift(x);photosChanged();save();render();return}
+  if(d.choose){const lg=L();if(DEMO||d.ex){S=sample(d.choose,lg);view="home";render();scrollTo(0,0);return}
+    const nom=v("chNom");if(!nom){toast(t("nomEtabReq"));const ip=document.getElementById("chNom");if(ip)ip.focus();return}
+    S=blank(d.choose,lg);S.settings.nom=nom;if(USER)S.settings.tel=userPhone();view="home";save();render();scrollTo(0,0);if(SB&&USER)fetchLic().then(c=>{if(c)render()}).catch(()=>{});return}
+  if(d.tab){view=d.tab;if(d.tab==="more")sub.more="";closeSheet();render();scrollTo(0,0);return}
+  if(d.more!==undefined&&b.hasAttribute("data-more")){view="more";sub.more=d.more;closeSheet();render();scrollTo(0,0);return}
+  if(d.talf){sub.talF=d.talf;render();return}
+  if(d.gocls){sub.cls=d.gocls;view="el";render();scrollTo(0,0);return}
+  if(d.money){sub.money=d.money;render();return}
+  if(d.nmode){sub.nMode=d.nmode;render();return}
+  if(d.open){elFiche(d.open);return}
+  if(d.edit){elForm(el(d.edit));return}
+  if(d.pay){payForm(d.pay,d.ptype);return}
+  if(d.recu){recuSheet(d.recu);return}
+  if(d.editpay){const p=S.paiements.find(z=>z.id===d.editpay);payForm(p.eleve,p.type,p.id);return}
+  if(d.copyrecu){copy(recuText(S.paiements.find(z=>z.id===d.copyrecu)));return}
+  if(d.plang){const cb=langCb;langCb=null;closeSheet();if(cb)cb(d.plang);return}
+  if(d.precu){const p=S.paiements.find(z=>z.id===d.precu);askLang(parentLang(el(p.eleve)),lg=>doPrint(wrapLg(lg,`<div class="recuP">${esc(recuText(p,lg))}</div>`)));return}
+  if(d.pfiche){const x=el(d.pfiche);askLang(parentLang(x),lg=>doPrint(wrapLg(lg,pFiche(x,lg))));return}
+  if(d.pbull){const x=el(d.pbull);askLang(parentLang(x),lg=>doPrint(wrapLg(lg,pBulletin(x,sub.nPer,lg))));return}
+  if(d.bull){bulletinSheet(d.bull);return}
+  if(d.don){donForm(d.don);return}
+  if(d.dep){depForm(d.dep);return}
+  if(d.staff){staffForm(d.staff);return}
+  if(d.paystaff){payStaffForm(d.paystaff);return}
+  if(d.cls){clsForm(d.cls);return}
+  if(d.doc){const m=sub.mois;if(d.doc==="vierge"){askLang("fr",lg=>doPrint(wrapLg(lg,pFiche(null,lg))));return}const H={liste:pListe(),etat:pEtat(m),bilan:pBilan(m)};doPrint(d.doc==="tout"?H.liste+H.etat+H.bilan:H[d.doc]);return}
+  if(d.jdone){const j=S.journal.find(z=>z.id===d.jdone);if(j)j.todo=false;save();if(d.back)elFiche(d.back);else render();toast(t("saved"));return}
+  if(d.matdel!==undefined){readMats();tmpMats.splice(+d.matdel,1);$("#matBox").innerHTML=matRows();return}
+  if(d.settype){if(pendingDel!=="type"+d.settype){pendingDel="type"+d.settype;b.textContent=t("confirmDel");return}pendingDel=null;S.settings.type=d.settype;if(!S.settings.reglement||Object.values(REG).includes(S.settings.reglement))S.settings.reglement=REG[d.settype];["wo","ar"].forEach(l=>{const k=l==="wo"?"reglementWo":"reglementAr";if(!S.settings[k]||Object.values(REGL[l]).includes(S.settings[k]))S.settings[k]=""});save();view="home";sub.more="";render();toast(t("saved"));return}
+  if(d.pres){const day=sub.presDate;S.presences[day]=S.presences[day]||{};if(S.presences[day][d.pres]===d.v)delete S.presences[day][d.pres];else S.presences[day][d.pres]=d.v;save();render();return}
+  if(d.del){
+    const k=d.del+":"+d.id;if(pendingDel!==k){pendingDel=k;b.textContent=t("confirmDel");return}
+    pendingDel=null;
+    if(d.del==="el"){const x=el(d.id);if(x)x.actif=false}
+    if(d.del==="pay")S.paiements=S.paiements.filter(z=>z.id!==d.id);
+    if(d.del==="don")S.dons=S.dons.filter(z=>z.id!==d.id);
+    if(d.del==="dep")S.depenses=S.depenses.filter(z=>z.id!==d.id);
+    if(d.del==="staff")S.staff=S.staff.filter(z=>z.id!==d.id);
+    if(d.del==="cls"){S.classes=S.classes.filter(z=>z.id!==d.id);S.eleves.forEach(x=>{if(x.classe===d.id)x.classe=""})}
+    save();closeSheet();render();toast(t("deleted"));return}
+  switch(d.act){
+    case"newEl":if(!isD()&&!S.classes.length){toast(t("noClass"))}elForm();break;
+    case"newDon":donForm();break;case"newDep":depForm();break;case"newStaff":staffForm();break;case"newCls":clsForm();break;
+    case"matAdd":readMats();tmpMats.push({id:uid(),nom:"",coef:1,part:"fr"});$("#matBox").innerHTML=matRows();break;
+    case"matDef":tmpMats=defMats(v("c_niv"),isFA());$("#matBox").innerHTML=matRows();const bs=document.getElementById("c_bar");if(bs)bs.value=barFor(v("c_niv"));break;
+    case"allPresent":{const day=sub.presDate;S.presences[day]=S.presences[day]||{};let a=actifs();if(!isD()&&sub.presCls)a=a.filter(x=>x.classe===sub.presCls);a.forEach(x=>{if(!S.presences[day][x.id])S.presences[day][x.id]="P"});save();render();break}
+    case"pdfClasse":{const c=cls(sub.nCls);const list=classResults(c,sub.nPer).res.map(r=>r.e);askLang("fr",lg=>doPrint(list.map(e=>{const l=lg==="each"?parentLang(e):lg;return wrapLg(l,pBulletin(e,sub.nPer,l))}).join("")),true);break}
+    case"clearDemo":{const st=S.settings,kl=S.lic,ku=S.uid;S=blank(st.type,st.lang);S.lic=kl||S.lic;S.uid=ku;S.settings.nom=st.nom;S.settings.big=st.big;save();view="more";sub.more="params";render();toast(t("saved"));break}
+    case"pgView":openPubPreview();break;
+    case"authMode":AUTH_MODE=d.m;render();break;
+    case"demo":DEMO=true;S=null;view="home";render();scrollTo(0,0);break;
+    case"quitDemo":DEMO=false;S=SB?null:readLocal();view="home";closeSheet();render();scrollTo(0,0);break;
+    case"chkSub":(async()=>{if(!SB||!USER)return toast(t("errNet"));b.disabled=true;try{await fetchLic();render();const Lc=licState();toast(Lc.st==="blocked"||Lc.st==="grace"?t("payNotYet"):(Lc.trial?t("essai"):t("abonne"))+" "+t("jusqu")+" "+dateLabel(Lc.end))}catch(x){b.disabled=false;toast(t("errNet"))}})();break;
+    case"chgPass":(async()=>{const np=(document.getElementById("newPass")||{}).value||"";if(np.length<6)return toast(t("errPass"));const r=await SB.auth.updateUser({password:np});if(r.error)return toast(t("errNet"));toast(t("passChanged"))})();break;
+    case"askLogout":{const z=document.getElementById("outZone");if(z)z.innerHTML=`<div class="demo" style="background:var(--bad-soft);color:var(--bad)"><span style="flex:1">${t("logoutQ")}</span><div class="row"><button class="sm danger" data-act="logout">${t("oui")}</button><button class="sm ghost" data-act="noOut">${t("non")}</button></div></div>`;break}
+    case"logout":doLogout();break;
+    case"noOut":render();break;
+    case"pgCopy":copy(pubLink());break;
+    case"copyBilan":copy(bilanText());break;case"copyV":copy(VENDEUR);break;
+    case"copyGroup":copy(fillTpl(sub.msgTpl,null,v("msgTxt")).replace(/^(Assalamou alaykoum|السلام عليكم) *\./,"$1."));break;
+    case"exportT":copy(JSON.stringify(S));break;
+    case"exportF":{try{const blob=new Blob([JSON.stringify(S,null,1)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="daara-ecole-sauvegarde-"+today()+".json";document.body.appendChild(a);a.click();a.remove()}catch(_){copy(JSON.stringify(S))}break}
+    case"import":{try{let o=JSON.parse(v("imp"));if(o.talibes&&!o.eleves)o=migrate(o);if(!o.settings||!Array.isArray(o.eleves))throw 0;const keepLic=S.lic,keepUid=S.uid;S=fixS(o);S.lic=keepLic;S.uid=keepUid;save();view="home";render();toast(t("saved"))}catch(_){toast("Sauvegarde invalide")}break}
+  }
+});
+document.addEventListener("input",e=>{
+  const x=e.target;
+  if(x.id==="q"){sub.q=x.value;const pos=x.selectionStart;render();const q=$("#q");q.focus();try{q.setSelectionRange(pos,pos)}catch(_){}}
+  if(x.dataset&&x.dataset.note){const val=x.value.trim();const c=cls(sub.nCls);S.notes[sub.nPer]=S.notes[sub.nPer]||{};S.notes[sub.nPer][x.dataset.note]=S.notes[sub.nPer][x.dataset.note]||{};
+    if(val===""){delete S.notes[sub.nPer][x.dataset.note][sub.nMat]}else{let n=+val.replace(",",".");if(isNaN(n))return;n=Math.max(0,Math.min(c.bareme,n));S.notes[sub.nPer][x.dataset.note][sub.nMat]=n}save()}
+  if(x.id==="msgTxt"){const txt=x.value;sub.msgTxt=txt;document.querySelectorAll("#msgList a[data-sent]").forEach(a=>{const st=el(a.dataset.sent);if(st)a.href=wa(st.tel,fillTpl(sub.msgTpl,st,txt))})}
+});
+document.addEventListener("change",e=>{
+  const x=e.target,id=x.id;
+  const R={presDate:()=>sub.presDate=x.value||today(),presCls:()=>sub.presCls=x.value,mois:()=>sub.mois=x.value||thisMonth(),fCls:()=>sub.cls=x.value,moneyCls:()=>sub.moneyCls=x.value,
+    nCls:()=>{sub.nCls=x.value;sub.nMat=""},nPer:()=>sub.nPer=x.value,nMat:()=>sub.nMat=x.value,msgTpl:()=>{sub.msgTpl=x.value;sub.msgTxt=null},msgTo:()=>sub.msgTo=x.value};
+  if(R[id]){R[id]();render();return}
+  if(id==="c_niv"){const f=$("#fCls");if(f&&!f.dataset.id){tmpMats=defMats(x.value,isFA());$("#matBox").innerHTML=matRows();const bs=$("#c_bar");if(bs)bs.value=barFor(x.value);const n=$("#c_nom");if(n&&!n.dataset.touched)n.value=(NIV.find(z=>z[0]===x.value)||[])[1]||""}}
+  if(id==="c_nom")x.dataset.touched="1";
+  if(id==="pg_ph"&&x.files&&x.files.length){if(licState().st==="blocked")return toast(t("bloque"));readPage();const ph=PHOTOS;const files=[...x.files].slice(0,6-ph.length);
+    Promise.all(files.map(f=>shrinkImage(f,900,0.68).catch(()=>null))).then(list=>{list.filter(Boolean).forEach(d=>ph.push(d));photosChanged();save();render();toast(t("saved"))});}
+  if(x.dataset&&x.dataset.note){const c=cls(sub.nCls);const n=+x.value.replace(",",".");if(!isNaN(n)&&x.value!=="")x.value=Math.max(0,Math.min(c.bareme,n))}
+});
+document.addEventListener("submit",e=>{
+  e.preventDefault();const f=e.target;
+  if(f.id==="fEl"){
+    const o={nom:v("e_nom"),sexe:v("e_sexe"),naiss:v("e_naiss"),parent:v("e_parent"),tel:v("e_tel"),tel2:v("e_tel2"),adresse:v("e_adr"),arrivee:v("e_arr")||today(),notes:v("e_notes")};
+    if(!o.nom)return;
+    if(isD()){Object.assign(o,{regime:v("e_regime"),maitre:v("e_maitre"),mensu:+v("e_mensu")||0})}
+    else Object.assign(o,{classe:v("e_classe"),matricule:v("e_mat"),mensu:v("e_mensu"),insc:v("e_insc"),reduc:+v("e_reduc")||0,cantine:ck("e_cant"),transport:ck("e_trans")});
+    if(!isEc())o.langue=v("e_lang")||"fr";
+    if(isD()||isFA()){o.hizb=Math.min(60,Math.max(0,+v("e_hizb")||0));o.sourate=v("e_sour");o.khatm=ck("e_khatm")||o.hizb>=60}
+    let id=f.dataset.id;
+    if(id)Object.assign(el(id),o);else{id=uid();if(!isD()&&!o.matricule)o.matricule=anneeLabel().slice(0,4)+"-"+pad(S.eleves.length+1)+"0";S.eleves.push({id,actif:true,...o})}
+    save();render();elFiche(id);toast(t("saved"));return;
+  }
+  if(f.id==="fPay"){
+    const o={eleve:f.dataset.el,type:v("p_type")||"mens",mois:v("p_mois")||thisMonth(),montant:+v("p_montant")||0,mode:v("p_mode"),numero:v("p_numero"),date:v("p_date")||today(),note:v("p_note")};
+    if(o.type!=="mens")o.mois="";if(!o.montant)return;
+    let id=f.dataset.id;if(id)Object.assign(S.paiements.find(z=>z.id===id),o);else{id=uid();S.paiements.push({id,...o})}
+    save();render();recuSheet(id);toast(t("saved"));return;
+  }
+  if(f.id==="fJr"){const txt=v("j_txt");if(!txt)return;S.journal.push({id:uid(),eleve:f.dataset.el,date:today(),qui:v("j_qui"),texte:txt,todo:ck("j_todo")});save();elFiche(f.dataset.el);toast(t("saved"));return}
+  if(f.id==="fDon"){const o={donateur:v("d_donateur"),tel:v("d_tel"),type:v("d_type"),nature:v("d_nature"),montant:+v("d_montant")||0,mode:v("d_mode"),numero:v("d_numero"),affect:v("d_affect"),date:v("d_date")||today()};
+    if(f.dataset.id)Object.assign(S.dons.find(z=>z.id===f.dataset.id),o);else S.dons.push({id:uid(),...o})}
+  if(f.id==="fDep"){const o={cat:v("x_cat"),montant:+v("x_montant")||0,mode:v("x_mode"),numero:v("x_numero"),date:v("x_date")||today(),note:v("x_note")};if(!o.montant)return;
+    if(f.dataset.id)Object.assign(S.depenses.find(z=>z.id===f.dataset.id),o);else S.depenses.push({id:uid(),...o})}
+  if(f.id==="fStaff"){const o={nom:v("f_nom"),role:v("f_role"),tel:v("f_tel"),salaire:+v("f_sal")||0};if(!o.nom)return;
+    if(f.dataset.id)Object.assign(stf(f.dataset.id),o);else S.staff.push({id:uid(),...o})}
+  if(f.id==="fPaie"){const o={staff:f.dataset.staff,mois:v("q_mois")||thisMonth(),montant:+v("q_montant")||0,mode:v("q_mode"),numero:v("q_numero"),date:v("q_date")||today()};if(!o.montant)return;S.paie.push({id:uid(),...o})}
+  if(f.id==="fCls"){readMats();const niv=v("c_niv");const o={niveau:niv,nom:v("c_nom")||(NIV.find(z=>z[0]===niv)||[])[1]||niv,bareme:+v("c_bar")||10,mensu:+v("c_mensu")||0,inscription:+v("c_insc")||0,maitre:v("c_mai"),maitreAr:v("c_maiAr"),mats:tmpMats.filter(m=>m.nom)};
+    if(f.dataset.id)Object.assign(cls(f.dataset.id),o);else S.classes.push({id:uid(),...o})}
+  if(f.id==="fAuth"){doAuth();return}
+  if(f.id==="fPage"){readPage();save();render();toast(t("saved"));return}
+  if(f.id==="fSet"){const s=S.settings;Object.assign(s,{nom:v("s_nom"),resp:v("s_resp"),ville:v("s_ville"),tel:v("s_tel"),wave:v("s_wave"),om:v("s_om"),mensuDef:+v("s_mensu")||0,reglement:v("s_reg"),big:ck("s_big")});
+    if(!isEc()){s.reglementWo=v("s_regWo");s.reglementAr=v("s_regAr")}
+    if(!isD()){Object.assign(s,{inscDef:+v("s_insc")||0,rentree:v("s_rentree")||s.rentree,nbMois:Math.min(12,Math.max(1,+v("s_nbm")||9)),periode:v("s_per")||"trim"});if(isEc())Object.assign(s,{cantinePrix:+v("s_cant")||0,transportPrix:+v("s_trans")||0})}}
+  save();closeSheet();render();toast(t("saved"));
+});
+render();boot();
+})();
+</script>
